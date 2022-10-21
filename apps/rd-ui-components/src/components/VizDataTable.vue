@@ -1,9 +1,7 @@
 <template>
-  <div class="d3-viz d3-table">
-    <table :id="tableId">
-      <caption v-if="caption">{{caption}}</caption>
-    </table>
-  </div>
+  <table :id="tableId" :class="tableClassNames">
+    <caption v-if="caption">{{caption}}</caption>
+  </table>
 </template>
 
 <script>
@@ -27,12 +25,23 @@ export default {
     },
     caption: {
       type: String,
-      required: false,
       default: null
     },
-    firstColumnIsRowHeader: {
+    enableRowHighlighting: {
       type: Boolean,
-      default: false
+      default: true
+    },
+    enableRowClicks: {
+      type: Boolean,
+      default: true
+    }
+  },
+  emits: ['row-selection'],
+  computed: {
+    tableClassNames () {
+      const base = 'd3-viz d3-table'
+      const highlighting = this.enableRowHighlighting ? 'table-row-highlighting' : ''
+      return [base, highlighting].join(' ')
     }
   },
   methods: {
@@ -50,6 +59,14 @@ export default {
         }
       }
       return css
+    },
+    onClick (event, data) {
+      const clickedRow = event.target.closest('tr')
+      const selection = {
+        rowIndex: parseInt(clickedRow.getAttribute('data-row-index')),
+        data: data
+      }
+      this.$emit('row-selection', selection)
     },
     renderTable () {
       const table = d3.select(`#${this.tableId}`)
@@ -74,6 +91,7 @@ export default {
         .enter()
         .append('tr')
         .attr('role', 'row')
+        .attr('data-row-index', (row, index) => index)
 
       const tableCells = tableRows.selectAll('tr')
         .data(row => {
@@ -83,13 +101,7 @@ export default {
         })
         .enter()
         .append('td')
-        .attr('role', (column, index) => {
-          if (index == 0 && this.firstColumnIsRowHeader) {
-            return 'rowheader'
-          } else {
-            return 'gridcell'
-          }
-        })
+        .attr('role', 'gridcell')
         .attr('data-value', cell => cell.value)
       
       tableCells.append('span')
@@ -118,6 +130,9 @@ export default {
         }
       })
       
+      if (this.enableRowClicks) {
+        tableRows.on('click', (event, row) => this.onClick(event, row))
+      }
     }
   },
   mounted () {
@@ -138,65 +153,83 @@ export default {
   white-space: nowrap;
 }
 
+@mixin revealHiddenContent {
+  position: static;
+  display: block;
+  clip: auto;
+  height: auto;
+  width: auto;
+  overflow: visible;
+  white-space: normal;
+}
+
+@mixin columnHeader {
+  font-size: 11pt;
+  font-weight: 600;
+  padding: 4px 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
 .d3-table {
-  width: 100%;
+  border-spacing: 0;
   text-align: left;
   color: $gray-700;
-
-  table {
-    border-spacing: 0;
-    width: 100%;
-    position: relative;
+  width: 100%;
+  position: relative;
     
-    caption {
-      caption-side: top;
-      font-size: 13pt;
-      margin-bottom: 12px;
-      font-weight: 600;
-      color: $gray-900;
-    }
+  caption {
+    caption-side: top;
+    font-size: inherit;
+    margin-bottom: 12px;
+    color: $gray-900;
+  }
     
-    thead {
-      tr {
-        th {
-          font-size: 11pt;
-          font-weight: 600;
-          padding: 4px 12px;
-          text-transform: uppercase;
-          letter-spacing: 2px;
-          border-bottom: 1px solid $gray-900;
-          color: $gray-900;
-          
-          &.column-numeric {
-            text-align: right;
-          }
+  thead {
+    tr {
+      th {
+        @include columnHeader;
+        border-bottom: 1px solid $gray-900;
+        color: $gray-900;
+        
+        &.column-numeric {
+          text-align: right;
         }
       }
     }
+  }
     
+  tbody {
+    tr {
+      td {
+        font-size: 13pt;
+        padding: 16px 12px;
+        
+        &.value-number {
+          text-align: right;
+        }
+        
+        .cell-colname {
+          @include visuallyHidden;
+        }
+      }
+
+      &:nth-child(even) {
+        background-color: $gray-050;
+      }
+
+      &:last-child {
+        td {
+          border-bottom: 1px solid $gray-900;
+        }
+      }
+    }
+  }
+  &.table-row-highlighting {
     tbody {
       tr {
-        td {
-          font-size: 13pt;
-          padding: 16px 12px;
-          
-          &.value-number {
-            text-align: right;
-          }
-          
-          .cell-colname {
-            @include visuallyHidden;
-          }
-        }
-
-        &:nth-child(even) {
-          background-color: $gray-050;
-        }
-
-        &:last-child {
-          td {
-            border-bottom: 1px solid $gray-900;
-          }
+        &:hover {
+          background-color: $blue-100;
         }
       }
     }
@@ -207,27 +240,32 @@ export default {
 			@include visuallyHidden;
 		}
 
-		tbody {
-			tr {
-				td {
-					display: flex;
-					justify-content: flex-start;
-					align-items: center;
-					padding: 4px 0;
-					padding-left: 12px;
-
-					.cell-colname {
-						display: block;
-					}
-				}
+    tbody {
+      tr {
+        td {
+          display: grid;
+          grid-template-columns: 1fr 2fr;
+          justify-content: flex-start;
+          align-items: center;
+          padding: 6px 0;
+          
+          .cell-colname {
+            @include revealHiddenContent;
+            @include columnHeader;
+            min-width: 125px;
+          }
+          
+          &.value-number {
+            text-align: left;
+          }
+        }
         &:last-child {
           td {
             border-bottom: none;
           }
         }
-			}
-		}
-	}
+      }
+    }
+  }
 }
-
 </style>
