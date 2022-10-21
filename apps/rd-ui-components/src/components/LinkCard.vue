@@ -1,0 +1,78 @@
+<template>
+  <div :class="classNames" :style="setStyle">
+    <div class="card-content">
+      <slot></slot>
+    </div>
+    <div class="card-background-filter" v-if="imageSrc" />
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'link-card',
+  props: {
+    imageSrc: {
+      type: String
+    },
+    height: {
+      type: String,
+      default: 'medium',
+      validator: (value) => {
+        const options = ['xsmall','small','medium','large']
+        return options.includes(value)
+      }
+    }
+  },
+  computed: {
+    classNames () {
+      const base = 'link-card'
+      const image = this.imageSrc ? 'card-image-background' : ''
+      const height = `height-${this.height}`
+      return [base, image, height].join(' ')
+    },
+    setStyle () {
+      return this.imageSrc ? `background-image: url(${this.imageSrc})` : ''
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+.link-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: $gray-900;
+  padding: 1.5em;
+  
+  $card-sizing: 12em;
+  width: $card-sizing;
+  height: $card-sizing;
+  
+  .card-content {
+    z-index: 1;
+    a {
+      color: $gray-050;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: bold;
+      font-size: 14pt;
+    }
+  }
+  
+  &.card-image-background {
+    background-size: cover;
+    background-position: 0 44%;
+    
+    .card-background-filter {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: $gray-transparent-500;
+    }
+  }
+}
+</style>
