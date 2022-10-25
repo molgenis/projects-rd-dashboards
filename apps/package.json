@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "workspaces": [
+    "ern-genturis",
+    "rd3",
+    "rd-ui-components",
+    "umcg-gcc"
+  ]
+}

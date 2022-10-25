@@ -12,6 +12,7 @@ export default defineConfig(({ command }) => {
           additionalData: `
           @import "src/styles/resets.scss";
           @import "src/styles/palettes.scss";
+          @import "src/styles/variables.scss";
           @import "src/styles/padding.scss";
           @import "src/styles/heightwidth.scss";
           @import "src/styles/textPosition.scss";
