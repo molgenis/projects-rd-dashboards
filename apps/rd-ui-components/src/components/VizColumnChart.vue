@@ -1,5 +1,5 @@
 <template>
-  <div class="d3-viz d3-bar-chart">
+  <div class="d3-viz d3-column-chart">
     <h3 v-if="title" class="chart-title">{{ title }}</h3>
     <svg :id="chartId" preserveAspectRatio="xMinYMin"></svg>
   </div>
@@ -8,6 +8,10 @@
 <script>
 import { select, selectAll, scaleBand, axisBottom, max, min, scaleLinear, axisLeft } from 'd3'
 const d3 = { select, selectAll, scaleBand, axisBottom, max, min, scaleLinear, axisLeft }
+
+const validateNumRange = function (value) {
+  return value >= 0 && value <= 1
+}
 
 export default {
   name: 'bar-chart',
@@ -48,12 +52,16 @@ export default {
       type: Object,
       default () {
         return {
-          top: 30,
-          right: 30,
+          top: 15,
+          right: 0,
           bottom: 60,
           left: 60
         }
       }
+    },
+    chartAnimate: {
+      type: Boolean,
+      default: true
     },
     columnFill: {
       type: String,
@@ -62,6 +70,21 @@ export default {
     columnHoverFill: {
       type: String,
       default: '#163D89'
+    },
+    columnPaddingInner: {
+      type: Number,
+      default: 0.2,
+      validator: (value) => validateNumRange(value)
+    },
+    columnPaddingOuter: {
+      type: Number,
+      default: 0.2,
+      validator: (value) => validateNumRange(value)
+    },
+    columnAlign: {
+      type: Number,
+      default: 0.5,
+      validator: (value) => validateNumRange(value)
     }
   },
   computed: {
@@ -90,7 +113,9 @@ export default {
       const xAxis = d3.scaleBand()
         .range([0, widthMarginAdjusted])
         .domain(this.chartData.map(row => row[this.xvar]))
-        .padding(0.2)
+        .paddingInner(this.columnPaddingInner)
+        .paddingOuter(this.columnPaddingOuter)
+        .round(true)
       
       chartArea.append('g')
         .attr('transform', `translate(0, ${heightMarginAdjusted})`)
@@ -117,10 +142,23 @@ export default {
         .attr('class', 'chart-column')
         .attr('data-column', row => row[this.xvar])
         .attr('x', row => xAxis(row[this.xvar]))
-        .attr('y', row => yAxis(row[this.yvar]))
-        .attr('width', xAxis.bandwidth())
-        .attr('height', row => heightMarginAdjusted - yAxis(row[this.yvar]))
+        .attr('y', yAxis(0))
         .attr('fill', this.columnFill)
+        .attr('width', xAxis.bandwidth())
+        
+      if (this.chartAnimate) {
+        chartColumns.attr('height', 0)
+          .transition()
+          .delay(200)
+          .duration(500)
+          .attr('y', row => yAxis(row[this.yvar]))
+          .attr('height', row => heightMarginAdjusted - yAxis(row[this.yvar]))
+      } else {
+        chartColumns
+          .attr('y', row => yAxis(row[this.yvar]))
+          .attr('height', row => heightMarginAdjusted - yAxis(row[this.yvar]))
+      }
+      
         
       chartArea.selectAll('column-labels')
         .data(this.chartData)
@@ -153,6 +191,7 @@ export default {
         })
       
       svg.append('text')
+        .attr('class', 'chart-text chart-axis-title chart-axis-x')
         .attr('x', (this.chartWidth / 2) + (this.chartMargins.left * -0.35))
         .attr('y', this.chartHeight - (this.chartMargins.bottom / 4.5))
         .attr('text-anchor', 'middle')
@@ -163,8 +202,8 @@ export default {
         .attr('class', 'chart-text chart-axis-title chart-axis-y')
         .attr('transform', 'rotate(-90)')
         .attr('transform-origin', 'top left')
-        .attr('x', -(this.chartHeight / 2))
-        .attr('y', this.chartMargins.left / 3)
+        .attr('x', -(this.chartHeight / 2.25))
+        .attr('y', this.chartMargins.left / 5.1)
         .attr('text-anchor', 'middle')
         .style('font-size', '12pt')
         .text(this.ylabel)
@@ -180,7 +219,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.d3-bar-chart {
+.d3-column-chart {
+  .chart-title {
+    margin: 0;
+  }
+
   svg {
     display: block;
     margin: 0 auto;
