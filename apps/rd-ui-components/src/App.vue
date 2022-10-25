@@ -1,6 +1,6 @@
 <template>
-  <Page>
-    <LoadingScreen v-if="loading"/>
+  <LoadingScreen v-if="loading"/>
+  <Page v-else>
     <PageHeader
       title="My Cool Database"
       subtitle="Database for the storage of cool data"
@@ -42,19 +42,54 @@
         :labels = "['Countries Active', 'Sites Active', 'Total Recruited']"
       />
     </PageSection>
-    <PageSection>
-      <h2>Recruiment Overview</h2>
-      <DataTable
-        tableId="recruiment"
-        :data="[
-          {institution: 'Center 001', total: 517},
-          {institution: 'Center 002', total: 219},
-          {institution: 'Center 003', total: 415},
-          {institution: 'Center 004', total: 365},
-          {institution: 'Center 005', total: 428},
-        ]"
-        :columnOrder="['institution','total']"
-        caption="Total Recruitment by Centre"
+    <PageSection id="viz-section" :verticalPadding="2">
+      <h2>Interactive D3 Charts Example</h2>
+      <p><strong>Recruitment Overview</strong>: Recuitment began in August 2022. Three centers are actively recruiting while the others are expected to start recruiting in late 2022. The first few months of recruitment were exceptional for all centers. The table below shows the total recruitment to date by center. Click a row to view recruitment numbers by research group.</p>
+      <div class="flex">  
+        <DataTable
+          tableId="recruiment"
+          :data="siteSummary"
+          :columnOrder="['name','total']"
+          caption="Total Recruitment by Centre"
+          @row-selection="rowSelection"
+        />
+        <ColumnChart
+          chartId="centerRecruitment"
+          title="Center-level Recruitment by Group"
+          :chartData="selectedCenter"
+          xvar="group"
+          yvar="total"
+          :chartWidth="575"
+          :chartHeight="350"
+          :columnPaddingInner="0.5"
+          :columnPaddingOuter="0.5"
+          :yMax="300"
+          :xAxisLabel="`${selectedCenter[0].name} by Group`"
+          yAxisLabel="Total Subjects Recruited"
+        />
+      </div>
+      <div>
+        <p>Where are the centers? The previous table and chart give us an understanding of recruitment, but where are the centers located? In the following map you can explore where the sites are located and see which sites are atively recruiting.</p>
+      </div>
+      <GeoMercator
+        chartId="recruitmentMap"
+        :chartData="siteSummary"
+        :geojson="geojson"
+        rowId="name"
+        longitude="lng"
+        latitude="lat"
+        groupingVariable="status"
+        :legendLabels="['Active', 'Inactive']"
+        :legendColors="['limegreen', 'pink']"
+        :groupColorMappings="{'active': 'limegreen', 'inactive': 'pink'}"
+        :chartWidth="700"
+        :chartHeight="350"
+        :tooltipTemplate='(row) => {
+          return `
+          <h3>${row.name}<span class="bubble bubble-${row.status}">${row.status}</span></h3> 
+          <p><strong>Participants Recruited (YTD):</strong> ${row.total}</p>
+          <p><small>${row.lng}, ${row.lat}</small></p>
+        `}'
       />
     </PageSection>
     <PageFooter>
@@ -77,13 +112,15 @@ import PageFooter from './components/PageFooter.vue'
 import PageFooterMeta from './components/PageFooterMeta.vue'
 import UnorderedList from './components/UnorderedList.vue'
 import LoadingScreen from './components/LoadingScreen.vue'
-
-import VizDataHighlights from './components/VizDataValueHighlights.vue'
-import DataTable from './components/VizDataTable.vue'
-
 import LinkCard from './components/LinkCard.vue'
 
+import VizDataHighlights from './components/VizDataValueHighlights.vue'
+import ColumnChart from './components/VizColumnChart.vue'
+import DataTable from './components/VizDataTable.vue'
+import GeoMercator from './components/VizGeoMercator.vue'
+
 import image from './assets/chris-fuller-unsplash.jpg'
+import worldgeojson from './assets/world.geo.json'
 
 export default {
   components: {
@@ -96,16 +133,69 @@ export default {
     LoadingScreen,
     LinkCard,
     VizDataHighlights,
-    DataTable
+    DataTable,
+    ColumnChart,
+    GeoMercator
   },
   data () {
     return {
       loading: true,
-      headerImage: image
+      headerImage: image,
+      rowData: null,
+      siteSummary: null,
+      recruitmentByCenter: null,
+      selectedCenter: null,
+      geojson: worldgeojson
+    }
+  },
+  methods: {
+    rowSelection (value) {
+      const selection = value.data
+      this.selectedCenter = this.recruitmentByCenter.filter(row => row.name === selection.name)
+    },
+    loadData () {
+      return {
+        summary: [
+          {name: 'Groningen', total: 517, lat: '53.219167', lng: '6.562778', status: 'active'},
+          {name: 'London', total: 219, lat: '51.524722', lng: '-0.133611', status: 'active'},
+          {name: 'Barcelona', total: 415, lat: '41.386667', lng: '2.163889', status: 'active'},
+          {name: 'Rome', total: 0, lat: '41.8625', lng: '12.478889', status: 'inactive'},
+          {name: 'Paris', total: 0, lat: '48.7006', lng: '2.17058', status: 'inactive'},
+        ],
+        centers: [
+          {name: 'Groningen', group: 'Group A', total: 172},
+          {name: 'Groningen', group: 'Group B', total: 86},
+          {name: 'Groningen', group: 'Group C', total: 259},
+          {name: 'London', group: 'Group A', total: 18},
+          {name: 'London', group: 'Group B', total: 100},
+          {name: 'London', group: 'Group C', total: 101},
+          {name: 'Barcelona', group: 'Group A', total: 146},
+          {name: 'Barcelona', group: 'Group B', total: 186},
+          {name: 'Barcelona', group: 'Group C', total: 83},
+          {name: 'Rome', group: 'Group A', total: 0},
+          {name: 'Rome', group: 'Group B', total: 0},
+          {name: 'Rome', group: 'Group C', total: 0},
+          {name: 'Paris', group: 'Group A', total: 0},
+          {name: 'Paris', group: 'Group B', total: 0},
+          {name: 'Paris', group: 'Group C', total: 0}
+        ]
+      }
     }
   },
   mounted () {
-    setTimeout(() => this.loading = false, 500)
+    Promise.resolve(
+      this.loadData()
+    ).then((result) => {
+      this.siteSummary = result.summary
+      this.recruitmentByCenter = result.centers
+      this.selectedCenter = result.centers.filter(row => row.name === 'Groningen')
+    }).then(() => {
+      new Promise(resolve => setTimeout(resolve, 750))
+    }).then(() => {
+      this.loading = false
+    }).catch((error) => {
+      console.error(error)
+    })
   }
 }
 </script>
@@ -130,6 +220,50 @@ body {
     .link-card {
       flex-grow: 1;
     }
+  }
+}
+
+.geo-mercator-tooltip {
+
+  h3 {
+    position: relative;
+    margin: 0;
+    margin-bottom: 4px;
+    display: flex;
+    flex-direction: flex-start;
+    align-items: center;
+    column-gap: 12px;
+    
+    .bubble {
+      display: block;
+      background-color: $blue-800;
+      font-size: 11pt;
+      font-weight: bold;
+      box-sizing: border-box;
+      padding: 4px 12px;
+      border-radius: 24px;
+      color: $blue-050;
+      
+      &.bubble-active {
+        background-color: hsl(120, 61%, 80%);
+        color: hsl(120, 61%, 20%);
+      }
+      
+      &.bubble-inactive {
+        background-color: hsl(350, 100%, 88%);
+        color: hsl(350, 100%, 28%);
+      }
+    }
+  }
+}
+
+.flex {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 2em;
+  div {
+    flex-grow: 1;
   }
 }
 
