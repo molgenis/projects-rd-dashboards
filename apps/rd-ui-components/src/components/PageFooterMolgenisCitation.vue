@@ -41,7 +41,7 @@ export default {
 
 <style lang="scss" scoped>
 .molgenis-citation {
-  background-color: $gray-050;
+  background-color: $gray-000;
   text-align: center;
   font-size: 10pt;
   max-width: $max-width;
