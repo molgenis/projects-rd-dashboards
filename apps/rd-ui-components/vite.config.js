@@ -4,24 +4,27 @@ import path from 'path'
 
 const PROXY_TARGET = 'https://david.gcc.rug.nl/'
 
-export default defineConfig(({ command }) => {
-  const shared = {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: `
-          @import "src/styles/resets.scss";
-          @import "src/styles/palettes.scss";
-          @import "src/styles/variables.scss";
-          @import "src/styles/padding.scss";
-          @import "src/styles/heightwidth.scss";
-          @import "src/styles/textPosition.scss";
-          `
-        }
+const shared = {
+  css: {
+    preprocessorOptions: {
+      modules: {
+        
+      },
+      scss: {
+        additionalData: `
+        @import "src/styles/resets.scss";
+        @import "src/styles/palettes.scss";
+        @import "src/styles/variables.scss";
+        @import "src/styles/padding.scss";
+        @import "src/styles/heightwidth.scss";
+        @import "src/styles/textPosition.scss";
+        `
       }
     }
   }
+}
 
+export default defineConfig(({ command }) => {
   if (command === 'serve') {
     return {
       plugins: [vue()],

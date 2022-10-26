@@ -2,15 +2,15 @@
   "name": "rd-ui-components",
   "private": true,
   "version": "0.1.0",
-  "main": "./dist/rd-ui-components.umd.cjs",
-  "module": "./dist/rd-ui-components.js",
+  "main": "./dist/rd-ui-components.umd.js",
+  "module": "./dist/rd-ui-components.mjs",
   "files": [
     "dist"
   ],
   "exports": {
     ".": {
-      "import": "./dist/rd-ui-components.js",
-      "require": "./dist/rd-ui-components.umd.cjs"
+      "import": "./dist/rd-ui-components.mjs",
+      "require": "./dist/rd-ui-components.umd.js"
     },
     "./dist/rd-ui-components.css": {
       "import": "./dist/rd-ui-components.css",
