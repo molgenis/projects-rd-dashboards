@@ -218,7 +218,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .d3-column-chart {
   .chart-title {
     margin: 0;

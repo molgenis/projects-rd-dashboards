@@ -39,7 +39,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .molgenis-citation {
   background-color: $gray-000;
   text-align: center;

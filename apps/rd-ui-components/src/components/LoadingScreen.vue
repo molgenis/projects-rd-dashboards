@@ -41,8 +41,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@keyframes spin {
+<style lang="scss">
+@keyframes loadingIconSpin {
   from {
     transform: rotate(0deg);
   }
@@ -71,7 +71,7 @@ export default {
       width: $icon-size;
       height: $icon-size;
       transform-origin: center;
-      animation: spin 6s linear infinite;
+      animation: loadingIconSpin 6s linear infinite;
     }
     
     .loading-message {

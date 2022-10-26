@@ -1,13 +1,10 @@
 <template>
   <main class="app-page">
     <slot></slot>
-    <footer class="page-footer">
-      <slot name="footer"></slot>
-    </footer>
   </main>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .app-page {
   font-size: 15pt;
   color: $gray-700;

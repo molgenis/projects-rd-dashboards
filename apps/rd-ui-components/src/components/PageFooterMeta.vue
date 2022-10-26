@@ -1,11 +1,11 @@
 <template>
-  <div class="meta-links">
+  <div class="page-footer-meta-links">
     <slot></slot>
   </div>
 </template>
 
-<style lang="scss" scoped>
-.meta-links {
+<style lang="scss">
+.page-footer-meta-links {
   display: flex;
   justify-content: center;
   align-items: center;
