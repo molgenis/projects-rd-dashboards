@@ -44,7 +44,9 @@
     </PageSection>
     <PageSection id="viz-section" :verticalPadding="2">
       <h2>Interactive D3 Charts Example</h2>
-      <p><strong>Recruitment Overview</strong>: Recuitment began in August 2022. Three centers are actively recruiting while the others are expected to start recruiting in late 2022. The first few months of recruitment were exceptional for all centers. The table below shows the total recruitment to date by center. Click a row to view recruitment numbers by research group.</p>
+      <Accordion id="exampleText" title="Recruitment Overview">
+        <p>Recuitment began in August 2022. Three centers are actively recruiting while the others are expected to start recruiting in late 2022. The first few months of recruitment were exceptional for all centers. The table below shows the total recruitment to date by center. Click a row to view recruitment numbers by research group.</p>
+      </Accordion>
       <div class="flex">  
         <DataTable
           tableId="recruiment"
@@ -113,6 +115,7 @@ import PageFooterMeta from './components/PageFooterMeta.vue'
 import UnorderedList from './components/UnorderedList.vue'
 import LoadingScreen from './components/LoadingScreen.vue'
 import LinkCard from './components/LinkCard.vue'
+import Accordion from './components/Accordion.vue'
 
 import VizDataHighlights from './components/VizDataValueHighlights.vue'
 import ColumnChart from './components/VizColumnChart.vue'
@@ -135,7 +138,8 @@ export default {
     VizDataHighlights,
     DataTable,
     ColumnChart,
-    GeoMercator
+    GeoMercator,
+    Accordion
   },
   data () {
     return {

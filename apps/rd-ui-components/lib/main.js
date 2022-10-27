@@ -1,4 +1,5 @@
 
+import Accordion from "../src/components/Accordion.vue"
 import LinkCard from "../src/components/LinkCard.vue"
 import LoadingScreen from "../src/components/LoadingScreen.vue"
 import MolgenisLogo from "../src/components/MolgenisLogo.vue"
@@ -16,6 +17,7 @@ import VizGeoMercator from "../src/components/VizGeoMercator.vue"
 import VizLegend from "../src/components/VizLegend.vue"
 
 export {
+  Accordion,
   LinkCard,
   LoadingScreen,
   MolgenisLogo,
