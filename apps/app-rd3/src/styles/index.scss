@@ -15,7 +15,6 @@
   
   &.page-action-secondary {
     border-color: $gray-400;
-    background-color: $gray-050;
   }
   
   &.page-action-primary {
@@ -34,11 +33,12 @@
   justify-content: flex-start;
   align-items: stretch;
   flex-direction: row;
-  gap: 1em;
+  margin-top: 1.2em;
+  gap: 1.7em;
   
   .info-card {
     box-sizing: content-box;
-    padding: 0.8em;
+    padding: 1em;
     background-color: $gray-000;
     border-radius: 6px;
     box-shadow: 0 0 6px 4px $gray-transparent-100;
@@ -50,17 +50,51 @@
     
     .card-title {
       @include textTransform;
-      color: $gray-700;
+      color: $gray-600;
     }
     
     .card-description {
-      font-size: 12pt;
+      font-size: 13pt;
       margin-top: 6px;
       margin-bottom: 10px;
     }
     
     a {
       font-size: 12pt; 
+      
+      svg {
+        position: relative;
+        $size: 13pt;
+        width: $size;
+        height: $size;
+        margin-left: 3px;
+        margin-bottom: -2px;
+      }
+      
+      &:hover, &:focus {
+        background-color: $molgenis-blue-800;
+        color: $molgenis-blue-050;
+      }
+    }
+  }
+}
+
+.link-cards-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  
+  .link-card {
+    flex-grow: 1;
+  }
+}
+
+.page-section {
+  .page-section-content {
+    h3.accordion-heading {
+      margin-bottom: 0;
     }
   }
 }
