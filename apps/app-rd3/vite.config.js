@@ -5,7 +5,6 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import newDevProxy from '../dev-proxy.config.js'
 
 const devProxyConfig = newDevProxy('https://solve-rd.gcc.rug.nl/')
-console.log(devProxyConfig)
 
 const shared = {
   plugins: [vue(), vueJsx()],
