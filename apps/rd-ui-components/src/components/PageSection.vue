@@ -57,7 +57,6 @@ export default {
       font-weight: 600;
       line-height: 1.3;
       margin: 0;
-      margin-bottom: 16px;
       text-align: center;
       color: $gray-900;
     }

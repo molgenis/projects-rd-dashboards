@@ -2,6 +2,7 @@
 import Accordion from "../src/components/Accordion.vue"
 import LinkCard from "../src/components/LinkCard.vue"
 import LoadingScreen from "../src/components/LoadingScreen.vue"
+import MessageBox from "../src/components/MessageBox.vue"
 import MolgenisLogo from "../src/components/MolgenisLogo.vue"
 import Page from "../src/components/Page.vue"
 import PageFooter from "../src/components/PageFooter.vue"
@@ -20,6 +21,7 @@ export {
   Accordion,
   LinkCard,
   LoadingScreen,
+  MessageBox,
   MolgenisLogo,
   Page,
   PageFooter,

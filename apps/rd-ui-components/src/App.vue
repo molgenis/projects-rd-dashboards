@@ -94,6 +94,21 @@
         `}'
       />
     </PageSection>
+    <PageSection>
+      <h2>Status Messages</h2>
+      <MessageBox type="warning">
+        <p>Results also include partial matches. Adjusted filters to remove these records.</p>
+      </MessageBox>
+      <MessageBox type="error">
+        <p>Unable to retrieve data. Please <a href="#">Sign in</a> to view results.</p>
+      </MessageBox>
+      <MessageBox type="success">
+        <p>Found <strong>6</strong> records.</p>
+      </MessageBox>
+      <MessageBox>
+        <p>Data current as of 28 October 2022.</p>
+      </MessageBox>
+    </PageSection>
     <PageFooter>
       <PageFooterMeta>
         <UnorderedList listLayout="horizontal" listType="circle">
@@ -116,6 +131,7 @@ import UnorderedList from './components/UnorderedList.vue'
 import LoadingScreen from './components/LoadingScreen.vue'
 import LinkCard from './components/LinkCard.vue'
 import Accordion from './components/Accordion.vue'
+import MessageBox from './components/MessageBox.vue'
 
 import VizDataHighlights from './components/VizDataValueHighlights.vue'
 import ColumnChart from './components/VizColumnChart.vue'
@@ -139,7 +155,8 @@ export default {
     DataTable,
     ColumnChart,
     GeoMercator,
-    Accordion
+    Accordion,
+    MessageBox
   },
   data () {
     return {
