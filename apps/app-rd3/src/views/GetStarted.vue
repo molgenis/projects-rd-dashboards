@@ -5,6 +5,20 @@
       subtitle="Getting Started with RD3"
       height="medium"
     />
+    <PageSection id="section-navigation" aria-labelledby="section-navigation-title" width="full" :horizontalPadding="0" :verticalPadding="0">
+      <h2 id="section-navigation-title" class="visually-hidden">Get started with RD3</h2>
+      <div class="link-cards-container">
+        <LinkCard id="linkViewTables" height="small">
+          <a href="#">View Tables</a>
+        </LinkCard>
+        <LinkCard id="linkDiscoveryNexus" height="small">
+          <a href="#">Discovery Nexus</a>
+        </LinkCard>
+        <LinkCard id="linkPatientTree" height="small">
+          <router-link :to="{ name: 'patient-tree' }">Patient Tree</router-link>
+        </LinkCard>
+      </div>
+    </PageSection>
     <PageSection id="getstarted-about" aria-labelledby="getstarted-about-title" :verticalPadding="2">
       <h2 id="getstarted-about-title">About RD3</h2>
       <p>Since the start of RD3, data has been added to the database periodically from a <abbr title="The National Center for Genomic Analysis">CNAG</abbr> and the <abbr title="The European Genome-phenome Archive">EGA</abbr>. Initial metadata on subjects, samples, and experiments is provided by CNAG. The EGA provides datasets containing files (BAM, BAI, VCFs, PED, Phenopackets, etc.) which are transfered files to the sandbox. Raw data is imported into RD3 and stored in the portal &mdash; i.e., one of the staging tables &mdash; before data processing.</p>
@@ -34,7 +48,7 @@
       <MessageBox type="error" v-if="hasError">
         <p v-html="errorMessage"></p>
       </MessageBox>
-      <div v-else>
+      <div v-else-if="!hasError && !isLoading && releaseData">
         <p>Since the begining of RD3, there have been <strong>{{ releaseData.length }}</strong> data releases. Click the name of the release below to view all tables available in RD3. Follow the links to view the data.</p>
         <Accordion v-for="release in releaseData" :key="release.id" :title="release.name" :id="release.id">
           <ul>
@@ -72,7 +86,7 @@
 </template>
 
 <script>
-import { Page, PageSection, PageHeader, Accordion, MessageBox } from 'rd-ui-components'
+import { Page, PageSection, PageHeader, Accordion, MessageBox, LinkCard } from 'rd-ui-components'
 import SolveRdFooter from '../components/SolveRdFooter.vue'
 
 import rd3ImageDataFlow from '../assets/rd3-data-flow.png'
@@ -98,6 +112,7 @@ export default {
     PageSection,
     Accordion,
     MessageBox,
+    LinkCard,
     SolveRdFooter
   },
   methods: {
@@ -118,7 +133,7 @@ export default {
       }).catch(error => {
         this.hasError = true
         const err = JSON.parse(error.message)
-        if (err.status === 404) {
+        if (Math.round(err.status / 100) === 4 ) {
           this.errorMessage = 'Unable to retrieve data. Please <a href="/login">Sign in</a> to continue'
         } else {
           this.errorMessage = `${err.message} (${err.status})`

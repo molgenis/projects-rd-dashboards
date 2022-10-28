@@ -6,7 +6,7 @@
           <p><strong>RD3</strong></p>
           <UnorderedList listType="none">
             <li><a href="/login">Sign in</a></li>
-            <li><router-link to="#">Get Started</router-link></li>
+            <li><router-link :to="{name: 'get-started'}">Get Started</router-link></li>
             <li>
               <a href="https://rdnexus.molgeniscloud.org/discover/index">
                 <span>Discovery Nexus</span>

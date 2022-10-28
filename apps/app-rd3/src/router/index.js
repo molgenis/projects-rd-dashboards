@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import HomePage from '../views/HomePage.vue'
 import GetStartedPage from '../views/GetStarted.vue'
+import PatientTreePage from '../views/PatientTree.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,7 +13,8 @@ const router = createRouter({
       component: HomePage,
       meta: {
         title: 'Home'
-      }
+      },
+      alias: '/home'
     },
     {
       name: 'get-started',
@@ -23,10 +25,23 @@ const router = createRouter({
       }
     },
     {
+      name: 'patient-tree',
+      path: '/patient-tree',
+      component: PatientTreePage,
+      meta: {
+        title: 'Patient Tree'
+      }
+    },
+    {
       name: 'login',
       path: '/login',
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    return {
+      top: 0
+    }
+  }
 })
 
 // router.beforeEach(async (to, from, next) => {
