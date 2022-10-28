@@ -109,6 +109,25 @@
         <p>Data current as of 28 October 2022.</p>
       </MessageBox>
     </PageSection>
+    <PageSection>
+      <h2>Forms</h2>
+      <PageForm title="Search for Records" description="Find records based on x, y, and z.">
+        <PageFormSection>
+          <InputSearch
+            id="search-test"
+            label="Search for X"
+            description="enter x,y, or z"
+          />
+        </PageFormSection>
+        <PageFormSection>
+          <InputSearch
+            id="search-test-2"
+            label="Search for Y"
+            description="enter x,y, or z"
+          />
+        </PageFormSection>
+      </PageForm>
+    </PageSection>
     <PageFooter>
       <PageFooterMeta>
         <UnorderedList listLayout="horizontal" listType="circle">
@@ -127,11 +146,14 @@ import PageHeader from './components/PageHeader.vue'
 import PageSection from './components/PageSection.vue'
 import PageFooter from './components/PageFooter.vue'
 import PageFooterMeta from './components/PageFooterMeta.vue'
+import PageForm from './components/PageForm.vue'
+import PageFormSection from './components/PageFormSection.vue'
 import UnorderedList from './components/UnorderedList.vue'
 import LoadingScreen from './components/LoadingScreen.vue'
 import LinkCard from './components/LinkCard.vue'
 import Accordion from './components/Accordion.vue'
 import MessageBox from './components/MessageBox.vue'
+import InputSearch from './components/InputSearch.vue'
 
 import VizDataHighlights from './components/VizDataValueHighlights.vue'
 import ColumnChart from './components/VizColumnChart.vue'
@@ -148,7 +170,10 @@ export default {
     PageSection,
     PageFooter,
     PageFooterMeta,
+    PageForm,
+    PageFormSection,
     UnorderedList,
+    InputSearch,
     LoadingScreen,
     LinkCard,
     VizDataHighlights,

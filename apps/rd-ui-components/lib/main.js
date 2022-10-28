@@ -1,5 +1,8 @@
 
 import Accordion from "../src/components/Accordion.vue"
+import ButtonSearch from '../src/components/ButtonSearch.vue'
+import InputLabel from '../src/components/InputLabel.vue'
+import InputSearch from '../src/components/InputSearch.vue'
 import LinkCard from "../src/components/LinkCard.vue"
 import LoadingScreen from "../src/components/LoadingScreen.vue"
 import MessageBox from "../src/components/MessageBox.vue"
@@ -8,6 +11,8 @@ import Page from "../src/components/Page.vue"
 import PageFooter from "../src/components/PageFooter.vue"
 import PageFooterMeta from "../src/components/PageFooterMeta.vue"
 import PageFooterMolgenisCitation from "../src/components/PageFooterMolgenisCitation.vue"
+import PageForm from '../src/components/PageForm.vue'
+import PageFormSection from '../src/components/PageFormSection.vue'
 import PageHeader from "../src/components/PageHeader.vue"
 import PageSection from "../src/components/PageSection.vue"
 import UnorderedList from "../src/components/UnorderedList.vue"
@@ -19,6 +24,9 @@ import VizLegend from "../src/components/VizLegend.vue"
 
 export {
   Accordion,
+  ButtonSearch,
+  InputLabel,
+  InputSearch,
   LinkCard,
   LoadingScreen,
   MessageBox,
@@ -27,6 +35,8 @@ export {
   PageFooter,
   PageFooterMeta,
   PageFooterMolgenisCitation,
+  PageForm,
+  PageFormSection,
   PageHeader,
   PageSection,
   UnorderedList,

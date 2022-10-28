@@ -2,7 +2,9 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 
-const PROXY_TARGET = 'https://david.gcc.rug.nl/'
+import newDevProxy from '../dev-proxy.config.js'
+const devProxyConfig = newDevProxy('https://solve-rd.gcc.rug.nl/')
+
 
 const shared = {
   css: {
