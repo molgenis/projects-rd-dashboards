@@ -1,11 +1,11 @@
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import devProxyConfig from '../dev-proxy.config.js'
+import newDevProxy from '../dev-proxy.config.js'
 
-// const PROXY_TARGET = 'https://david.gcc.rug.nl/'
+const devProxyConfig = newDevProxy('https://solve-rd.gcc.rug.nl/')
+console.log(devProxyConfig)
 
 const shared = {
   plugins: [vue(), vueJsx()],
@@ -34,6 +34,7 @@ export default defineConfig(({ command }) => {
     return {
       base: "",
       server: {
+        open: './apptemplate/index.serve.html',
         port: 8080,
         proxy: devProxyConfig
       },
