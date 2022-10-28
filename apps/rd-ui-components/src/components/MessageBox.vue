@@ -1,6 +1,6 @@
 <template>
   <div :class="`message-box message-${type}`">
-    <div class="message-icon">
+    <div class="message-icon" v-if="showIcon">
       <CheckCircle v-if="type==='success'" />
       <ExclaimationTriangle v-else-if="type==='warning'" />
       <ExclaimationCircle v-else-if="type==='error'" />
@@ -27,6 +27,10 @@ export default {
       validator: (value) => {
         return ['default', 'error', 'success', 'warning'].includes(value)
       }
+    },
+    showIcon: {
+      type: Boolean,
+      default: true
     }
   },
   components: {
