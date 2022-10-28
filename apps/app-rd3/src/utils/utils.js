@@ -8,7 +8,7 @@ export async function fetchData (url) {
   const response = await fetch(url)
   if (response.status / 100 !== 2) {
     const error = JSON.stringify({
-      message: response.status,
+      message: response.statusText,
       status: response.status,
       url: response.url
     })

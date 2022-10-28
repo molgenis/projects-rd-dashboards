@@ -19,20 +19,60 @@
       </ul>
       <img :src="rd3ImageCoreStructure" alt="the rd3 core structure contains five linked tables" class="image"/>
     </PageSection>
-    <PageSection id="getstarted-releases" aria-labelledby="getstarted-releases-title">
+    <PageSection id="getstarted-finding-data" aria-labelledby="getstarted-finding-data-title" :verticalPadding="2">
+      <h2 id="getstarted-finding-data-title">Finding Data</h2>
+      <p>There are several options available for finding data in RD3 from using a query interface to interacting with RD3 via the API. Depending on your choice, you may need to additional permissions. If you are experiencing difficulties or have any questions, please contact the Molgenis support desk: <a href="mailto:molgenis-support@umcg.nl">molgenis-support@umcg.nl</a>.</p>
+      <ul>
+        <li><a href="https://rdnexus.molgeniscloud.org/Discover/Index">Discovery Nexus platform</a>: this tool allows you to build cohorts based on ERN, phenotypic information, diseases, genes and pathways, and more.</li>
+        <li><a href="/menu/main/dataexplorer?entity=rd3_overview&hideselect=true">RD3 Data Overview table</a>: this table combines all subjects and the samples, experiments, and files across all releases.</li>
+        <li><strong>Work in a specific release</strong>: If you know which RD3 release you would like to work with (e.g., Data Freeze 2, Novel Omics Deep-WES, etc.), you can access the tables using the links provided in the next section.</li>
+        <li><strong>Molgenis API</strong>: If you would rather retrieve data as part of a workflow or from a script, you can do so using the Molgenis API. You can use one of the existing clients (R, Python, JavaScript) or send requests using curl. Additional permissions are required. Please contact the Molgenis support desk to get started: <a href="mailto:molgenis-support@umcg.nl">molgenis-support@umcg.nl</a>.</li>
+      </ul>
+    </PageSection>
+    <PageSection id="getstarted-releases" aria-labelledby="getstarted-releases-title" :verticalPadding="2">
       <h2 id="getstarted-releases-title">Current RD3 Releases</h2>
-      <p>There have been <strong>3 releases</strong> to date. All RD3 data freezes have an identical table structure. This table structure provides a standard format for structuring and storing data, as well as makes it easier to switch between the different data freezes. Tables are linked by one or more identifiers so you can view referenced data in the browser.</p>
-      <p>Click the name of the release below to view all tables available in RD3. Follow the links to view the data. If you would like to view a certain patch, click one of links below and select the "patch" filter.</p>
-      <Accordion id="test" title="Test Accordion">
-        <p>Eu irure esse enim labore dolore ex aute laboris voluptate eiusmod enim aliqua esse non.</p>
-      </Accordion>
+      <MessageBox type="error" v-if="hasError">
+        <p v-html="errorMessage"></p>
+      </MessageBox>
+      <div v-else>
+        <p>Since the begining of RD3, there have been <strong>{{ releaseData.length }}</strong> data releases. Click the name of the release below to view all tables available in RD3. Follow the links to view the data.</p>
+        <Accordion v-for="release in releaseData" :key="release.id" :title="release.name" :id="release.id">
+          <ul>
+            <li>
+              <a :href="buildDataExplorerUrl('subjects', release.id)">
+                {{ release.name }} Subjects
+              </a>
+            </li>
+            <li>
+              <a :href="buildDataExplorerUrl('subjectinfo', release.id)">
+                {{ release.name }} Subject Information
+              </a>
+            </li>
+            <li>
+              <a :href="buildDataExplorerUrl('samples', release.id)">
+                {{ release.name }} Samples
+              </a>
+            </li>
+            <li>
+              <a :href="buildDataExplorerUrl('labinfo', release.id)">
+                {{ release.name }} Lab Information
+              </a>
+            </li>
+            <li>
+              <a :href="buildDataExplorerUrl('files', release.id)">
+                {{ release.name }} Files
+              </a>
+            </li>
+          </ul>
+        </Accordion>
+      </div>
     </PageSection>
   </Page>
   <SolveRdFooter />  
 </template>
 
 <script>
-import { Page, PageSection, PageHeader, Accordion } from 'rd-ui-components'
+import { Page, PageSection, PageHeader, Accordion, MessageBox } from 'rd-ui-components'
 import SolveRdFooter from '../components/SolveRdFooter.vue'
 
 import rd3ImageDataFlow from '../assets/rd3-data-flow.png'
@@ -48,7 +88,7 @@ export default {
       rd3ImageCoreStructure: rd3ImageCoreStructure,
       isLoading: false,
       hasError: false,
-      errorDetails: null,
+      errorMessage: null,
       releaseData: null
     }
   },
@@ -57,20 +97,32 @@ export default {
     PageHeader,
     PageSection,
     Accordion,
+    MessageBox,
     SolveRdFooter
   },
   methods: {
+    buildDataExplorerUrl(table, q) {
+      return `/menu/subjects/dataexplorer?entity=solverd_${table}&hideselect=true&mod=data&filter=partOfRelease==${q}`
+    },
     getReleases () {
       this.isLoading = true
+      this.hasError = false
+      this.errorMessage = null
+
       Promise.resolve(
         fetchData('/api/v2/solverd_info_datareleases')
       ).then(response => {
-        console.log(response)
+        const data = response.items
+        this.releaseData = data.filter(release => !release.id.includes('patch'))
         this.isLoading = false
       }).catch(error => {
         this.hasError = true
         const err = JSON.parse(error.message)
-        console.log(err)
+        if (err.status === 404) {
+          this.errorMessage = 'Unable to retrieve data. Please <a href="/login">Sign in</a> to continue'
+        } else {
+          this.errorMessage = `${err.message} (${err.status})`
+        }
       })
     }
   },
@@ -91,13 +143,16 @@ export default {
   }
 }
 
-#getstarted-about {
-  background-color: $gray-000;
-  
+#getstarted-about, #getstarted-finding-data {
   ul {
     li {
       line-height: 1.5;
     }
   }
 }
+
+#getstarted-finding-data {
+  background-color: $gray-050;
+}
+
 </style>
