@@ -70,6 +70,10 @@
           yAxisLabel="Total Subjects Recruited"
         />
       </div>
+      <PieChart
+        chartId="recruitmentBreakdown"
+        :chartData="{groupA: 0.5, groupB: 0.2, groupC: 0.3}"
+      />
       <div>
         <p>Where are the centers? The previous table and chart give us an understanding of recruitment, but where are the centers located? In the following map you can explore where the sites are located and see which sites are atively recruiting.</p>
       </div>
@@ -159,6 +163,7 @@ import VizDataHighlights from './components/VizDataValueHighlights.vue'
 import ColumnChart from './components/VizColumnChart.vue'
 import DataTable from './components/VizDataTable.vue'
 import GeoMercator from './components/VizGeoMercator.vue'
+import PieChart from './components/VizPieChart.vue'
 
 import image from './assets/chris-fuller-unsplash.jpg'
 import worldgeojson from './assets/world.geo.json'
@@ -180,6 +185,7 @@ export default {
     DataTable,
     ColumnChart,
     GeoMercator,
+    PieChart,
     Accordion,
     MessageBox
   },
