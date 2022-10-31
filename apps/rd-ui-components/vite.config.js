@@ -38,7 +38,7 @@ export default defineConfig(({ command }) => {
       base: "",
       server: {
         port: 8080,
-        proxy: require('../dev-proxy.config.js')
+        proxy: devProxyConfig
       },
       ...shared
     }
