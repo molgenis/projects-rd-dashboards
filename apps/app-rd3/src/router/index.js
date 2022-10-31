@@ -37,7 +37,7 @@ const router = createRouter({
       path: '/login',
     }
   ],
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior () {
     return {
       top: 0
     }
