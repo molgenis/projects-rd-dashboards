@@ -16,11 +16,12 @@ import PageFormSection from '../src/components/PageFormSection.vue'
 import PageHeader from "../src/components/PageHeader.vue"
 import PageSection from "../src/components/PageSection.vue"
 import UnorderedList from "../src/components/UnorderedList.vue"
-import VizColumnChart from "../src/components/VizColumnChart.vue"
-import VizDataTable from "../src/components/VizDataTable.vue"
-import VizDataValueHighlights from "../src/components/VizDataValueHighlights.vue"
-import VizGeoMercator from "../src/components/VizGeoMercator.vue"
+import ColumnChart from "../src/components/VizColumnChart.vue"
+import DataTable from "../src/components/VizDataTable.vue"
+import DataValueHighlights from "../src/components/VizDataValueHighlights.vue"
+import GeoMercator from "../src/components/VizGeoMercator.vue"
 import VizLegend from "../src/components/VizLegend.vue"
+import PieChart from '../src/components/VizPieChart.vue'
 
 export {
   Accordion,
@@ -40,9 +41,10 @@ export {
   PageHeader,
   PageSection,
   UnorderedList,
-  VizColumnChart,
-  VizDataTable,
-  VizDataValueHighlights,
-  VizGeoMercator,
-  VizLegend
+  ColumnChart,
+  DataTable,
+  DataValueHighlights,
+  GeoMercator,
+  VizLegend,
+  PieChart
 }
