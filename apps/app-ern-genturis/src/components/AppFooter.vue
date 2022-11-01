@@ -7,7 +7,7 @@
           <UnorderedList listType="none">
             <li><router-link :to="{name: 'about-us'}">About</router-link></li>
             <li><router-link :to="{ name: 'contact-us' }">Contact Us</router-link></li>
-            <li><router-link to="#">Dashboard</router-link></li>
+            <li><router-link :to="{ name: 'dashboard' }">Dashboard</router-link></li>
             <li><router-link :to="{ name: 'governance' }">Governance</router-link></li>
           </UnorderedList>
         </div>

@@ -29,7 +29,7 @@
           <router-link :to="{ name: 'documents' }">Documents</router-link>
         </LinkCard>
         <LinkCard id="quicklink-dashboard" :imageSrc="BkgPhotoDashboard">
-          <router-link to="#">Dashboard</router-link>
+          <router-link :to="{ name: 'dashboard' }">Dashboard</router-link>
         </LinkCard>
       </div>
     </PageSection>

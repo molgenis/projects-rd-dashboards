@@ -34,7 +34,7 @@ export default defineConfig(({ command }) => {
     return {
       base: "",
       server: {
-        open: './apptemplate/index.serve.html',
+        // open: './apptemplate/index.serve.html',
         port: 8080,
         proxy: devProxyConfig
       },

@@ -8,6 +8,7 @@ import Documents from '../views/Documents.vue'
 import GenturisGovernance from '../views/GenturisGovernance.vue'
 import MembersArea from '../views/MembersArea.vue'
 import PrivacyPolicy from '../views/PrivacyPolicy.vue'
+import Dashboard from '../views/Dashboard.vue'
 
 // const initialState = window.__INITIAL_STATE__ || {}
 // history: createWebHistory(initialState.baseUrl),
@@ -37,6 +38,14 @@ const router = createRouter({
       component: ContactUs,
       meta: {
         title: 'Contact Us'
+      }
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: Dashboard,
+      meta: {
+        title: 'Dashboard'
       }
     },
     {
