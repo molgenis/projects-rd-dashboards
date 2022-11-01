@@ -18,6 +18,7 @@
         alt="thematic disease groups included in the genturis registry"
       />
       <p>The GENTURIS registry complies with the legal, ethical and privacy standards required within Europe. Patient data is protected in full compliance with the European Union (EU) regulations on the processing and free movement of personal data as well as with all pertinent national laws and regulations of the Member States. This includes the European Data Privacy Regulations and Good Clinical Practice guidelines.</p>
+      <p>The centres participating in the GENTURIS registry have concluded an agreement on joint protection responsibility according to art. 26 of the General Data Protection Regulation (GDPR). Further information is available on request.</p>
       <p>Access to the GENTURIS registry data is regulated by the GENTURIS registry data access policy.</p>
     </PageSection>
     <PageSection id="genturis-section-committee" aria-labelledby="genturis-section-committee-title">
