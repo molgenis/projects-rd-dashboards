@@ -22,29 +22,46 @@ export default {
         return Object.keys(object).length <= 7
       }
     },
-    title: {
-      type: String
-    },
     chartHeight: {
       type: Number,
-      default: 250
+      default: 300
     },
     chartWidth: {
       type: Number,
-      default: 350
+      default: 400
     },
     chartMargins: {
       type: Number,
       default: 20
     },
+    /*
+    * @param chartColors An object containing one-to-one mappings of groups to colors.
+    *     If colors are not defined, a default palette will be chosen for you.
+    */
     chartColors: {
-      type: Array,
-      // default: () => ['#98abc5', '#8a89a6', '#7b6888', '#6b486b', '#a05d56']
+      type: Object,
+      default: null
+    },
+    /*
+    * @param animate If True (default), the chart will render with interactive elements
+    */
+    animate: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
     colors () {
-      return this.chartColors ? this.chartColors : d3.scaleOrdinal(d3.schemeBlues[7]);
+      if (!this.chartColors) {
+        const autoColors = {}
+        const length = Object.keys(this.chartData).length
+        const palette = d3.scaleOrdinal(d3.schemeBlues[length])
+        Object.keys(this.chartData).forEach((key, index) => {
+          autoColors[key] = palette(index)
+        })
+        return autoColors
+      }
+      return this.chartColors
     }
   },
   methods: {
@@ -61,7 +78,7 @@ export default {
         .attr('transform', `translate(${this.chartWidth / 2}, ${this.chartHeight / 2})`)
         
       const radius = Math.min(this.chartWidth, this.chartHeight) / 2 - this.chartMargins
-      const pie = d3.pie().sort(null).value(d => d[1])
+      const pie = d3.pie().sort(null).value(value => value[1])
       const pieChartData = pie(Object.entries(this.chartData))
       
       const arcGenerator = d3.arc()
@@ -72,15 +89,17 @@ export default {
         .innerRadius(radius * 0.8)
         .outerRadius(radius * 0.8)
 
-      dataLayer.selectAll('slices')
+      const slices = dataLayer.selectAll('slices')
         .data(pieChartData)
         .join('path')
         .attr('d', arcGenerator)
         .attr('class', 'slices')
-        .attr('fill', (value, index) => this.colors(index))
+        .attr('data-group', value => value.data[0])
+        .attr('fill', value => this.colors[value.data[0]])
         .attr('stroke', '#3f454b')
         .style('stroke-width', '1px')
         .style('opacity', 0.7)
+        .attr('cursor', 'pointer')
         
       dataLayer.selectAll('slice-label-lines')
         .data(pieChartData)
@@ -98,10 +117,11 @@ export default {
           return [centroid, outerCircleCentroid, labelPosition]
         })
 
-      const labelPositions = dataLayer.selectAll('slice-labels')
+      const labels = dataLayer.selectAll('slice-labels')
         .data(pieChartData)
         .join('text')
         .attr('class', 'slice-labels')
+        .attr('data-group', value => value.data[0])
         .attr('transform', value => {
           const position = labelArcGenerator.centroid(value)
           const angle = value.startAngle + (value.endAngle - value.startAngle) / 2
@@ -114,15 +134,38 @@ export default {
         })
         .style('font-size', '11pt')
       
-      labelPositions.append('tspan')
+      labels.append('tspan')
         .attr('class', 'data-label')
-        .html(value => value.data[0])
+        .attr('data-group', value => value.data[0])
+        .text(value => value.data[0])
         
-      labelPositions.append('tspan')
-        .attr('dx', '-3.25em')
+      labels.append('tspan')
+        .attr('dx', '-3.7em')
         .attr('dy', '1.5em')
         .attr('class', 'data-value')
-        .html(value => `${value.data[1]}%`)
+        .attr('data-group', value => value.data[0])
+        .text(value => `${value.data[1]}%`)
+        
+      if (this.animate) {
+        slices.on('mouseover', (event, value) => {
+          const selector = value.data[0]
+          const slice = svg.select(`path.slices[data-group="${selector}"]`)
+          const sliceLabel = svg.select(`tspan.data-label[data-group="${selector}"]`)
+          const sliceValue = svg.select(`tspan.data-value[data-group="${selector}"]`)
+          slice.attr('transition', '600').attr('transform', 'scale(1.2)')
+          sliceLabel.style('font-size', '13pt').style('font-weight', 'bold')
+          sliceValue.style('font-size', '13pt')
+        })
+        .on('mouseout', (event, value) => {
+          const selector = value.data[0]
+          const slice = svg.select(`path.slices[data-group="${selector}"]`)
+          const sliceLabel = svg.select(`tspan.data-label[data-group="${selector}"]`)
+          const sliceValue = svg.select(`tspan.data-value[data-group="${selector}"]`)
+          slice.attr('transition', '600').attr('transform', 'scale(1)')
+          sliceLabel.style('font-size', '11pt').style('font-weight', 'normal')
+          sliceValue.style('font-size', '11pt')
+        })
+      }
     }
   },
   mounted () {
@@ -139,11 +182,6 @@ export default {
   svg {
     display: block;
     margin: 0 auto;
-  }
-  .pie-chart-content {
-    .slice-labels {
-      white-space: pre;
-    }
   }
 }
 </style>

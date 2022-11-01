@@ -72,8 +72,9 @@
       </div>
       <PieChart
         chartId="recruitmentBreakdown"
-        :chartData="{groupA: 0.5, groupB: 0.2, groupC: 0.3}"
+        :chartData="{'Group A': 0.5, 'Group B': 0.2, 'Group C': 0.3}"
       />
+      <!-- :chartColors="{groupA: '#2B0948', groupB: '#7D3742', groupC: '#CE653B'}" -->
       <div>
         <p>Where are the centers? The previous table and chart give us an understanding of recruitment, but where are the centers located? In the following map you can explore where the sites are located and see which sites are atively recruiting.</p>
       </div>
