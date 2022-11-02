@@ -34,6 +34,9 @@ export default {
     yMax: {
       type: Number
     },
+    yTickValues: {
+      type: Array
+    },
     xAxisLabel: String,
     yAxisLabel: String,
     chartData: {
@@ -130,8 +133,13 @@ export default {
         .range([heightMarginAdjusted, 0])
         .nice()
       
+      let chartLeftAxis = d3.axisLeft(yAxis)
+      if (this.yTickValues) {
+        chartLeftAxis = chartLeftAxis.tickValues(this.yTickValues)
+      }
+        
       chartArea.append('g')
-        .call(d3.axisLeft(yAxis))
+        .call(chartLeftAxis)
         .selectAll('text')
         .style('font-size', '11pt')
 
@@ -159,7 +167,6 @@ export default {
           .attr('height', row => heightMarginAdjusted - yAxis(row[this.yvar]))
       }
       
-        
       chartArea.selectAll('column-labels')
         .data(this.chartData)
         .enter()

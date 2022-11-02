@@ -61,11 +61,12 @@
           :chartData="selectedCenter"
           xvar="group"
           yvar="total"
+          :yMax="300"
+          :yTickValues="[0, 50, 100,150, 200, 250, 300]"
           :chartWidth="575"
           :chartHeight="350"
           :columnPaddingInner="0.5"
           :columnPaddingOuter="0.5"
-          :yMax="300"
           :xAxisLabel="`${selectedCenter[0].name} by Group`"
           yAxisLabel="Total Subjects Recruited"
         />
@@ -74,7 +75,6 @@
         chartId="recruitmentBreakdown"
         :chartData="{'Group A': 0.5, 'Group B': 0.2, 'Group C': 0.3}"
       />
-      <!-- :chartColors="{groupA: '#2B0948', groupB: '#7D3742', groupC: '#CE653B'}" -->
       <div>
         <p>Where are the centers? The previous table and chart give us an understanding of recruitment, but where are the centers located? In the following map you can explore where the sites are located and see which sites are atively recruiting.</p>
       </div>

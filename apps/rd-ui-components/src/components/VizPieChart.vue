@@ -65,6 +65,20 @@ export default {
     }
   },
   methods: {
+    setLabelPosition (value) {
+      const position = this.labelArcGenerator.centroid(value)
+        const angle = value.startAngle + (value.endAngle - value.startAngle) / 2
+        position[0] = this.radius * 0.99 * (angle < Math.PI ? 1 : -1)
+        return position
+    },
+    setTextAnchor (value) {
+      const angle = value.startAngle + (value.endAngle - value.startAngle) / 2
+      return angle < Math.PI ? 'start' : 'end'
+    },
+    setOffsetX (value) {
+      const angle = value.startAngle + (value.endAngle - value.startAngle) / 2
+      return angle < Math.PI ? '-1em' : '1em'
+    },
     renderChart () { 
       const svg = d3.select(`#${this.chartId}`)
       svg.selectAll('*').remove()
@@ -77,22 +91,22 @@ export default {
         .attr('class', 'pie-chart-content')
         .attr('transform', `translate(${this.chartWidth / 2}, ${this.chartHeight / 2})`)
         
-      const radius = Math.min(this.chartWidth, this.chartHeight) / 2 - this.chartMargins
+      this.radius = Math.min(this.chartWidth, this.chartHeight) / 2 - this.chartMargins
       const pie = d3.pie().sort(null).value(value => value[1])
       const pieChartData = pie(Object.entries(this.chartData))
       
-      const arcGenerator = d3.arc()
+      this.arcGenerator = d3.arc()
         .innerRadius(0)
-        .outerRadius(radius * 0.7)
+        .outerRadius(this.radius * 0.7)
         
-      const labelArcGenerator = d3.arc()
-        .innerRadius(radius * 0.8)
-        .outerRadius(radius * 0.8)
+      this.labelArcGenerator = d3.arc()
+        .innerRadius(this.radius * 0.8)
+        .outerRadius(this.radius * 0.8)
 
       const slices = dataLayer.selectAll('slices')
         .data(pieChartData)
         .join('path')
-        .attr('d', arcGenerator)
+        .attr('d', this.arcGenerator)
         .attr('class', 'slices')
         .attr('data-group', value => value.data[0])
         .attr('fill', value => this.colors[value.data[0]])
@@ -109,11 +123,11 @@ export default {
         .attr('fill', 'none')
         .attr('stroke-width', '1px')
         .attr('points', value => {
-          const centroid = arcGenerator.centroid(value)
-          const outerCircleCentroid = labelArcGenerator.centroid(value)
-          const labelPosition = labelArcGenerator.centroid(value)
+          const centroid = this.arcGenerator.centroid(value)
+          const outerCircleCentroid = this.labelArcGenerator.centroid(value)
+          const labelPosition = this.labelArcGenerator.centroid(value)
           const angle = value.startAngle + (value.endAngle - value.startAngle) / 2
-          labelPosition[0] = radius * 0.95 * (angle < Math.PI ? 1 : -1)
+          labelPosition[0] = this.radius * 0.95 * (angle < Math.PI ? 1 : -1)
           return [centroid, outerCircleCentroid, labelPosition]
         })
 
@@ -122,27 +136,21 @@ export default {
         .join('text')
         .attr('class', 'slice-labels')
         .attr('data-group', value => value.data[0])
-        .attr('transform', value => {
-          const position = labelArcGenerator.centroid(value)
-          const angle = value.startAngle + (value.endAngle - value.startAngle) / 2
-          position[0] = radius * 0.99 * (angle < Math.PI ? 1 : -1)
-          return `translate(${position})`
-        })
-        .style('text-anchor', value => {
-          const angle = value.startAngle + (value.endAngle - value.startAngle) / 2
-          return angle < Math.PI ? 'start' : 'end'
-        })
+        .attr('x', value => this.setLabelPosition(value)[0])
+        .attr('y', value => this.setLabelPosition(value)[1])
+        .style('text-anchor', this.setTextAnchor)
         .style('font-size', '11pt')
-      
+
       labels.append('tspan')
         .attr('class', 'data-label')
+        .attr('x', value => this.setLabelPosition(value)[0])
         .attr('data-group', value => value.data[0])
         .text(value => value.data[0])
         
       labels.append('tspan')
-        .attr('dx', '-3.7em')
-        .attr('dy', '1.5em')
         .attr('class', 'data-value')
+        .attr('x', value => this.setLabelPosition(value)[0])
+        .attr('dy', '1.1em')
         .attr('data-group', value => value.data[0])
         .text(value => `${value.data[1]}%`)
         
