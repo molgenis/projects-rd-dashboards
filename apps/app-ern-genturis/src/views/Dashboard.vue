@@ -14,7 +14,7 @@
         />
       </div>
       <div id="viz-geo-mercator" class="dashboard-box dashboard-viz" aria-labelledBy="viz-map-title">
-        <h2 id="viz-map-title" class="chart-title">Status of data by Healthcare Provider</h2>
+        <h2 id="viz-map-title" class="chart-title">Status of data by healthcare provider</h2>
         <GeoMercator
           chartId="ern-institutions"
           :chartData="institutionGeoData"
@@ -25,45 +25,54 @@
           groupingVariable="hasSubmittedData"
           :groupColorMappings="{'true': '#E9724C', 'false': '#F0F0F0'}"
           :chartWidth="350"
-          :chartHeight="250"
+          :chartHeight="210"
           :chartSize="114"
-          :mapCenter="{latitude: 6, longitude: 52.5}"
+          :mapCenter="{latitude: 0, longitude: 51}"
           :legendLabels="['Data Submitted', 'No Data']"
           :legendColors="['#E9724C', '#f0f0f0']"
+          :tooltipTemplate="(row) => {
+            return `
+              <p class='title'>${row.projectName}</p>
+              <p class='location'>${row.city}, ${row.country}</p>
+            `
+          }"
           />
       </div>
       <div id="viz-pie-chart" class="dashboard-viz" aria-labelledby="sex-at-birth-title">
-        <h2 id="sex-at-birth-title" class="chart-title centered">Sex at Birth</h2>
+        <h2 id="sex-at-birth-title" class="chart-title centered">Sex at birth</h2>
         <PieChart
           chartId="sex-at-birth-chart"
-          :chartData="sexAtBirth.data"
-          :chartHeight="200"
+          :chartData="sexAtBirth"
+          :chartHeight="190"
           :chartWidth="400"
           :chartMargins="5"
         />
       </div>
       <div id="viz-column-chart" class="dashboard-viz">
-        <h2 id="age-at-inclusion-title" class="chart-title">Age of Patients at Time of Inclusion</h2>
+        <h2 id="age-at-inclusion-title" class="chart-title">Age of patients at time of inclusion</h2>
         <ColumnChart
           chartId="age-at-inclusion-chart"
-          :chartData="ageAtInclusion.data"
+          :chartData="ageAtInclusion"
           xvar="label"
           yvar="value"
+          :yMax="50"
+          :yTickValues="[0, 10, 20, 30, 40, 50]"
           xAxisLabel="Age Groups"
           yAxisLabel="Number of Patients"
-          :chartHeight="200"
+          :chartHeight="190"
           :chartWidth="650"
           :chartMargins="{top: 10, right: 0, bottom: 60, left: 60}"
+          :columnPaddingInner="0.1"
         />
       </div>
       <div id="viz-data-table" class="dashboard-viz">
         <h2 id="patient-enrollment-summary-title" class="chart-title">
-          Summary of Patients Enrolled by Thematic Disease Group
+          Summary of patients enrolled by thematic disease group (n={{ diseaseGroupEnrollmentTotal }})
         </h2>
         <DataTable
           tableId="disease-group-enrollment-table"
           class="ern-table-dataset"
-          :data="diseaseGroupEnrollment.data"
+          :data="diseaseGroupEnrollment"
           :columnOrder='["Thematic Disease Groups", "Number of Patients"]'
         />
       </div>
@@ -104,22 +113,12 @@ export default {
       loading: true,
       loadingError: null,
       institutionGeoData: [],
-      patientEnrollment: null,
-      countryEnrollment: null,
-      providersEnrollment: null,
       enrollmentHighlights: {},
-      sexAtBirth: {
-        title: null,
-        data: {}
-      },
-      ageAtInclusion: {
-        title: null,
-        data: []
-      },
-      patientsRegistry: {
-        title: null,
-        data: []
-      },
+      diseaseGroupEnrollment: [],
+      diseaseGroupEnrollmentTotal: null,
+      sexAtBirth: [],
+      ageAtInclusion: [],
+      patientsRegistry: [],
       geojson: geojson
     }
   },
@@ -133,18 +132,11 @@ export default {
       data.forEach(row => { newDataObject[row[key]] = row[value] })
       return newDataObject
     },
-    extractData (data) {
-      const datasetName = data[0].title
-      return {
-        title: datasetName,
-        data: data
-      }
-    },
     renameKey (data, oldKey, newKey) {
       data.forEach(row => delete Object.assign(row, { [newKey]: row[oldKey] })[oldKey])
     },
-    subsetData (data, value) {
-      return data.filter(row => row.component === value)
+    subsetData (data, column, value) {
+      return data.filter(row => row[column] === value)
     },
     sortData (data, column) {
       return data.sort((current, next) => {
@@ -163,28 +155,26 @@ export default {
         ...row, hasSubmittedData: row.hasSubmittedData ? row.hasSubmittedData : 'false'
       }))
 
-      const patientEnrollment = this.subsetData(data, 'table-enrollment-patients')[0]
-      const countryEnrollment = this.subsetData(data, 'table-enrollment-country')[0]
-      const providersEnrollment = this.subsetData(data, 'table-enrollment-providers')[0]
-      const diseaseGroupEnrollmentData = this.subsetData(data, 'table-enrollment-disease-group')
-      const sexAtBirthData = this.subsetData(data, 'pie-sex-at-birth')
-      const ageAtInclusionData = this.subsetData(data, 'barchart-age')
+      const patientEnrollment = this.subsetData(data, 'component', 'table-enrollment-patients')[0]
+      const countryEnrollment = this.subsetData(data, 'component', 'table-enrollment-country')[0]
+      const providersEnrollment = this.subsetData(data, 'component', 'table-enrollment-providers')[0]
+      const diseaseGroupEnrollmentData = this.subsetData(data, 'component', 'table-enrollment-disease-group')
+      const sexAtBirthData = this.subsetData(data, 'component', 'pie-sex-at-birth')
+      const ageAtInclusionData = this.subsetData(data, 'component', 'barchart-age')
       
       this.enrollmentHighlights = {
         values: [patientEnrollment.value, countryEnrollment.value, providersEnrollment.value],
         labels: ['Patients', 'Countries', 'Providers']
       }
 
-      this.diseaseGroupEnrollment = this.extractData(diseaseGroupEnrollmentData)
-      this.diseaseGroupEnrollment.data = this.sortData(this.diseaseGroupEnrollment.data, 'valueOrder')
-      this.renameKey(this.diseaseGroupEnrollment.data, 'label', 'Thematic Disease Groups')
-      this.renameKey(this.diseaseGroupEnrollment.data, 'value', 'Number of Patients')
+      this.diseaseGroupEnrollmentTotal = this.subsetData(data, 'component', 'table-enrollment-disease-group-total')[0].value
+      this.diseaseGroupEnrollment = this.sortData(diseaseGroupEnrollmentData, 'valueOrder')
+      this.renameKey(this.diseaseGroupEnrollment, 'label', 'Thematic Disease Groups')
+      this.renameKey(this.diseaseGroupEnrollment, 'value', 'Number of Patients')
 
-      this.sexAtBirth.title = sexAtBirthData[0].title
-      this.sexAtBirth.data = this.asDataObject(sexAtBirthData, 'label', 'value')
+      this.sexAtBirth = this.asDataObject(sexAtBirthData, 'label', 'value')
+      this.ageAtInclusion = this.sortData(ageAtInclusionData, 'valueOrder')
 
-      this.ageAtInclusion = this.extractData(ageAtInclusionData)
-      this.ageAtInclusion.data = this.sortData(this.ageAtInclusion.data, 'valueOrder')
     }).then(() => {
       this.loading = false
     }).catch(error => {
@@ -198,13 +188,13 @@ export default {
 <style lang="scss">
 #page-dashboard {
   background-color: $gray-050;
-  font-size: 10pt;
 }
 
 .dashboard-container {
+  font-size: 10pt;
   display: grid;
   box-sizing: border-box;
-  padding: 0.8em;
+  padding: 1em;
   gap: 1em;
   margin: 0 auto;
   grid-template-columns: 0.8fr 1.2fr;
@@ -285,101 +275,14 @@ export default {
   }
 }
 
-// .chart-title {
-//   font-size: 14pt;
-//   font-weight: bold;
-//   line-height: 1.4;
-//   letter-spacing: 0.03em;
-//   color: $gray-900;
-//   margin: 12px 0;
-  
-//   &.centered {
-//     text-align: center;
-//   }
-// }
+#viz-geo-mercator {
+  .d3-viz-legend {
+    padding: 6px 8px;
+  }
+}
 
-// .ern-table-summary {
-//   table {
-//     caption {
-//       box-sizing: border-box;
-//       padding: 6px 12px;
-//       color: #355cb8;
-//       background-color: hsl(222, 55%, 94%);
-//       font-size: 11pt;
-//       border-radius: 2px;
-//       margin: 0;
-//     }
-//     tbody {
-//       background-color: #f6f6f6;
-//     }
-//   }
-// }
+#ern-institutions-tooltip {
+  font-family: $font-family;
+}
 
-// .ern-table-dataset {
-//   table {
-//     tbody {
-//       tr:last-child {
-//         td {
-//           border-top: 1px solid #252525;
-//           font-weight: bold;
-//         }
-//       }
-//     }
-//   }
-// }
-
-// #ern-dashboard {
-//   background-color: #f6f6f6;
-//   display: grid;
-//   grid-template-columns: 1fr 1fr;
-//   grid-template-areas:
-//     "highlights highlights"
-//     "map piechart"
-//     "map barchart"
-//     "table table";
-
-//   $gap: 1.6em;
-//   column-gap: $gap;
-//   row-gap: $gap;
-  
-//   @media screen and (max-width: 824px) {
-//     grid-template-columns: 1fr;
-//     grid-template-areas:
-//       "highlights"
-//       "map"
-//       "piechart"
-//       "barchart"
-//       "table";
-//   }
-// }
-
-// #ern-data-highlights {
-//   grid-area: highlights;
-// }
-
-// #viz-map {
-//   grid-area: map;
-// }
-
-// #viz-pie-chart {
-//   grid-area: piechart;
-// }
-
-// #viz-age-bar-chart {
-//   grid-area: barchart;
-// }
-
-// #viz-table-disease-enrollment {
-//   grid-area: table;
-// }
-
-// #disease-group-enrollment-table {
-//   thead {
-//     tr {
-//       th[data-column-index="1"] {
-//         text-align: right;
-//       }
-//     }
-//   }
-// }
 </style>

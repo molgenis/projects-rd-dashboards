@@ -1,14 +1,17 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import zipPack from 'vite-plugin-zip-pack'
+import generateFile from 'vite-plugin-generate-file'
 
+import pkgjson from './package.json'
 import newDevProxy from '../dev-proxy.config.js'
 const devProxyConfig = newDevProxy('https://genturis-acc.molgeniscloud.org/')
 
 const shared = {
-  plugins: [
-    vue(),
-  ],
+  define: {
+    appversion: JSON.stringify(pkgjson.version)
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
@@ -20,6 +23,7 @@ const shared = {
         additionalData: `
         @import "../../rd-ui-components/src/styles/palettes.scss";
         @import "../../rd-ui-components/src/styles/variables.scss";
+        @import "./src/styles/variables.scss";
         @import "./src/styles/mixins.scss";
         `
       }
@@ -32,9 +36,9 @@ const shared = {
 export default defineConfig(({ command }) => {
   if (command === 'serve') {
     return {
+      plugins: [vue()],
       base: "",
       server: {
-        // open: './apptemplate/index.serve.html',
         port: 8080,
         proxy: devProxyConfig
       },
@@ -42,6 +46,25 @@ export default defineConfig(({ command }) => {
     }
   } else {
     return {
+      plugins: [
+        vue(),
+        generateFile([{
+          type: 'json',
+          output: 'config.json',
+          data: {
+            name: pkgjson.name,
+            label: pkgjson.name,
+            description: pkgjson.description,
+            version: pkgjson.version,
+            apiDependency: 'v2',
+            includeMenuAndFooter: true,
+            runtimeOptions: {}
+          }
+        }]),
+        zipPack({
+          outFileName: `${pkgjson.name}.v${pkgjson.version}.zip`
+        })
+      ],
       ...shared
     }
   }

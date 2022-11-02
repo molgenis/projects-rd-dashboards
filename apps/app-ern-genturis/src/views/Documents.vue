@@ -1,11 +1,12 @@
 <template>
   <Page id="page-documents">
     <PageHeader
-      id="genturis-documents"
-      title="ERN Genturis"
-      subtitle="Import Documents and relevant information"
-      :imageSrc="HeaderBackgroundImage"
+      id="genturis-header"
+      title="ERN Genturis Registry"
+      subtitle="Registry for Genetic Tumour Risk Syndromes"
+      :imageSrc="GenturisHeaderPhoto"
       height="medium"
+      :verticalPadding="2"
     />
     <PageSection id="genturis-section-documents" aria-labelledby="genturis-section-documents-title">
       <h2 id="genturis-section-documents-title">Documents</h2>
@@ -18,7 +19,7 @@
 <script>
 import { Page, PageHeader, PageSection } from 'rd-ui-components'
 import AppFooter from '@/components/AppFooter.vue'
-import HeaderBackgroundImage from '@/assets/images-wesley-tingey-documents.jpg'
+import GenturisHeaderPhoto from '@/assets/genturis-bkg-2.jpg'
 
 export default {
   name: 'page-documents',
@@ -30,7 +31,7 @@ export default {
   },
   data () {
     return {
-      HeaderBackgroundImage: HeaderBackgroundImage
+      GenturisHeaderPhoto: GenturisHeaderPhoto
     }
   }
 }

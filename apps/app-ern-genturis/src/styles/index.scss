@@ -1,11 +1,10 @@
-
 .app-page, .page-footer {
   font-size: 14pt;
-  font-family: Helvetica, sans-serif;
+  font-family: $font-family;
 }
 
 .genturis-logo {
-  width: 325px;
+  width: 175px;
 }
 
 .genturis-logo-crab {
@@ -14,9 +13,11 @@
   width: 100px;
 }
 
+#page-dashboard,
 #page-disclaimer,
 #page-governance,
 #page-documents,
+#page-about-us,
 #page-members-area,
 #page-contact-us {
   .page-section {

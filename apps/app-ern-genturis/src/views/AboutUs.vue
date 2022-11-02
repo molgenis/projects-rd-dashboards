@@ -1,7 +1,15 @@
 <template>
   <Page id="page-about-us">
+    <PageHeader
+      id="genturis-header"
+      title="ERN Genturis Registry"
+      subtitle="Registry for Genetic Tumour Risk Syndromes"
+      :imageSrc="GenturisHeaderPhoto"
+      height="medium"
+      :verticalPadding="2"
+    />
     <PageSection id="genturis-section-about" aria-labelledby="genturis-section-about-title">
-      <h2 id="genturis-section-about-title">About the Genturis Registry</h2>
+      <h2 id="genturis-section-about-title">About the GENTURIS registry</h2>
       <p>The <strong>GENTURIS</strong> registry is a web-based platform that facilitates and accelerates European research to improve diagnostics, treatment and the provision of high-quality healthcare for patients with one of the genetic tumour risk syndromes (genturis).</p>
       <p>The GENTURIS registry is affiliated to the European Reference Network for all patients with one of the genetic tumour risk syndromes (ERN GENTURIS). ERN GENTURIS is a network of many expert centres in over 20 European countries.</p>
       <p>The GENTURIS registry consists of a collection of common data elements for all genturis patients, combined with disease-specific data elements for all thematic disease groups covered by ERN GENTURIS. The FAIR Data Point (FDP), a machine-readable description of the metadata, can be found at:<a href="https://genturis-registry.eu/api/fdp">https://genturis-registry.eu/api/fdp</a>.</p>
@@ -22,7 +30,7 @@
       <p>Access to the GENTURIS registry data is regulated by the GENTURIS registry data access policy.</p>
     </PageSection>
     <PageSection id="genturis-section-committee" aria-labelledby="genturis-section-committee-title">
-      <h2 id="genturis-section-committee-title">The GENTURIS Registry Steering Committee</h2>
+      <h2 id="genturis-section-committee-title">The GENTURIS registry steering committee</h2>
       <p>The GENTURIS registry steering committee is responsible for the daily management of the GENTURIS registry. The GENTURIS registry coordinator chairs the GENTURIS registry steering committee and the coordinator of ERN GENTURIS governs the GENTURIS registry.</p>
       <p>The GENTURIS registry steering committee consists of the following members.</p>
       <ul>
@@ -45,18 +53,21 @@
 </template>
 
 <script>
-import { Page, PageSection } from 'rd-ui-components'
+import { Page, PageHeader, PageSection } from 'rd-ui-components'
 import AppFooter from '@/components/AppFooter.vue'
+import GenturisHeaderPhoto from '@/assets/genturis-bkg-2.jpg'
 import GenturisDiseaseGroups from '@/assets/genturis-disease-groups.png'
 
 export default {
   components: {
     Page,
+    PageHeader,
     PageSection,
     AppFooter
   },
   data () {
     return {
+      GenturisHeaderPhoto: GenturisHeaderPhoto,
       GenturisDiseaseGroups: GenturisDiseaseGroups
     }
   }

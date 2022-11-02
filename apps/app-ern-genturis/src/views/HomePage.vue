@@ -14,9 +14,7 @@
         class="genturis-logo-crab"
         alt="genturis registry"
       />
-      <h2 id="genturis-section-welcome-title">
-        Welcome to the GENTURIS registry
-      </h2>
+      <h2 id="genturis-section-welcome-title">Welcome to the GENTURIS registry</h2>
       <p>The <strong>GENTURIS</strong> registry is the European registry for patients with one of the genetic tumour risk syndromes (genturis). The registry is affiliated to the European Reference Network for all patients with one of the genetic tumour risk syndromes (ERN GENTURIS).</p>
     </PageSection>
     <PageSection aria-labelledby="quicklinks-card-title" width="full" :verticalPadding="0" :horizontalPadding="0">
@@ -31,10 +29,13 @@
         <LinkCard id="quicklink-dashboard" :imageSrc="BkgPhotoDashboard">
           <router-link :to="{ name: 'dashboard' }">Dashboard</router-link>
         </LinkCard>
+        <LinkCard id="quicklink-signin">
+          <a href="/login">Sign in</a>
+        </LinkCard>
       </div>
     </PageSection>
     <PageSection id="genturis-section-aims" aria-labelledby="genturis-section-aims-title" :verticalPadding="2">
-      <h2 id="genturis-section-aims-title">Aims of the GENTURIS Registry</h2>
+      <h2 id="genturis-section-aims-title">Aims of the GENTURIS registry</h2>
       <p>The aim of the GENTURIS registry is to enable research that will provide insights into the natural disease history and care pathway by gathering data from a large number of genturis patients and providing regulated data access following a data access policy.</p>
       <p>The registry enables a new wave of research opportunities from translational to epidemiological studies to clinical trials, and will accelerate the generation of new knowledge on genetic tumour risk syndromes. Research to improve recognition, detection, counselling and treatment of patients and to reduce variation in clinical outcomes across patients.</p>
       <ul>
@@ -129,20 +130,28 @@ export default {
 }
 
 #quicklinks-about {
-  background-color: $blue-900;
+  background-color: $blue-600;
 }
 
 #quicklink-documents {
   .card-background-filter {
-    background-color: $blue-green-900;
+    background-color: $blue-green-800;
     opacity: 0.80;
   }
 }
 
 #quicklink-dashboard {
   .card-background-filter {
-    background-color: $blue-800;
+    background-color: $blue-700;
     opacity: 0.65;
   }
 }
+
+#quicklink-signin {
+  background-color: $blue-green-300;
+  a {
+    color: $gray-700;
+  }
+}
+
 </style>

@@ -3,16 +3,16 @@
     <div class="footer-container width-full">
       <div class="footer-content width-medium">
         <div class="footer-column footer-links">
-          <p><strong>About Us</strong></p>
+          <p><strong>Genturis registry</strong></p>
           <UnorderedList listType="none">
-            <li><router-link :to="{name: 'about-us'}">About</router-link></li>
-            <li><router-link :to="{ name: 'contact-us' }">Contact Us</router-link></li>
-            <li><router-link :to="{ name: 'dashboard' }">Dashboard</router-link></li>
-            <li><router-link :to="{ name: 'governance' }">Governance</router-link></li>
+            <li><router-link :to="{name: 'about-us'}">About Us</router-link></li>
+            <li><router-link :to="{name: 'contact-us'}">Contact Us</router-link></li>
+            <li><router-link :to="{name: 'dashboard'}">Dashboard</router-link></li>
+            <li><router-link :to="{name: 'governance'}">Governance</router-link></li>
           </UnorderedList>
         </div>
         <div class="footer-column footer-links">
-          <p><strong>Information</strong></p>
+          <p><strong>For providers</strong></p>
           <UnorderedList listType="none">
             <li><a href="/login">Sign in</a></li>
             <li><router-link :to="{ name: 'documents' }">Documents</router-link></li>
@@ -21,7 +21,7 @@
         </div>
         <div class="footer-column footer-logos">
           <UnorderedList listType="none">
-            <li>
+            <li id="genturis-logo-link">
               <a href="https://www.genturis.eu/">
                 <span class="visually-hidden">visit the ERN Genturis website for more information</span>
                 <img :src="GenturisLogo" class="genturis-logo" altalt="European Reference Network on genetic tumour risk syndromes"/>
@@ -48,7 +48,7 @@
 
 <script>
 import { PageFooter, PageFooterMeta, UnorderedList } from 'rd-ui-components'
-import GenturisLogo from '@/assets/genturis-logo.jpg'
+import GenturisLogo from '@/assets/genturis-registry-logo.png'
 import MolgenisLogo from '@/assets/molgenis-logo-blue-white.png'
 
 export default {
@@ -123,4 +123,12 @@ export default {
     background-color: $gray-050;
   }
 }
+
+#genturis-logo-link {
+  display: flex;
+  align-items: center;
+  background-color: $gray-000;
+  height: 70px;
+}
+
 </style>
