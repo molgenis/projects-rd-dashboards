@@ -1,0 +1,8 @@
+{
+  "name": "shared",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "zip-dir": "^2.0.0"
+  }
+}
