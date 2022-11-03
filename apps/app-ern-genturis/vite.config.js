@@ -1,12 +1,21 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import zipPack from 'vite-plugin-zip-pack'
+import { createHtmlPlugin } from 'vite-plugin-html'
+import banner from 'vite-plugin-banner'
 import generateFile from 'vite-plugin-generate-file'
 
 import pkgjson from './package.json'
 import newDevProxy from '../dev-proxy.config.js'
 const devProxyConfig = newDevProxy('https://genturis-acc.molgeniscloud.org/')
+
+const now = new Date()
+const buildDate = now.toUTCString()
+const bannerText = `
+name: ${pkgjson.name}
+version: ${pkgjson.version}
+build-date: ${buildDate}
+`
 
 const shared = {
   define: {
@@ -31,7 +40,6 @@ const shared = {
   }
 }
 
-
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
   if (command === 'serve') {
@@ -48,6 +56,7 @@ export default defineConfig(({ command }) => {
     return {
       plugins: [
         vue(),
+        banner(bannerText),
         generateFile([{
           type: 'json',
           output: 'config.json',
@@ -60,11 +69,9 @@ export default defineConfig(({ command }) => {
             includeMenuAndFooter: true,
             runtimeOptions: {}
           }
-        }]),
-        zipPack({
-          outFileName: `${pkgjson.name}.v${pkgjson.version}.zip`
-        })
+        }])
       ],
+      base: `/plugin/app/${pkgjson.name}/`,
       ...shared
     }
   }
