@@ -57,13 +57,12 @@
 
 <script>
 import { Page, PageHeader, PageSection, LinkCard } from 'rd-ui-components'
-import AppFooter from '@/components/AppFooter.vue'
-import GenturisAddress from '@/components/Address.vue'
-
-import GenturisLogo from '@/assets/genturis-logo-crab.jpg'
-import GenturisHeaderPhoto from '@/assets/genturis-bkg-2.jpg'
-import BkgPhotoDocument from '@/assets/images-wesley-tingey-documents.jpg'
-import BkgPhotoDashboard from '@/assets/images-markus-winkler-dashboard.jpg'
+import AppFooter from '../components/AppFooter.vue'
+import GenturisAddress from '../components/Address.vue'
+import GenturisLogo from '../assets/genturis-logo-crab.jpg'
+import GenturisHeaderPhoto from '../assets/genturis-bkg-2.jpg'
+import BkgPhotoDocument from '../assets/images-wesley-tingey-documents.jpg'
+import BkgPhotoDashboard from '../assets/images-markus-winkler-dashboard.jpg'
 
 export default {
   components: {

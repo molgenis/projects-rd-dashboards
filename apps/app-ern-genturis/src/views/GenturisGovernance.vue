@@ -1,6 +1,6 @@
 <script setup>
 import { Page, PageHeader, PageSection } from 'rd-ui-components'
-import AppFooter from '@/components/AppFooter.vue'
+import AppFooter from '../components/AppFooter.vue'
 </script>
 
 <template>

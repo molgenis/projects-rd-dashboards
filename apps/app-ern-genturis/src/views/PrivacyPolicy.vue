@@ -1,7 +1,7 @@
 <script setup>
 import { Page, PageSection, PageHeader } from 'rd-ui-components'
-import GenturisAddress from '@/components/Address.vue'
-import AppFooter from '@/components/AppFooter.vue'
+import GenturisAddress from '../components/Address.vue'
+import AppFooter from '../components/AppFooter.vue'
 </script>
 
 <template>

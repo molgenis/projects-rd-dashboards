@@ -10,11 +10,11 @@ import MembersArea from '../views/MembersArea.vue'
 import PrivacyPolicy from '../views/PrivacyPolicy.vue'
 import Dashboard from '../views/Dashboard.vue'
 
-// const initialState = window.__INITIAL_STATE__ || {}
-// history: createWebHistory(initialState.baseUrl),
+const initialState = window.__INITIAL_STATE__ || {}
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  // history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(initialState.baseUrl),
   routes: [
     {
       path: '/',

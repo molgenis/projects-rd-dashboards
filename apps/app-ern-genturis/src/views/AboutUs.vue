@@ -54,9 +54,9 @@
 
 <script>
 import { Page, PageHeader, PageSection } from 'rd-ui-components'
-import AppFooter from '@/components/AppFooter.vue'
-import GenturisHeaderPhoto from '@/assets/genturis-bkg-2.jpg'
-import GenturisDiseaseGroups from '@/assets/genturis-disease-groups.png'
+import AppFooter from '../components/AppFooter.vue'
+import GenturisHeaderPhoto from '../assets/genturis-bkg-2.jpg'
+import GenturisDiseaseGroups from '../assets/genturis-disease-groups.png'
 
 export default {
   components: {
