@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { Page, PageHeader, PageSection } from 'rd-ui-components'
+import { Page, PageHeader, PageSection } from 'rd-components'
 import AppFooter from '@/components/AppFooter.vue'
 import GenturisHeaderPhoto from '@/assets/genturis-carousel.jpg'
 

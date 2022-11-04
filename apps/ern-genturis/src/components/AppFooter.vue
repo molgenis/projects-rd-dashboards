@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { PageFooter, PageFooterMeta, UnorderedList } from 'rd-ui-components'
+import { PageFooter, PageFooterMeta, UnorderedList } from 'rd-components'
 import GenturisLogo from '@/assets/genturis-registry-logo.png'
 import MolgenisLogo from '@/assets/molgenis-logo-blue-white.png'
 

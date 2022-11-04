@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { Page, PageHeader, PageSection, LinkCard } from 'rd-ui-components'
+import { Page, PageHeader, PageSection, LinkCard } from 'rd-components'
 import AppFooter from '@/components/AppFooter.vue'
 import GenturisAddress from '@/components/Address.vue'
 import GenturisLogo from '@/assets/genturis-logo-crab.svg'

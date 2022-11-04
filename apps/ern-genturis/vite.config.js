@@ -30,8 +30,8 @@ const shared = {
     preprocessorOptions: {
       scss: {
         additionalData: `
-        @import "../../rd-ui-components/src/styles/palettes.scss";
-        @import "../../rd-ui-components/src/styles/variables.scss";
+        @import "../../rd-components/src/styles/palettes.scss";
+        @import "../../rd-components/src/styles/variables.scss";
         @import "./src/styles/variables.scss";
         @import "./src/styles/mixins.scss";
         `
@@ -58,8 +58,18 @@ export default defineConfig(({ command }) => {
         vue(),
         banner(bannerText),
         createHtmlPlugin({
-          entry: './src/main.js',
-          template: './apptemplate/index.build.html'
+          pages: [
+            {
+              entry: './src/main.js',
+              template: './apptemplate/index.build.html',
+              filename: 'index.html',
+              // inject: {
+              //   data: {
+              //     injectScript: `<script type="module" src="./src/main.js"></script>`
+              //   }
+              // }
+            }
+          ]
         }),
         generateFile([{
           type: 'json',

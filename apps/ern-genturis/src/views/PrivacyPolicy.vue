@@ -34,9 +34,9 @@
 </template>
 
 <script>
-import { Page, PageSection, PageHeader } from 'rd-ui-components'
-import GenturisAddress from '../components/Address.vue'
-import AppFooter from '../components/AppFooter.vue'
+import { Page, PageSection, PageHeader } from 'rd-components'
+import GenturisAddress from '@/components/Address.vue'
+import AppFooter from '@/components/AppFooter.vue'
 
 export default {
   components: { Page, PageSection, PageHeader, GenturisAddress, AppFooter }

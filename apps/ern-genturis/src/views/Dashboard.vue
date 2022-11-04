@@ -91,9 +91,9 @@ import {
   DataValueHighlights,
   GeoMercator,
   PieChart
-} from 'rd-ui-components'
-import AppFooter from '../components/AppFooter.vue'
-import geojson from '../assets/world.geo.json'
+} from 'rd-components'
+import AppFooter from '@/components/AppFooter.vue'
+import geojson from '@/assets/world.geo.json'
 
 export default {
   name: 'page-dashboard',

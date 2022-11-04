@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import { Page, PageSection } from 'rd-ui-components'
-import AppFooter from '../components/AppFooter.vue'
+import { Page, PageSection } from 'rd-components'
+import AppFooter from '@/components/AppFooter.vue'
 
 export default {
   components: { Page, PageSection, AppFooter }

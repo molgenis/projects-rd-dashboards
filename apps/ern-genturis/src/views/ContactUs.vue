@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import { Page, PageSection } from 'rd-ui-components'
-import GenturisAddress from '../components/Address.vue'
-import AppFooter from '../components/AppFooter.vue'
+import { Page, PageSection } from 'rd-components'
+import GenturisAddress from '@/components/Address.vue'
+import AppFooter from '@/components/AppFooter.vue'
 
 export default {
   name: 'contact-us',

@@ -3,7 +3,7 @@
   "workspaces": [
     "ern-genturis",
     "solve-rd",
-    "rd-ui-components",
-    "rd-shared-assets"
+    "rd-components",
+    "rd-shared"
   ]
 }
