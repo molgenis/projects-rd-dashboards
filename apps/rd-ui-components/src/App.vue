@@ -101,6 +101,7 @@
     </PageSection>
     <PageSection>
       <h2>Status Messages</h2>
+      <LoadingScreen message="Building something cool..." style="height: 225px;"/>
       <MessageBox type="warning">
         <p>Results also include partial matches. Adjusted filters to remove these records.</p>
       </MessageBox>

@@ -216,6 +216,9 @@ export default {
   },
   updated () {
     this.renderChart()
+  },
+  unmount () {
+    this.removeTooltip()
   }
 }
 </script>

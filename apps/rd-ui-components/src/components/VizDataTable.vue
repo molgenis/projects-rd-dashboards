@@ -70,6 +70,7 @@ export default {
     },
     renderTable () {
       const table = d3.select(`#${this.tableId}`)
+      table.selectAll('*').remove()
       
       const tableHeader = table.append('thead')
         .append('tr')
@@ -136,6 +137,9 @@ export default {
     }
   },
   mounted () {
+    this.renderTable()
+  },
+  updated () {
     this.renderTable()
   }
 }
@@ -251,8 +255,8 @@ export default {
           
           .cell-colname {
             @include revealHiddenContent;
-            @include columnHeader;
-            min-width: 125px;
+            padding: 4px 12px;
+            text-transform: capitalize;
           }
           
           &.value-number {
