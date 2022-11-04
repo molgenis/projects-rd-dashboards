@@ -48,8 +48,8 @@ export default defineConfig(({ command }) => {
       build: {
         lib: {
           entry: path.resolve(__dirname, 'lib/main.js'),
-          name: 'rd-ui-components',
-          fileName: 'rd-ui-components'
+          name: 'rd-components',
+          fileName: 'rd-components'
         },
         rollupOptions: {
           external: 'vue',
@@ -59,7 +59,7 @@ export default defineConfig(({ command }) => {
             },
             assetFileNames: (assetInfo) => {
               if (assetInfo.name === 'style.css') {
-                return 'rd-ui-components.css'
+                return 'rd-components.css'
               }
               return assetInfo.name
             }
