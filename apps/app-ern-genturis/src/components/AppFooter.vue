@@ -22,10 +22,9 @@
         <div class="footer-column footer-logos">
           <UnorderedList listType="none">
             <li id="genturis-logo-link">
-              <a href="https://www.genturis.eu/">
-                <span class="visually-hidden">visit the ERN Genturis website for more information</span>
-                <img :src="GenturisLogo" class="genturis-logo" altalt="European Reference Network on genetic tumour risk syndromes"/>
-              </a>
+              <router-link :to="{ name: 'home' }"> 
+                <img :src="GenturisLogo" class="genturis-logo" altalt="Registry for the European Reference Network on genetic tumour risk syndromes"/>
+              </router-link>
             </li>
             <li>
               <a href="https://www.molgenis.org">
@@ -48,8 +47,8 @@
 
 <script>
 import { PageFooter, PageFooterMeta, UnorderedList } from 'rd-ui-components'
-import GenturisLogo from '../assets/genturis-registry-logo.png'
-import MolgenisLogo from '../assets/molgenis-logo-blue-white.png'
+import GenturisLogo from '@/assets/genturis-registry-logo.png'
+import MolgenisLogo from '@/assets/molgenis-logo-blue-white.png'
 
 export default {
   data () {
@@ -125,10 +124,9 @@ export default {
 }
 
 #genturis-logo-link {
-  display: flex;
-  align-items: center;
   background-color: $gray-000;
-  height: 70px;
+  padding: 0 2px;
+  padding-top: 3px;
 }
 
 </style>

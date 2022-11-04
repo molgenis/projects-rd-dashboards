@@ -1,9 +1,3 @@
-<script setup>
-import { Page, PageSection, PageHeader } from 'rd-ui-components'
-import GenturisAddress from '../components/Address.vue'
-import AppFooter from '../components/AppFooter.vue'
-</script>
-
 <template>
   <Page id="page-privacy-policy">
     <PageHeader title="Genturis Registry" subtitle="Privacy Policy" />
@@ -38,3 +32,13 @@ import AppFooter from '../components/AppFooter.vue'
   </Page>
   <AppFooter />
 </template>
+
+<script>
+import { Page, PageSection, PageHeader } from 'rd-ui-components'
+import GenturisAddress from '../components/Address.vue'
+import AppFooter from '../components/AppFooter.vue'
+
+export default {
+  components: { Page, PageSection, PageHeader, GenturisAddress, AppFooter }
+}
+</script>

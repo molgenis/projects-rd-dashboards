@@ -5,15 +5,13 @@
       title="ERN Genturis Registry"
       subtitle="Registry for Genetic Tumour Risk Syndromes"
       :imageSrc="GenturisHeaderPhoto"
-      height="medium"
-      :verticalPadding="2"
+      height="large"
+      :verticalPadding="1"
+      titlePositionX="center"
+      titlePositionY="middle"
     />
     <PageSection id="genturis-section-welcome" aria-labelledby="genturis-section-welcome-title">
-      <img
-        :src="GenturisLogo"
-        class="genturis-logo-crab"
-        alt="genturis registry"
-      />
+      <img :src="GenturisLogo" class="genturis-logo-crab" alt="genturis registry" />
       <h2 id="genturis-section-welcome-title">Welcome to the GENTURIS registry</h2>
       <p>The <strong>GENTURIS</strong> registry is the European registry for patients with one of the genetic tumour risk syndromes (genturis). The registry is affiliated to the European Reference Network for all patients with one of the genetic tumour risk syndromes (ERN GENTURIS).</p>
     </PageSection>
@@ -57,12 +55,12 @@
 
 <script>
 import { Page, PageHeader, PageSection, LinkCard } from 'rd-ui-components'
-import AppFooter from '../components/AppFooter.vue'
-import GenturisAddress from '../components/Address.vue'
-import GenturisLogo from '../assets/genturis-logo-crab.jpg'
-import GenturisHeaderPhoto from '../assets/genturis-bkg-2.jpg'
-import BkgPhotoDocument from '../assets/images-wesley-tingey-documents.jpg'
-import BkgPhotoDashboard from '../assets/images-markus-winkler-dashboard.jpg'
+import AppFooter from '@/components/AppFooter.vue'
+import GenturisAddress from '@/components/Address.vue'
+import GenturisLogo from '@/assets/genturis-logo-crab.svg'
+import GenturisHeaderPhoto from '@/assets/genturis-carousel.jpg'
+import BkgPhotoDocument from '@/assets/images-wesley-tingey-documents.jpg'
+import BkgPhotoDashboard from '@/assets/images-markus-winkler-dashboard.jpg'
 
 export default {
   components: {
@@ -86,24 +84,6 @@ export default {
 </script>
 
 <style lang="scss">
-#page-home {
-  .page-section {
-    h1, h2 {
-      color: $blue-900;
-    }
-  }
-}
-
-#genturis-header {
-  justify-content: center;
-  align-items: flex-end;
-  
-  .header-content {
-    text-align: center;
-  }
-}
-
-#genturis-section-welcome,
 #genturis-section-contact {
   background-color: $gray-000;
 }
@@ -123,13 +103,13 @@ export default {
   flex-wrap: wrap;
   
   .link-card {
-    height: 10em;
+    height: 9em;
     flex-grow: 1;
   }
 }
 
 #quicklinks-about {
-  background-color: $blue-600;
+  background-color: $blue-700;
 }
 
 #quicklink-documents {

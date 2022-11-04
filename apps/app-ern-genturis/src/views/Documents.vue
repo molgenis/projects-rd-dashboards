@@ -18,8 +18,8 @@
 
 <script>
 import { Page, PageHeader, PageSection } from 'rd-ui-components'
-import AppFooter from '../components/AppFooter.vue'
-import GenturisHeaderPhoto from '../assets/genturis-bkg-2.jpg'
+import AppFooter from '@/components/AppFooter.vue'
+import GenturisHeaderPhoto from '@/assets/genturis-carousel.jpg'
 
 export default {
   name: 'page-documents',

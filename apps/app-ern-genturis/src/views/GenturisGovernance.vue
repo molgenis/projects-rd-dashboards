@@ -1,8 +1,3 @@
-<script setup>
-import { Page, PageHeader, PageSection } from 'rd-ui-components'
-import AppFooter from '../components/AppFooter.vue'
-</script>
-
 <template>
   <Page id="page-governance">
     <PageHeader
@@ -49,3 +44,12 @@ import AppFooter from '../components/AppFooter.vue'
   </Page>
   <AppFooter />
 </template>
+
+<script>
+import { Page, PageHeader, PageSection } from 'rd-ui-components'
+import AppFooter from '../components/AppFooter.vue'
+
+export default {
+  components: { Page, PageHeader, PageSection, AppFooter }
+}
+</script>

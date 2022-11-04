@@ -8,7 +8,7 @@
       height="medium"
       :verticalPadding="2"
     />
-    <PageSection id="genturis-section-about" aria-labelledby="genturis-section-about-title">
+    <PageSection id="genturis-section-about" aria-labelledby="genturis-section-about-title" :verticalPadding="2">
       <h2 id="genturis-section-about-title">About the GENTURIS registry</h2>
       <p>The <strong>GENTURIS</strong> registry is a web-based platform that facilitates and accelerates European research to improve diagnostics, treatment and the provision of high-quality healthcare for patients with one of the genetic tumour risk syndromes (genturis).</p>
       <p>The GENTURIS registry is affiliated to the European Reference Network for all patients with one of the genetic tumour risk syndromes (ERN GENTURIS). ERN GENTURIS is a network of many expert centres in over 20 European countries.</p>
@@ -54,9 +54,9 @@
 
 <script>
 import { Page, PageHeader, PageSection } from 'rd-ui-components'
-import AppFooter from '../components/AppFooter.vue'
-import GenturisHeaderPhoto from '../assets/genturis-bkg-2.jpg'
-import GenturisDiseaseGroups from '../assets/genturis-disease-groups.png'
+import AppFooter from '@/components/AppFooter.vue'
+import GenturisHeaderPhoto from '@/assets/genturis-carousel.jpg'
+import GenturisDiseaseGroups from '@/assets/genturis-disease-groups.png'
 
 export default {
   components: {

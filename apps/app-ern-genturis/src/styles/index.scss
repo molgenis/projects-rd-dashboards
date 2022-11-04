@@ -1,8 +1,3 @@
-.app-page, .page-footer {
-  font-size: 14pt;
-  font-family: $font-family;
-}
-
 .genturis-logo {
   width: 175px;
 }
@@ -10,16 +5,12 @@
 .genturis-logo-crab {
   display: block;
   margin: 0 auto;
-  width: 100px;
+  width: 85px;
 }
 
-#page-dashboard,
-#page-disclaimer,
-#page-governance,
-#page-documents,
-#page-about-us,
-#page-members-area,
-#page-contact-us {
+.app-page {
+  font-size: 14pt;
+  font-family: $font-family;
   .page-section {
     background: $gray-050;
     
@@ -37,10 +28,7 @@
   }
 }
 
-#page-home {
-  .page-section {
-    ul {
-      line-height: 1.5;
-    }
-  }
+.page-footer {
+  font-size: 14pt;
+  font-family: $font-family;
 }
