@@ -1,7 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { createHtmlPlugin } from 'vite-plugin-html'
 import banner from 'vite-plugin-banner'
 import generateFile from 'vite-plugin-generate-file'
 
@@ -57,20 +56,6 @@ export default defineConfig(({ command }) => {
       plugins: [
         vue(),
         banner(bannerText),
-        createHtmlPlugin({
-          pages: [
-            {
-              entry: './src/main.js',
-              template: './apptemplate/index.build.html',
-              filename: 'index.html',
-              // inject: {
-              //   data: {
-              //     injectScript: `<script type="module" src="./src/main.js"></script>`
-              //   }
-              // }
-            }
-          ]
-        }),
         generateFile([{
           type: 'json',
           output: 'config.json',
