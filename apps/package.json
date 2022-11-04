@@ -1,8 +1,9 @@
 {
   "private": true,
   "workspaces": [
-    "app-ern-genturis",
+    "ern-genturis",
     "app-rd3",
-    "rd-ui-components"
+    "rd-ui-components",
+    "rd-shared-assets"
   ]
 }

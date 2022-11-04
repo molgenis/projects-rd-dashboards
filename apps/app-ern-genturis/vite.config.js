@@ -57,6 +57,10 @@ export default defineConfig(({ command }) => {
       plugins: [
         vue(),
         banner(bannerText),
+        createHtmlPlugin({
+          entry: './src/main.js',
+          template: './apptemplate/index.build.html'
+        }),
         generateFile([{
           type: 'json',
           output: 'config.json',

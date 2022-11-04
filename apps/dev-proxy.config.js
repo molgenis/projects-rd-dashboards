@@ -1,5 +1,5 @@
 export default newDevProxy = (host) => {
-  const opts = { changeOrigin: true }
+  const opts = { changeOrigin: true, secure: false }
   const endpoints = [
     '^/login',
     '/api',
