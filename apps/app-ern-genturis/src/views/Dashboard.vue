@@ -73,7 +73,7 @@
           tableId="disease-group-enrollment-table"
           class="ern-table-dataset"
           :data="diseaseGroupEnrollment"
-          :columnOrder='["Thematic Disease Groups", "Number of Patients"]'
+          :columnOrder='["Thematic Disease Group", "Number of Patients"]'
         />
       </div>
     </div>
@@ -169,7 +169,7 @@ export default {
 
       this.diseaseGroupEnrollmentTotal = this.subsetData(data, 'component', 'table-enrollment-disease-group-total')[0].value
       this.diseaseGroupEnrollment = this.sortData(diseaseGroupEnrollmentData, 'valueOrder')
-      this.renameKey(this.diseaseGroupEnrollment, 'label', 'Thematic Disease Groups')
+      this.renameKey(this.diseaseGroupEnrollment, 'label', 'Thematic Disease Group')
       this.renameKey(this.diseaseGroupEnrollment, 'value', 'Number of Patients')
 
       this.sexAtBirth = this.asDataObject(sexAtBirthData, 'label', 'value')
@@ -197,14 +197,29 @@ export default {
   padding: 1em;
   gap: 1em;
   margin: 0 auto;
-  grid-template-columns: 0.8fr 1.2fr;
-  grid-template-areas:
-    "highlights highlights"
-    "map table"
-    "pieChart columnChart";
-    // "map pieChart"
-    // "map columnChart"
-    // "table table";
+  grid-template-columns: 1fr;
+  grid-template-areas: 
+    "highlights"
+    "map"
+    "table"
+    "pieChart"
+    "columnChart";
+    
+  @media screen and (min-width: 962px) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "highlights highlights"
+      "table table"
+      "pieChart columnChart";
+  }
+    
+  @media screen and (min-width: 1182px) {
+    grid-template-columns: 0.8fr 1.2fr;
+    grid-template-areas:
+      "highlights highlights"
+      "map table"
+      "pieChart columnChart";
+  }
     
   @media screen and (min-width: 1524px) {
     max-width: 60vw;
