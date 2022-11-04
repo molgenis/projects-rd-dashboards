@@ -2,7 +2,7 @@
   "private": true,
   "workspaces": [
     "ern-genturis",
-    "app-rd3",
+    "solve-rd",
     "rd-ui-components",
     "rd-shared-assets"
   ]
