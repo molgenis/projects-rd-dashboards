@@ -8,7 +8,7 @@
       height="large"
       :verticalPadding="1"
       titlePositionX="center"
-      titlePositionY="middle"
+      titlePositionY="center"
     />
     <PageSection id="genturis-section-welcome" aria-labelledby="genturis-section-welcome-title">
       <img :src="GenturisLogo" class="genturis-logo-crab" alt="genturis registry" />
