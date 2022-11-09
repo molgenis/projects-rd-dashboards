@@ -2,6 +2,7 @@
   "private": true,
   "workspaces": [
     "ern-genturis",
+    "ern-ithaca",
     "solve-rd",
     "rd-components",
     "rd-shared"
