@@ -15,14 +15,16 @@
   background-color: $gray-050;
   
   .page-section {
+    .page-section-content {
     
-    h2 {
-      color: $blue-800;
-    }
+      h2 {
+        color: $blue-800;
+      }
 
-    ul {
-      li {
-        line-height: 1.5;
+      ul {
+        li {
+          line-height: 1.5;
+        }
       }
     }
   }
