@@ -1,5 +1,5 @@
 <script setup>
-import { Page, PageHeader, PageSection, LinkCard } from 'rd-ui-components'
+import { Page, PageHeader, PageSection, LinkCard } from 'rd-components'
 import SolveRdFooter from '../components/SolveRdFooter.vue';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline'
 </script>
@@ -51,7 +51,7 @@ import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline'
         </div>
         <div class="info-card">
           <p class="card-title">Solve-RD Data Model</p>
-          <p class="card-description">iew the structure and attributes of the RD3 database. (An account is required to access this page.)</p>
+          <p class="card-description">View the structure and attributes of the RD3 database. (An account is required to access this page.)</p>
           <a class="page-action-link" href="https://solve-rd-acc.gcc.rug.nl/menu/main/dataexplorer?entity=sys_md_Attribute&amp;mod=entitiesreport">
             <span>Read</span>
             <ArrowTopRightOnSquareIcon class="heroicon external-link"/>

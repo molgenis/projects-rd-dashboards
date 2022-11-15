@@ -57,7 +57,7 @@ import {
   InputSearch,
   MessageBox,
   ButtonSearch
-} from 'rd-ui-components'
+} from 'rd-components'
 import SolveRdFooter from '../components/SolveRdFooter.vue'
 import TreeView from '../components/TreeView.vue'
 

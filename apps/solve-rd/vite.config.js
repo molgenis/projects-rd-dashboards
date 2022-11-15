@@ -1,13 +1,23 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx'
-import newDevProxy from '../dev-proxy.config.js'
+import banner from 'vite-plugin-banner'
+import generateFile from 'vite-plugin-generate-file'
 
+import pkgjson from './package.json'
+import newDevProxy from '../dev-proxy.config.js'
 const devProxyConfig = newDevProxy('https://solve-rd.gcc.rug.nl/')
 
+const now = new Date()
+const buildDate = now.toUTCString()
+const bannerText = `
+name: ${pkgjson.name}
+version: ${pkgjson.version}
+build-date: ${buildDate}
+`
+
 const shared = {
-  plugins: [vue(), vueJsx()],
+  plugins: [vue()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
@@ -17,9 +27,10 @@ const shared = {
     preprocessorOptions: {
       scss: {
         additionalData: `
-        @import "../../rd-ui-components/src/styles/palettes.scss";
-        @import "../../rd-ui-components/src/styles/variables.scss";
+        @import "../../rd-components/src/styles/palettes.scss";
+        @import "../../rd-components/src/styles/variables.scss";
         @import "./src/styles/mixins.scss";
+        @import "./src/styles/index.scss";
         `
       }
     }
@@ -33,7 +44,6 @@ export default defineConfig(({ command }) => {
     return {
       base: "",
       server: {
-        open: './apptemplate/index.serve.html',
         port: 8080,
         proxy: devProxyConfig
       },
@@ -41,7 +51,41 @@ export default defineConfig(({ command }) => {
     }
   } else {
     return {
-      ...shared
+      plugins: [
+        vue(),
+        banner(bannerText),
+        generateFile([{
+          type: 'json',
+          output: 'config.json',
+          data: {
+            name: pkgjson.name,
+            label: pkgjson.name,
+            description: pkgjson.description,
+            version: pkgjson.version,
+            apiDependency: 'v2',
+            includeMenuAndFooter: true,
+            runtimeOptions: {}
+          }
+        }])
+      ],
+      ...shared,
+      base: `/plugin/app/${pkgjson.name}/`,
+      build: {
+        rollupOptions: {
+          output: {
+            assetFileNames: (assetInfo) => {
+              const extension = assetInfo.name.split('.').pop()
+              if (/png|jpg|svg/.test(extension)) {
+                return `img/[name].[hash][extname]`
+              }
+              return `${extension}/[name].[hash][extname]`
+            },
+            chunkFileNames: 'js/[name].[hash].js',
+            entryFileNames: 'js/[name].[hash].js'
+          }
+        }
+      }
+
     }
   }
 })

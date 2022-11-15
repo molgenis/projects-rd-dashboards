@@ -86,12 +86,10 @@
 </template>
 
 <script>
-import { Page, PageSection, PageHeader, Accordion, MessageBox, LinkCard } from 'rd-ui-components'
+import { Page, PageSection, PageHeader, Accordion, MessageBox, LinkCard } from 'rd-components'
 import SolveRdFooter from '../components/SolveRdFooter.vue'
-
 import rd3ImageDataFlow from '../assets/rd3-data-flow.png'
 import rd3ImageCoreStructure from '../assets/rd3-core-data-structure.png'
-
 import { fetchData as fetchData } from '../utils/utils.js'
 
 export default {
