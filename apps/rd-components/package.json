@@ -29,11 +29,15 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.1.0",
+    "css-loader": "^6.7.1",
     "sass": "^1.55.0",
+    "sass-loader": "^13.1.0",
+    "style-loader": "^3.3.1",
     "vite": "^3.1.0",
     "vite-plugin-banner": "^0.5.0",
     "vite-plugin-generate-file": "^0.0.3",
-    "vite-plugin-zip-pack": "^1.0.4"
+    "vite-plugin-zip-pack": "^1.0.4",
+    "vue-loader": "^16.8.3"
   },
   "browserslist": [
     "> 1%",
