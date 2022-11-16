@@ -7,7 +7,7 @@
     <PageSection id="patient-tree" aria-labelledby="patient-tree-title" :verticalPadding="2">
       <h2 id="patient-tree-title">Patient Tree</h2>
       <p>The <strong>Patient Tree</strong> visualizes the connection between patients, samples, and experiments. Search for records using one or more subject- or family identifiers. To search for more than one identifier, separate values by a comma like so "firstID, secondID,...". At the top level, are patients. Click a patient ID to view all linked samples. Click a sample ID to view all linked experiments.</p>
-      <div class="tree-container">
+      <div class="flex-container">
         <PageForm id="patient-tree-search" title="Search for patients or families" class="aside">
           <PageFormSection>
             <MessageBox type="error" v-if="validation.hasError" :showIcon="false" style="margin-top:0;">
@@ -33,13 +33,24 @@
           <ButtonSearch id="search" @click="getData" />
         </PageForm>
         <div class="main">
-          <MessageBox v-if="request.hasError" type="error">
+          <MessageBox v-if="request.hasError" type="error" style="font-size: 14pt;">
             <p v-html="request.message"></p>
           </MessageBox>
-          <MessageBox v-else-if="!request.hasError && !request.isLoading && !treedata.length">
-            <p>Search for subjects or families to display the patient tree.</p>
+          <MessageBox v-else-if="!request.hasError && !request.isLoading && !treedata.length" style="background-color: #ffffff; font-size: 14pt;margin: 0;">
+            <p>To view the patient tree, search for subjects and families using one or more identifier.</p>
           </MessageBox>
-          <TreeView id="tree" :data="treedata" v-else/>
+          <div v-else>
+            <div class="tree-controls">
+              <button id="expand-all" class="btn btn-text-only" @click="onclick" aria-controls="tree" :aria-expanded="expandAll">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="btn-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" v-if="expandAll" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" v-else />
+                </svg>
+                <span>{{ expandAll ? 'Close all' : 'Expand all' }}</span>
+              </button>
+            </div>
+            <TreeView id="tree" :data="treedata" ref="tree"/>
+          </div>
         </div>
       </div>
     </PageSection>
@@ -97,10 +108,26 @@ export default {
         hasError: false,
         message: null
       },
-      treedata: []
+      treedata: [],
+      expandAll: false
     }
   },
   methods: {
+    collapseAll () {
+      const tree = this.$refs.tree
+      const treeItems = tree.$refs.treeItem
+      treeItems.map(treeitem => {
+        treeitem.isOpen = this.expandAll
+        const subitems = treeitem.$refs.treeItem
+        subitems.map(subtreeitem => {
+          subtreeitem.isOpen = this.expandAll
+        })
+      })
+    },
+    onclick () {
+      this.expandAll = !this.expandAll
+      this.collapseAll()
+    },
     resetError (value) {
       if (value.length) {
         this.validation.hasError = false
@@ -118,6 +145,7 @@ export default {
     },
     getData () {
       const userinput = removeNullObjectKeys(this.filters)
+      this.expandAll = false
       if (Object.keys(userinput).length === 0) {
         this.validation.hasError = true
         this.validation.message = 'All fields are blank. Enter one or more identifier to view the patient tree.'
@@ -161,9 +189,15 @@ export default {
   background-color: $gray-050;
 }
 
-.tree-container {
+.tree-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.flex-container {
   display: grid;
-  grid-template-columns: 1.5fr 2fr;
+  grid-template-columns: 1.3fr 2fr;
   flex-wrap: wrap;
   align-items: flex-start;
   gap: 2em;
@@ -172,14 +206,19 @@ export default {
     font-size: 12pt;
   }
   
-  .aside, .main {
+  .aside {
     background-color: $gray-000;
+    padding: 1.5em;
   }
-  
+
   .main {
     box-sizing: content-box;
-    padding: 1.5em;
-    border-radius: 6px;
+    
+    .tree__container {
+      border-radius: 6px;
+      padding: 1.5em;
+      background-color: $gray-000;
+    }
   }
 }
 </style>

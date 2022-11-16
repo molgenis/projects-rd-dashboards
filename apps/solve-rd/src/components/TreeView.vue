@@ -9,6 +9,7 @@
           :group="JSON.parse(row.json).group"
           :href="JSON.parse(row.json).href"
           :children="JSON.parse(row.json).children"
+          ref="treeItem"
         />
       </li>
     </ul>
@@ -34,9 +35,7 @@ export default {
       required: true
     }
   },
-  components: {
-    TreeViewItem
-  }
+  components: { TreeViewItem }
 }
 </script>
 

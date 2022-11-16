@@ -37,15 +37,19 @@ export default {
 
 <style lang="scss" scoped>
 .tree__item__link {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  padding: 2px;
+  border-radius: 100%;
+  text-align: center; 
+
   .link__label {
-    position: absolute;
-    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
-    clip: rect(1px, 1px, 1px, 1px);
-    overflow: hidden;
-    height: 1px;
-    width: 1px;
-    margin: -1px;
-    white-space: nowrap;
+    @include visuallyHidden;
+  }
+  
+  &:hover, &:focus {
+    background-color: $blue-100;
   }
 }
 </style>

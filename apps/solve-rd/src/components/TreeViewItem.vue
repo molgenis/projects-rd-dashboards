@@ -36,6 +36,7 @@
           :href="child.href"
           :hrefLabel="`go to ${child.group} ${child.name} in the database`"
           :children="child.children"
+          ref="treeItem"
         />
       </li>
     </ul>
@@ -132,7 +133,7 @@ export default {
 
 .tree__item__label {
   letter-spacing: 0.04em;
-  padding: 4px 12px;
+  padding: 4px 6px;
   border-radius: 6px;
   margin-left: 4px;
   color: #252525;
