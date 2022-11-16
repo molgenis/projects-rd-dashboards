@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/HomePage.vue'
 import GetStartedPage from '../views/GetStarted.vue'
 import PatientTreePage from '../views/PatientTree.vue'
+import ViewTablesPage from '../views/ViewTables.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,7 +13,7 @@ const router = createRouter({
       path: '/',
       component: HomePage,
       meta: {
-        title: 'Home'
+        title: 'Solve-RD'
       },
       alias: '/home'
     },
@@ -30,6 +31,14 @@ const router = createRouter({
       component: PatientTreePage,
       meta: {
         title: 'Patient Tree'
+      }
+    },
+    {
+      name: 'view-tables',
+      path: '/view-tables',
+      component: ViewTablesPage,
+      meta: {
+        title: 'View Tables'
       }
     },
     {
