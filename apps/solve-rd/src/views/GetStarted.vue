@@ -9,10 +9,10 @@
       <h2 id="section-navigation-title" class="visually-hidden">Get started with RD3</h2>
       <div class="link-cards-container">
         <LinkCard id="linkViewTables" height="small">
-          <a href="#">View Tables</a>
+          <router-link :to="{name: 'view-tables'}">View Tables</router-link>
         </LinkCard>
         <LinkCard id="linkDiscoveryNexus" height="small">
-          <a href="#">Discovery Nexus</a>
+          <a href="https://rdnexus.molgeniscloud.org/discover/index">Discovery Nexus</a>
         </LinkCard>
         <LinkCard id="linkPatientTree" height="small">
           <router-link :to="{ name: 'patient-tree' }">Patient Tree</router-link>

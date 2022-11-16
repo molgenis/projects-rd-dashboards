@@ -1,9 +1,3 @@
-<script setup>
-import { Page, PageHeader, PageSection, LinkCard } from 'rd-components'
-import SolveRdFooter from '../components/SolveRdFooter.vue';
-import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline'
-</script>
-
 <template>
   <Page>
     <PageHeader
@@ -12,6 +6,7 @@ import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline'
       height="medium"
     />
     <PageSection id="section-intro-title" aria-labelledby="section-intro-title" :verticalPadding="2">
+      <SolveRdIcon />
       <h2 id="section-intro-title">Welcome to RD3</h2>
       <p>The RD3 —or Rare Disease Data about Data— database provides an overview of Solve-RD "asset collections". This includes metadata and files associated with patients and samples, as well as an overview on the analyses that were performed. There are several ways to get started. If you are familiar with the structure of RD3, you can view the all the tables, sign in to the Discovery Nexus tool, or visit the "Get Started" page to learn more about RD3 and how to find data.</p>
     </PageSection>
@@ -19,10 +14,10 @@ import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline'
       <h2 id="section-navigation-title" class="visually-hidden">Get started with RD3</h2>
       <div class="link-cards-container">
         <LinkCard id="linkViewTables" height="small">
-          <a href="#">View Tables</a>
+          <router-link :to="{name: 'view-tables'}">View Tables</router-link>
         </LinkCard>
         <LinkCard id="linkDiscoveryNexus" height="small">
-          <a href="#">Discovery Nexus</a>
+          <a href="https://rdnexus.molgeniscloud.org/discover/index">Discovery Nexus</a>
         </LinkCard>
         <LinkCard id="linkGetStarted" height="small">
           <router-link :to="{ name: 'get-started' }">Get Started</router-link>
@@ -57,16 +52,37 @@ import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline'
             <ArrowTopRightOnSquareIcon class="heroicon external-link"/>
           </a>
         </div>
-      </div>
+      </div> 
     </PageSection>
   </Page>
   <SolveRdFooter />
 </template>
 
+<script>
+import { Page, PageHeader, PageSection, LinkCard } from 'rd-components'
+import SolveRdFooter from '../components/SolveRdFooter.vue';
+import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline'
+import SolveRdIcon from '../components/icons/solve-rd-icon.vue'
+
+export default {
+  name: 'home-page',
+  components: {
+    Page,
+    PageHeader,
+    PageSection,
+    LinkCard,
+    SolveRdFooter,
+    ArrowTopRightOnSquareIcon,
+    SolveRdIcon
+  }
+}
+</script>
+
 <style lang="scss">
 .page-header {
   background-color: $gray-800;
   color: $gray-050;
+  // background-color: $blue-200;
 }
 
 #section-learn-more {

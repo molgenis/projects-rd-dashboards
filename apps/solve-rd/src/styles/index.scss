@@ -28,6 +28,27 @@
   }
 }
 
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  
+  .btn-icon {
+    $size: 18px;
+    width: $size;
+    height: $size;
+  }
+  
+  &.btn-text-only {
+    margin: 4px 0;
+  }
+}
+
 .info-cards {
   display: flex;
   justify-content: flex-start;
@@ -94,6 +115,10 @@
   .page-section-content {
     h3.accordion-heading {
       margin-bottom: 0;
+    }
+    
+    ul {
+      line-height: 1.5;
     }
   }
 }
