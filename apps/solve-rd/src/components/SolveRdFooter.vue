@@ -3,7 +3,7 @@
     <div class="footer-container width-full">
       <div class="footer-content width-medium">
         <div class="footer-column footer-links">
-          <p><strong>Solve-RD</strong></p>
+          <p><strong>RD3</strong></p>
           <UnorderedList listType="none">
             <li><router-link :to="{name: 'get-started'}">Get Started</router-link></li>
             <li>
@@ -12,10 +12,16 @@
                 <ExternalLink class="heroicons external-link" />
               </a>
             </li>
+            <li>
+              <a href="https://solve-rd.eu">
+                <span>solve-rd.eu</span>
+                <ExternalLink class="heroicons external-link" />
+              </a>
+            </li>
           </UnorderedList>
         </div>
         <div class="footer-column footer-links">
-          <p><strong>For members</strong></p>
+          <p><strong>For Members</strong></p>
           <UnorderedList listType="none">
             <li><a href="/login">Sign in</a></li>
             <li>
@@ -26,12 +32,6 @@
             <li>
               <a href="http://docs.gcc.rug.nl/fender/index.html">
                 Sandbox Manual
-              </a>
-            </li>
-            <li>
-              <a href="https://solve-rd.eu">
-                <span>solve-rd.eu</span>
-                <ExternalLink class="heroicons external-link" />
               </a>
             </li>
           </UnorderedList>
@@ -53,7 +53,6 @@
         </div>
       </div>
     </div>
-    <PageFooterMeta />
   </PageFooter>
 </template>
 
@@ -104,7 +103,7 @@ export default {
     flex-grow: 2;
     
     a {
-      @include textTransform;
+      @include linkTextTransform;
       text-decoration: none;
       padding-bottom: 2px;
       border-bottom: 2px solid transparent;
