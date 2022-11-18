@@ -6,12 +6,8 @@
           <p><strong>RD3</strong></p>
           <UnorderedList listType="none">
             <li><router-link :to="{name: 'get-started'}">Get Started</router-link></li>
-            <li>
-              <a href="https://rdnexus.molgeniscloud.org/discover/index">
-                <span>Discovery Nexus</span>
-                <ExternalLink class="heroicons external-link" />
-              </a>
-            </li>
+            <li><router-link :to="{name: 'view-tables'}">View Tables</router-link></li>
+            <li><router-link :to="{name: 'patient-tree'}">Patient Tree</router-link></li>
             <li>
               <a href="https://solve-rd.eu">
                 <span>solve-rd.eu</span>
@@ -32,6 +28,12 @@
             <li>
               <a href="http://docs.gcc.rug.nl/fender/index.html">
                 Sandbox Manual
+              </a>
+            </li>
+            <li>
+              <a href="https://rdnexus.molgeniscloud.org/discover/index">
+                <span>Discovery Nexus</span>
+                <ExternalLink class="heroicons external-link" />
               </a>
             </li>
           </UnorderedList>
