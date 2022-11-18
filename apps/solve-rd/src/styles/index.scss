@@ -3,6 +3,13 @@
   font-family: Helvetica, sans-serif;
 }
 
+
+.app-page {
+  &.page-bkg-light-gray {
+    background-color: $gray-050;
+  }
+}
+
 .page-action-link {
   display: block;
   box-sizing: border-box;
@@ -45,7 +52,19 @@
   }
   
   &.btn-text-only {
-    margin: 4px 0;
+    color: $gray-600;
+    margin-bottom: 6px;
+  }
+  
+  &.btn-secondary {
+    width: 100%;
+    text-align: center;
+    padding: 6px 12px;
+    background-color: transparent;
+    border: 1px solid $gray-500;
+    color: $gray-800;
+    border-radius: 6px;
+    font-size: 13pt;
   }
 }
 

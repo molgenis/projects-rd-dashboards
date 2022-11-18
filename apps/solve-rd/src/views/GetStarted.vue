@@ -5,16 +5,16 @@
       subtitle="Getting Started with RD3"
       height="medium"
     />
-    <PageSection id="section-navigation" aria-labelledby="section-navigation-title" width="full" :horizontalPadding="0" :verticalPadding="0">
-      <h2 id="section-navigation-title" class="visually-hidden">Get started with RD3</h2>
-      <div class="link-cards-container">
-        <LinkCard id="linkViewTables" height="small">
+    <PageSection id="getstarted-quick-links" aria-labelledby="getstarted-quick-links-title">
+      <h2 id="getstarted-quick-links-title">Quick Links</h2>
+      <div class="quick-links-container">
+        <LinkCard>
           <router-link :to="{name: 'view-tables'}">View Tables</router-link>
         </LinkCard>
-        <LinkCard id="linkDiscoveryNexus" height="small">
+        <LinkCard>
           <a href="https://rdnexus.molgeniscloud.org/discover/index">Discovery Nexus</a>
         </LinkCard>
-        <LinkCard id="linkPatientTree" height="small">
+        <LinkCard>
           <router-link :to="{ name: 'patient-tree' }">Patient Tree</router-link>
         </LinkCard>
       </div>
@@ -38,59 +38,20 @@
       <p>There are several options available for finding data in RD3 from using a query interface to interacting with RD3 via the API. Depending on your choice, you may need to additional permissions. If you are experiencing difficulties or have any questions, please contact the Molgenis support desk: <a href="mailto:molgenis-support@umcg.nl">molgenis-support@umcg.nl</a>.</p>
       <ul>
         <li><a href="https://rdnexus.molgeniscloud.org/Discover/Index">Discovery Nexus platform</a>: this tool allows you to build cohorts based on ERN, phenotypic information, diseases, genes and pathways, and more.</li>
-        <li><a href="/menu/main/dataexplorer?entity=rd3_overview&hideselect=true">RD3 Data Overview table</a>: this table combines all subjects and the samples, experiments, and files across all releases.</li>
-        <li><strong>Work in a specific release</strong>: If you know which RD3 release you would like to work with (e.g., Data Freeze 2, Novel Omics Deep-WES, etc.), you can access the tables using the links provided in the next section.</li>
+        <li><a href="/menu/main/dataexplorer?entity=solverd_overview&hideselect=true">RD3 Data Overview table</a>: this table combines all subjects and the samples, experiments, and files across all releases.</li>
+        <li><strong>Work in a specific release</strong>: If you know which RD3 release you would like to work with (e.g., Data Freeze 2, Novel Omics Deep-WES, etc.), you can access the tables using the links provided in the <router-link :to="{ name: 'view-tables'}">View Tables</router-link> page.</li>
         <li><strong>Molgenis API</strong>: If you would rather retrieve data as part of a workflow or from a script, you can do so using the Molgenis API. You can use one of the existing clients (R, Python, JavaScript) or send requests using curl. Additional permissions are required. Please contact the Molgenis support desk to get started: <a href="mailto:molgenis-support@umcg.nl">molgenis-support@umcg.nl</a>.</li>
       </ul>
-    </PageSection>
-    <PageSection id="getstarted-releases" aria-labelledby="getstarted-releases-title" :verticalPadding="2">
-      <h2 id="getstarted-releases-title">Current RD3 Releases</h2>
-      <MessageBox type="error" v-if="hasError">
-        <p v-html="errorMessage"></p>
-      </MessageBox>
-      <div v-else-if="!hasError && !isLoading && releaseData">
-        <p>Since the begining of RD3, there have been <strong>{{ releaseData.length }}</strong> data releases. Click the name of the release below to view all tables available in RD3. Follow the links to view the data.</p>
-        <Accordion v-for="release in releaseData" :key="release.id" :title="release.name" :id="release.id">
-          <ul>
-            <li>
-              <a :href="buildDataExplorerUrl('subjects', release.id)">
-                {{ release.name }} Subjects
-              </a>
-            </li>
-            <li>
-              <a :href="buildDataExplorerUrl('subjectinfo', release.id)">
-                {{ release.name }} Subject Information
-              </a>
-            </li>
-            <li>
-              <a :href="buildDataExplorerUrl('samples', release.id)">
-                {{ release.name }} Samples
-              </a>
-            </li>
-            <li>
-              <a :href="buildDataExplorerUrl('labinfo', release.id)">
-                {{ release.name }} Lab Information
-              </a>
-            </li>
-            <li>
-              <a :href="buildDataExplorerUrl('files', release.id)">
-                {{ release.name }} Files
-              </a>
-            </li>
-          </ul>
-        </Accordion>
-      </div>
     </PageSection>
   </Page>
   <SolveRdFooter />  
 </template>
 
 <script>
-import { Page, PageSection, PageHeader, Accordion, MessageBox, LinkCard } from 'rd-components'
+import { Page, PageSection, PageHeader, LinkCard } from 'rd-components'
 import SolveRdFooter from '../components/SolveRdFooter.vue'
 import rd3ImageDataFlow from '../assets/rd3-data-flow.png'
 import rd3ImageCoreStructure from '../assets/rd3-core-data-structure.png'
-import { fetchData as fetchData } from '../utils/utils.js'
 
 export default {
   name: 'get-started',
@@ -108,44 +69,40 @@ export default {
     Page,
     PageHeader,
     PageSection,
-    Accordion,
-    MessageBox,
     LinkCard,
     SolveRdFooter
-  },
-  methods: {
-    buildDataExplorerUrl(table, q) {
-      return `/menu/subjects/dataexplorer?entity=solverd_${table}&hideselect=true&mod=data&filter=partOfRelease==${q}`
-    },
-    getReleases () {
-      this.isLoading = true
-      this.hasError = false
-      this.errorMessage = null
-
-      Promise.resolve(
-        fetchData('/api/v2/solverd_info_datareleases')
-      ).then(response => {
-        const data = response.items
-        this.releaseData = data.filter(release => !release.id.includes('patch'))
-        this.isLoading = false
-      }).catch(error => {
-        this.hasError = true
-        const err = JSON.parse(error.message)
-        if (Math.round(err.status / 100) === 4 ) {
-          this.errorMessage = 'Unable to retrieve data. Please <a href="/login">Sign in</a> to continue'
-        } else {
-          this.errorMessage = `${err.message} (${err.status})`
-        }
-      })
-    }
-  },
-  mounted () {
-    this.getReleases()
   }
 }
 </script>
 
 <style lang="scss">
+.quick-links-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1em;
+  margin-top: 12px;
+  
+  .link-card {
+    padding: 12px 18px;
+    border-radius: 6px;
+    height: auto;
+    width: auto;
+    background-color: $molgenis-blue-050;
+    border: 1px solid $molgenis-blue-800;
+    
+    .card-content {
+      a {
+        color: $molgenis-blue-800;
+        font-size: 11pt;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
 .image {
   display: block;
   margin: 1em auto;
@@ -164,8 +121,8 @@ export default {
   }
 }
 
-#getstarted-finding-data {
+#getstarted-finding-data,
+#getstarted-quick-links {
   background-color: $gray-050;
 }
-
 </style>

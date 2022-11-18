@@ -34,3 +34,9 @@
   justify-content: flex-start;
   align-items: flex-start;
 }
+
+@mixin  flexStartCenter {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}

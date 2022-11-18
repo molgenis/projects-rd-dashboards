@@ -19,6 +19,7 @@
           <li><a href="/menu/subjects/dataexplorer?entity=solverd_labinfo&hideselect=true">Lab Info</a>: information on how the samples were processed. This includes information about the sequencer and sequencing method. This table is linked with the samples table.</li>
           <li><a href="/menu/subjects/dataexplorer?entity=solverd_files&hideselect=true">Files</a>: location of the files in the sandbox. This table is linked to the subjects, samples, and lab info tables.</li>
         </ul>
+        <p>Alternatively, check out the <a href="/menu/main/dataexplorer?entity=solverd_overview&hideselect=true">RD3 Data Overview table</a>. This custom view combines all subjects and the samples, experiments, and files across all releases.</p>
         <h3>Tables by RD3 release</h3>
         <p>Since the begining of RD3, there have been <strong>{{ releaseData.length }}</strong> data releases. Click the name of the release below to view all tables available in RD3. Follow the links to view the data.</p>
         <Accordion v-for="release in releaseData" :key="release.id" :title="release.name" :id="release.id">
