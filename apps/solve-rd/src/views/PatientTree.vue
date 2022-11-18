@@ -1,5 +1,5 @@
 <template>
-  <Page>
+  <Page id="page-patient-tree" class="page-bkg-light-gray">
     <PageHeader
       title="Solve-RD"
       subtitle="Patient Tree"
@@ -8,7 +8,7 @@
       <h2 id="patient-tree-title">Patient Tree</h2>
       <p>The <strong>Patient Tree</strong> visualizes the connection between patients, samples, and experiments. Search for records using one or more subject- or family identifiers. To search for more than one identifier, separate values by a comma like so "firstID, secondID,...". At the top level, are patients. Click a patient ID to view all linked samples. Click a sample ID to view all linked experiments.</p>
       <div class="flex-container">
-        <PageForm id="patient-tree-search" title="Search for patients or families" class="aside">
+        <PageForm id="patient-tree-search" title="Search for patients or families" class="aside" @submit.prevent>
           <PageFormSection>
             <MessageBox type="error" v-if="validation.hasError" :showIcon="false" style="margin-top:0;">
               <p v-html="validation.message"></p>
@@ -30,7 +30,10 @@
               @search="(value) => updateFamilyID(value)"
             />
           </PageFormSection>
-          <ButtonSearch id="search" @click="getData" />
+          <ButtonSearch id="search" @click="getData" class="btn" />
+          <button id="clear" class="btn btn-secondary" @click="clearForm">
+            <span>Clear</span>
+          </button>
         </PageForm>
         <div class="main">
           <MessageBox v-if="request.hasError" type="error" style="font-size: 14pt;">
@@ -109,10 +112,14 @@ export default {
         message: null
       },
       treedata: [],
-      expandAll: false
+      expandAll: false      
     }
   },
   methods: {
+    clearForm () {
+      this.$refs.formInputSubjectID.value = ''
+      this.$refs.formInputFamilyID.value = ''
+    },
     collapseAll () {
       const tree = this.$refs.tree
       const treeItems = tree.$refs.treeItem
@@ -144,8 +151,12 @@ export default {
       this.resetError(value)
     },
     getData () {
+      if (typeof this.$refs.tree != 'undefined') {
+        this.expandAll = false
+        this.collapseAll()
+      }
+
       const userinput = removeNullObjectKeys(this.filters)
-      this.expandAll = false
       if (Object.keys(userinput).length === 0) {
         this.validation.hasError = true
         this.validation.message = 'All fields are blank. Enter one or more identifier to view the patient tree.'
@@ -175,8 +186,7 @@ export default {
             this.request.message = `${err.message} (${err.status})`
           }
           
-          this.$refs.formInputSubjectID.value = ''
-          this.$refs.formInputFamilyID.value = ''
+          this.clearForm()
         })
       }
     }
@@ -185,6 +195,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 #patient-tree {
   background-color: $gray-050;
 }
@@ -209,6 +220,15 @@ export default {
   .aside {
     background-color: $gray-000;
     padding: 1.5em;
+    
+    @media screen and (min-width: 972px) {
+      position: sticky;
+      top: 1.5em;
+    }
+    
+    .btn {
+      margin-bottom: 12px;
+    }
   }
 
   .main {
