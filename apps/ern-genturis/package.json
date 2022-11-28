@@ -1,7 +1,7 @@
 {
   "name": "ern-genturis",
   "description": "ERN GENTURIS registry vue application",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "scripts": {
     "copy-html:dev": "copyfiles -f ../rd-shared/templates/dev/index.html ./",
     "copy-html:prod": "copyfiles -f ../rd-shared/templates/build/index.html ./",
