@@ -41,12 +41,18 @@
           :mapCenter="{latitude: -32, longitude: 51}"
           groupingVariable="centerType"
           :groupColorMappings="{
-            'Full member': '#E9724C',
-            'Affiliated partner': '#f0f0f0',
-            'Hub': '#2dd777'
+            'Full member': '#F1FAEE',
+            'Affiliated partner': '#FFA69E',
+            'Hub': '#843B62'
           }"
+          :chartScale="1.2"
           :legendLabels="['Full member', 'Affiliated partner', 'Hub']"
-          :legendColors="['#E9724C', '#f0f0f0', '#2dd777']"
+          :legendColors="['#F1FAEE', '#FFA69E', '#843B62']"
+          :mapColors="{
+            land: '#709190',
+            border: '#061428',
+            water: '#061428'
+          }"
           :tooltipTemplate="(row) => {
             return `
             <p class='title'>
@@ -132,6 +138,7 @@ export default {
 .dashboard-container {
   display: grid;
   padding: 2em;
+  padding-top: 1em;
   gap: 1.5em;
   margin: 0 auto;
   grid-template-columns: 1fr;
@@ -169,6 +176,7 @@ export default {
   
   #viz-map {
     grid-area: map;
+    padding: 6px;
   }
 }
 
@@ -188,9 +196,33 @@ export default {
   }
 }
 
-#expert-centers-map-tooltip {
-  font-family: $font-family;
+.d3-table.ern-table {
+  caption {
+    margin-top: 16px;
+  }
+
+  thead {
+    tr {
+      th {
+        color: $gray-800;
+        font-weight: normal;
+      }
+    }
+  }
 }
 
+#expert-centers-map-tooltip {
+  font-family: $font-family;
+  p {
+    font-size: 11pt;
+    line-height: 1.4;
+  }
 
+  .title {
+    font-size: 13pt;
+    a {
+      color: $gray-800;
+    }
+  }
+}
 </style>
