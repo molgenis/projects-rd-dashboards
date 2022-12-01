@@ -6,6 +6,10 @@
           <p><strong>Ithaca registry</strong></p>
           <UnorderedList listType="none">
             <li><router-link :to="{name: 'home'}">Home</router-link></li>
+            <li><router-link :to="{name: 'about-us'}">About Us</router-link></li>
+            <li><router-link :to="{name: 'dashboard'}">Dashboard</router-link></li>
+            <li><router-link :to="{name: 'documents'}">Documents</router-link></li>
+            <li><router-link :to="{name: 'transparency'}">Transparency</router-link></li>
           </UnorderedList>
         </div>
         <div class="footer-column footer-links">
