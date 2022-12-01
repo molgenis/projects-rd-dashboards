@@ -1,6 +1,6 @@
 <template>
   <table :id="tableId" :class="tableClassNames">
-    <caption v-if="caption">{{caption}}</caption>
+    <caption v-if="caption">{{ caption }}</caption>
   </table>
 </template>
 
@@ -70,7 +70,7 @@ export default {
     },
     renderTable () {
       const table = d3.select(`#${this.tableId}`)
-      table.selectAll('*').remove()
+      table.selectAll('*:not(caption)').remove()
       
       const tableHeader = table.append('thead')
         .append('tr')
@@ -184,8 +184,9 @@ export default {
     
   caption {
     caption-side: top;
+    text-align: left;
     font-size: inherit;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     color: $gray-900;
   }
     
