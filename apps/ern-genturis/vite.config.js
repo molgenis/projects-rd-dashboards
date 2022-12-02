@@ -22,7 +22,8 @@ const shared = {
   },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '$shared': fileURLToPath(new URL('../rd-shared/', import.meta.url))
     }
   },
   css: {
