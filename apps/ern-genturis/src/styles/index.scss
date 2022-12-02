@@ -9,7 +9,7 @@
 }
 
 .app-page {
-  font-size: 14pt;
+  font-size: 13pt;
   font-family: $font-family;
   .page-section {
     background: $gray-050;
@@ -17,6 +17,12 @@
     h1, h2 {
       color: $blue-900;
     }
+    
+    h2 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+    }
+    
     ul {
       line-height: 1.5;
     }
