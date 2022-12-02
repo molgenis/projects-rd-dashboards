@@ -66,7 +66,7 @@ export default {
   
   .footer-container {
     color: $gray-050;
-    background-color: $gray-800;
+    background-color: $brand-blue-900;
   }
   
   .footer-content {
@@ -98,8 +98,8 @@ export default {
   
   .page-footer-meta-links {
     box-sizing: padding-box;
-    padding: 0.8em;
-    background-color: $blue-200;
+    padding: 0.2em;
+    background-color: $brand-red-orange;
     
     a {
       @include textTransform;
@@ -117,11 +117,5 @@ export default {
     background-color: $gray-050;
   }
 }
-
-// #ithaca-logo-link {
-//   background-color: $gray-000;
-//   padding: 0 2px;
-//   padding-top: 3px;
-// }
 
 </style>
