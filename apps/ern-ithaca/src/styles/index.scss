@@ -1,5 +1,9 @@
 $font-family: Helvetica, sans-serif;
 
+$brand-blue-900: #071732;
+$brand-blue-600: #124480;
+$brand-red-orange: #b92d1e;
+
 @mixin textTransform ($weight: 400) {
   text-transform: uppercase;
   font-size: 11pt;
@@ -33,4 +37,14 @@ $font-family: Helvetica, sans-serif;
 
 .project-logo {
   width: 175px;
+}
+.message-box.page-warning {
+  .message-text {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    p {
+      margin: 0;
+    }
+  }
 }
