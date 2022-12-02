@@ -48,7 +48,7 @@
 <script>
 import { PageFooter, PageFooterMeta, UnorderedList } from 'rd-components'
 import GenturisLogo from '@/assets/genturis-registry-logo.png'
-import MolgenisLogo from '@/assets/molgenis-logo-blue-white.png'
+import MolgenisLogo from '$shared/images/molgenis-logo-blue-white.png'
 
 export default {
   data () {
