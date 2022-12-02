@@ -8,9 +8,10 @@
       height="medium"
       :verticalPadding="2"
     />
-    <PageSection id="genturis-section-documents" aria-labelledby="genturis-section-documents-title">
+    <PageSection id="genturis-section-documents" aria-labelledby="genturis-section-documents-title" width="large">
       <h2 id="genturis-section-documents-title">Documents</h2>
       <p>Useful documents about the GENTURIS registry will be added in the near future.</p>
+      <p>Download a copy of the <a href="/api/files/aaaac7lmguzil6qwh34c5xyaae?alt=media">GENTURIS Registry Leaflet (PDF, 375KB)</a>.</p>
     </PageSection>
   </Page>
   <AppFooter />

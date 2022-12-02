@@ -1,6 +1,6 @@
 <template>
   <Page id="page-members-area">
-    <PageSection id="genturis-section-members" aria-labelledby="genturis-section-members-title" :verticalPadding="2">
+    <PageSection id="genturis-section-members" aria-labelledby="genturis-section-members-title" :verticalPadding="2" width="large">
       <h2 id="genturis-section-members-title">Health Care Providers</h2>
       <p>This page is under construction.</p>
     </PageSection>

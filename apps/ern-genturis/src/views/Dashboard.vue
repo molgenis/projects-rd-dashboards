@@ -39,8 +39,7 @@
             return `
               <p class='title'>${row.projectName}</p>
               <p class='location'>${row.city}, ${row.country}</p>
-            `
-          }"
+            `}"
           />
       </div>
       <div id="viz-pie-chart" class="dashboard-viz" aria-labelledby="sex-at-birth-title">
@@ -97,8 +96,17 @@ import {
   GeoMercator,
   PieChart
 } from 'rd-components'
+
 import AppFooter from '@/components/AppFooter.vue'
-import geojson from '@/assets/world.geo.json'
+import { 
+  fetchData,
+  sortData,
+  subsetData,
+  renameKey,
+  asDataObject
+} from '$shared/js/utils.js'
+
+import geojson from '$shared/data/world.geo.json'
 
 export default {
   name: 'page-dashboard',
@@ -127,58 +135,40 @@ export default {
       geojson: geojson
     }
   },
-  methods: {
-    async fetchData (url) {
-      const response = await fetch(url)
-      return response.json()
-    },
-    asDataObject (data, key, value) {
-      const newDataObject = {}
-      data.forEach(row => { newDataObject[row[key]] = row[value] })
-      return newDataObject
-    },
-    renameKey (data, oldKey, newKey) {
-      data.forEach(row => delete Object.assign(row, { [newKey]: row[oldKey] })[oldKey])
-    },
-    subsetData (data, column, value) {
-      return data.filter(row => row[column] === value)
-    },
-    sortData (data, column) {
-      return data.sort((current, next) => {
-        return current[column] < next[column] ? -1 : 1
-      })
-    }
-  },
   mounted () {
     Promise.all([
-      this.fetchData('/api/v2/ernstats_stats'),
-      this.fetchData('/api/v2/ernstats_dataproviders')
+      fetchData('/api/v2/ernstats_stats'),
+      fetchData('/api/v2/ernstats_dataproviders')
     ]).then(response => {
       const data = response[0].items
+      
       const mapData = response[1].items
       this.institutionGeoData = mapData.map(row => ({
         ...row, hasSubmittedData: row.hasSubmittedData ? row.hasSubmittedData : 'false'
       }))
 
-      const patientEnrollment = this.subsetData(data, 'component', 'table-enrollment-patients')[0]
-      const countryEnrollment = this.subsetData(data, 'component', 'table-enrollment-country')[0]
-      const providersEnrollment = this.subsetData(data, 'component', 'table-enrollment-providers')[0]
-      const diseaseGroupEnrollmentData = this.subsetData(data, 'component', 'table-enrollment-disease-group')
-      const sexAtBirthData = this.subsetData(data, 'component', 'pie-sex-at-birth')
-      const ageAtInclusionData = this.subsetData(data, 'component', 'barchart-age')
-      
+      const patientEnrollment = subsetData(data, 'component', 'table-enrollment-patients')[0]
+      const countryEnrollment = subsetData(data, 'component', 'table-enrollment-country')[0]
+      const providersEnrollment = subsetData(data, 'component', 'table-enrollment-providers')[0]
       this.enrollmentHighlights = {
         values: [patientEnrollment.value, countryEnrollment.value, providersEnrollment.value],
-        labels: ['Patients', 'Countries', 'Providers']
+        labels: ['Patients', 'Member Countries', 'Healthcare Providers']
       }
 
-      this.diseaseGroupEnrollmentTotal = this.subsetData(data, 'component', 'table-enrollment-disease-group-total')[0].value
-      this.diseaseGroupEnrollment = this.sortData(diseaseGroupEnrollmentData, 'valueOrder')
-      this.renameKey(this.diseaseGroupEnrollment, 'label', 'Thematic Disease Group')
-      this.renameKey(this.diseaseGroupEnrollment, 'value', 'Number of Patients')
+      const sexAtBirthData = subsetData(data, 'component', 'pie-sex-at-birth')
+      this.sexAtBirth = asDataObject(sexAtBirthData, 'label', 'value')
+      
+      const ageAtInclusionData = subsetData(data, 'component', 'barchart-age')
+      this.ageAtInclusion = sortData(ageAtInclusionData, 'valueOrder')
 
-      this.sexAtBirth = this.asDataObject(sexAtBirthData, 'label', 'value')
-      this.ageAtInclusion = this.sortData(ageAtInclusionData, 'valueOrder')
+      const diseaseGroupEnrollmentData = subsetData(data, 'component', 'table-enrollment-disease-group')
+      this.diseaseGroupEnrollment = sortData(diseaseGroupEnrollmentData, 'valueOrder')
+      renameKey(this.diseaseGroupEnrollment, 'label', 'Thematic Disease Group')
+      renameKey(this.diseaseGroupEnrollment, 'value', 'Number of Patients')
+      
+      this.diseaseGroupEnrollmentTotal = subsetData(
+        data, 'component', 'table-enrollment-disease-group-total'
+      )[0].value
 
     }).then(() => {
       this.loading = false
