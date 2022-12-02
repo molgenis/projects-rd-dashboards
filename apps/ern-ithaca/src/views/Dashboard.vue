@@ -199,6 +199,7 @@ export default {
 .d3-table.ern-table {
   caption {
     margin-top: 16px;
+    font-weight: bold;
   }
 
   thead {
@@ -206,6 +207,21 @@ export default {
       th {
         color: $gray-800;
         font-weight: normal;
+      }
+    }
+  }
+}
+
+#enrollmentBySubregistry {
+  tbody {
+    tr {
+      &:last-child {
+        td {
+          $border: 2px solid $gray-800;
+          border-top: $border;
+          border-bottom: none;
+          font-weight: bold;
+        }
       }
     }
   }
