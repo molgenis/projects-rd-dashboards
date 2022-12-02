@@ -5,13 +5,10 @@
       title="ERN Genturis Registry"
       subtitle="Registry for Genetic Tumour Risk Syndromes"
       :imageSrc="GenturisHeaderPhoto"
-      height="large"
-      :verticalPadding="1"
       titlePositionX="center"
       titlePositionY="center"
     />
-    <PageSection id="genturis-section-welcome" aria-labelledby="genturis-section-welcome-title">
-      <img :src="GenturisLogo" class="genturis-logo-crab" alt="genturis registry" />
+    <PageSection id="genturis-section-welcome" aria-labelledby="genturis-section-welcome-title" :verticalPadding="2" width="large">
       <h2 id="genturis-section-welcome-title">Welcome to the GENTURIS registry</h2>
       <p>The <strong>GENTURIS</strong> registry is the European registry for patients with one of the genetic tumour risk syndromes (genturis). The registry is affiliated to the European Reference Network for all patients with one of the genetic tumour risk syndromes (ERN GENTURIS).</p>
     </PageSection>
@@ -32,7 +29,7 @@
         </LinkCard>
       </div>
     </PageSection>
-    <PageSection id="genturis-section-aims" aria-labelledby="genturis-section-aims-title" :verticalPadding="2">
+    <PageSection id="genturis-section-aims" aria-labelledby="genturis-section-aims-title" :verticalPadding="2" width="large">
       <h2 id="genturis-section-aims-title">Aims of the GENTURIS registry</h2>
       <p>The aim of the GENTURIS registry is to enable research that will provide insights into the natural disease history and care pathway by gathering data from a large number of genturis patients and providing regulated data access following a data access policy.</p>
       <p>The registry enables a new wave of research opportunities from translational to epidemiological studies to clinical trials, and will accelerate the generation of new knowledge on genetic tumour risk syndromes. Research to improve recognition, detection, counselling and treatment of patients and to reduce variation in clinical outcomes across patients.</p>
@@ -44,7 +41,7 @@
         <li>To accelerate the generation of <strong>new knowledge</strong> on genturis through collaborative research.</li>
       </ul>
     </PageSection>
-    <PageSection id="genturis-section-contact" aria-labelledby="genturis-section-contact-title" :verticalPadding="2">
+    <PageSection id="genturis-section-contact" aria-labelledby="genturis-section-contact-title" :verticalPadding="2" width="large">
       <h2 id="genturis-section-contact-title">Contact</h2>
       <p>For further information, please contact the GENTURIS registry coordination team by email <a href="mailto:genturis-registry@radboudumc.nl">genturis-registry@radboudumc.nl</a> or at the following address.</p>
       <GenturisAddress :centerText="true" />
@@ -57,7 +54,6 @@
 import { Page, PageHeader, PageSection, LinkCard } from 'rd-components'
 import AppFooter from '@/components/AppFooter.vue'
 import GenturisAddress from '@/components/Address.vue'
-import GenturisLogo from '@/assets/genturis-logo-crab.svg'
 import GenturisHeaderPhoto from '@/assets/genturis-carousel.jpg'
 import BkgPhotoDocument from '@/assets/images-wesley-tingey-documents.jpg'
 import BkgPhotoDashboard from '@/assets/images-markus-winkler-dashboard.jpg'
@@ -73,7 +69,6 @@ export default {
   },
   data () {
     return {
-      GenturisLogo: GenturisLogo,
       GenturisHeaderPhoto: GenturisHeaderPhoto,
       BkgPhotoDocument: BkgPhotoDocument,
       BkgPhotoDashboard: BkgPhotoDashboard
@@ -84,6 +79,11 @@ export default {
 </script>
 
 <style lang="scss">
+#genturis-header {
+  filter: saturate(50%);
+  height: 28em;
+}
+
 #genturis-section-contact {
   background-color: $gray-000;
 }
