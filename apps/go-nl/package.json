@@ -1,0 +1,28 @@
+{
+  "name": "go-nl",
+  "description": "vue application for the Genome of the Netherlands database",
+  "version": "0.9.0",
+  "scripts": {
+    "copy-html:dev": "copyfiles -f ../rd-shared/templates/dev/index.html ./",
+    "copy-html:prod": "copyfiles -f ../rd-shared/templates/build/index.html ./",
+    "dev": "yarn copy-html:dev && vite",
+    "build": "yarn copy-html:prod && vite build",
+    "preview": "vite preview --port 9000",
+    "pkg": "node ../rd-shared/js/zip.mjs",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+  },
+  "dependencies": {
+    "rd-components": "0.1.0",
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.1.2",
+    "copyfiles": "^2.4.1",
+    "eslint": "^8.22.0",
+    "eslint-plugin-vue": "^9.3.0",
+    "vite": "^3.1.8",
+    "vite-plugin-banner": "^0.6.1",
+    "vite-plugin-generate-file": "^0.0.3"
+  }
+}

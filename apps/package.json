@@ -3,6 +3,7 @@
   "workspaces": [
     "ern-genturis",
     "ern-ithaca",
+    "go-nl",
     "solve-rd",
     "rd-components",
     "rd-shared"
