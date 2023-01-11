@@ -2,10 +2,21 @@
   width: 175px;
 }
 
+.genturis-logo-large {
+  display: block;
+  margin: 1em auto;
+  width: 350px;
+}
+
 .genturis-logo-crab {
   display: block;
   margin: 0 auto;
   width: 85px;
+}
+
+.genturis-header {
+  filter: saturate(50%);
+  height: 28em;
 }
 
 .app-page {

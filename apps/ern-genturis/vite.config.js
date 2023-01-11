@@ -32,8 +32,8 @@ const shared = {
         additionalData: `
         @import "../../rd-components/src/styles/palettes.scss";
         @import "../../rd-components/src/styles/variables.scss";
+        @import "../../rd-shared/styles/mixins.scss";
         @import "./src/styles/variables.scss";
-        @import "./src/styles/mixins.scss";
         `
       }
     }
