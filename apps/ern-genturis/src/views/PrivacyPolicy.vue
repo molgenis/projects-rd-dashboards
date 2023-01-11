@@ -1,6 +1,13 @@
 <template>
   <Page id="page-privacy-policy">
-    <PageHeader title="Genturis Registry" subtitle="Privacy Policy" />
+    <PageHeader
+      class="genturis-header"
+      title="Genturis Registry"
+      subtitle="Privacy Policy"
+      :imageSrc="GenturisHeaderPhoto"
+      titlePositionX="center"
+      titlePositionY="center"
+    />
     <PageSection id="genturis-privacy-google" aria-labelledby="genturis-privacy-google-title" width="large">
       <h2 id="genturis-privacy-google-title">Google analytics</h2>
       <p>This website uses Google Analytics, which is a analytics service provided by Google Inc. (“Google”). Please note that this website initializes Google Analytics with the setting anonymizeIp. This guarantees anonymized data collection by masking the last part of your IP address.</p>
@@ -37,8 +44,20 @@
 import { Page, PageSection, PageHeader } from 'rd-components'
 import GenturisAddress from '@/components/Address.vue'
 import AppFooter from '@/components/AppFooter.vue'
+import GenturisHeaderPhoto from '@/assets/genturis-carousel.jpg'
 
 export default {
-  components: { Page, PageSection, PageHeader, GenturisAddress, AppFooter }
+  components: {
+    Page,
+    PageHeader,
+    PageSection,
+    GenturisAddress,
+    AppFooter
+  },
+  data () {
+    return {
+      GenturisHeaderPhoto: GenturisHeaderPhoto
+    }
+  }
 }
 </script>

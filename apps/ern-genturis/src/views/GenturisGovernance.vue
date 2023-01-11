@@ -1,9 +1,12 @@
 <template>
   <Page id="page-governance">
     <PageHeader
-      id="genturis-governance-header"
+      class="genturis-header"
       title="ERN Genturis"
       subtitle="Goverance of the GENTURIS Registry"
+      :imageSrc="GenturisHeaderPhoto"
+      titlePositionX="center"
+      titlePositionY="center"
     />
     <PageSection id="genturis-section-governance" aria-labelledby="genturis-section-governance-title" width="large">
       <h2 id="genturis-section-governance-title">The Registry Steering Committee</h2>
@@ -48,8 +51,19 @@
 <script>
 import { Page, PageHeader, PageSection } from 'rd-components'
 import AppFooter from '../components/AppFooter.vue'
+import GenturisHeaderPhoto from '@/assets/genturis-carousel.jpg'
 
 export default {
-  components: { Page, PageHeader, PageSection, AppFooter }
+  components: {
+    Page,
+    PageHeader,
+    PageSection,
+    AppFooter
+  },
+  data () {
+    return {
+      GenturisHeaderPhoto: GenturisHeaderPhoto
+    }
+  }
 }
 </script>

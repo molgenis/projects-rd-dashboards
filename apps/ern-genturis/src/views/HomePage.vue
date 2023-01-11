@@ -1,7 +1,7 @@
 <template>
   <Page id="page-home">
     <PageHeader
-      id="genturis-header"
+      class="genturis-header"
       title="ERN Genturis Registry"
       subtitle="Registry for Genetic Tumour Risk Syndromes"
       :imageSrc="GenturisHeaderPhoto"
@@ -79,11 +79,6 @@ export default {
 </script>
 
 <style lang="scss">
-#genturis-header {
-  filter: saturate(50%);
-  height: 28em;
-}
-
 #genturis-section-contact {
   background-color: $gray-000;
 }

@@ -1,12 +1,12 @@
 <template>
   <Page id="page-about-us">
     <PageHeader
-      id="genturis-header"
+      class="genturis-header"
       title="ERN Genturis Registry"
       subtitle="Registry for Genetic Tumour Risk Syndromes"
       :imageSrc="GenturisHeaderPhoto"
-      height="medium"
-      :verticalPadding="2"
+      titlePositionX="center"
+      titlePositionY="center"
     />
     <PageSection id="genturis-section-about" aria-labelledby="genturis-section-about-title" :verticalPadding="2" width="large">
       <h2 id="genturis-section-about-title">About the GENTURIS registry</h2>

@@ -2,12 +2,12 @@
   <LoadingScreen v-if="loading" />
   <Page id="page-documents" v-else>
     <PageHeader
-    id="genturis-header"
-    title="ERN Genturis Registry"
-    subtitle="Registry for Genetic Tumour Risk Syndromes"
-    :imageSrc="GenturisHeaderPhoto"
-    height="medium"
-    :verticalPadding="2"
+      class="genturis-header"
+      title="ERN Genturis Registry"
+      subtitle="Registry for Genetic Tumour Risk Syndromes"
+      :imageSrc="GenturisHeaderPhoto"
+      titlePositionX="center"
+      titlePositionY="center"
     />
     <PageSection id="genturis-section-documents" aria-labelledby="genturis-section-documents-title" width="large">
       <h2 id="genturis-section-documents-title">Documents</h2>
