@@ -1,10 +1,10 @@
 <template>
   <Page id="page-home">
     <PageHeader
-       id="go-nl-header"
-       title="Genome of the Netherlands"
-       subtitle="Download data"
-       height="medium"
+      id="go-nl-header"
+      title="Genome of the Netherlands"
+      subtitle="Download data"
+      height="medium"
     />
     <PageSection id="section-intro">
       <h2>Download Data</h2>
@@ -28,18 +28,14 @@
         <li>SNVs present in 1KGP-EU were kept regardless of their VQSR filtering.</li>
       </ol>
       <h3 id="snvs-current-release-title">Current release</h3>
-      <section aria-labelledby="snvs-current-release-title">
-        <ul>
-          <li><a href="http://molgenis26.gcc.rug.nl/downloads/gonl_public/variants/release5/">GoNL SNPs and Indels release 5</a>: Summary counts of SNV and small indels &lt;20bp from only the parents (498 individuals)</li>
-        </ul>
-      </section>
+      <ul>
+        <li><a href="http://molgenis26.gcc.rug.nl/downloads/gonl_public/variants/release5/">GoNL SNPs and Indels release 5</a>: Summary counts of SNV and small indels &lt;20bp from only the parents (498 individuals)</li>
+      </ul>
       <h3 id="snvs-older-release-title">Older releases</h3>
-      <section aria-labelledby="snvs-older-release-title">
-        <ul>
-          <li><a href="http://molgenis26.gcc.rug.nl/downloads/gonl_public/releases/release2_noContam_noChildren_with_AN_AC_stripped.tgz">GoNL SNPs release 2</a>: Summary counts of alternative alleles from only the parents (498 individuals) in VCF format</li>
-          <li><a href="http://molgenis26.gcc.rug.nl/downloads/gonl_public/releases/release4_noContam_noChildren_with_AN_AC_GTC_stripped.tgz">GoNL SNPs release 4</a>: Summary counts of alternative alleles and genotypes from only the parents (498 individuals) in VCF format</li>
-        </ul>
-      </section>
+      <ul>
+        <li><a href="http://molgenis26.gcc.rug.nl/downloads/gonl_public/releases/release2_noContam_noChildren_with_AN_AC_stripped.tgz">GoNL SNPs release 2</a>: Summary counts of alternative alleles from only the parents (498 individuals) in VCF format</li>
+        <li><a href="http://molgenis26.gcc.rug.nl/downloads/gonl_public/releases/release4_noContam_noChildren_with_AN_AC_GTC_stripped.tgz">GoNL SNPs release 4</a>: Summary counts of alternative alleles and genotypes from only the parents (498 individuals) in VCF format</li>
+      </ul>
     </PageSection>
     <PageSection>
       <h2 id="indels-section-title">Short insertions and deletions (indels)</h2>
@@ -52,12 +48,10 @@
         <li>Indels were phased/imputed using MVNCall.</li>
         <li>Indels in inaccessible parts of the genome were filtered.</li>
       </ol>
-      <h3 class="h4" id="indels-current-release-title">Current release</h3>
-      <section aria-labelledby="indels-current-release-title">
-        <ul>
-          <li><a href="http://molgenis26.gcc.rug.nl/downloads/gonl_public/variants/release5/">GoNL SNPs and Indels release 5</a>: Summary counts of SNV and small indels &lt;20bp from only the parents (498 individuals)</li>
-        </ul>
-      </section>
+      <h3 id="indels-current-release-title">Current release</h3>
+      <ul>
+        <li><a href="http://molgenis26.gcc.rug.nl/downloads/gonl_public/variants/release5/">GoNL SNPs and Indels release 5</a>: Summary counts of SNV and small indels &lt;20bp from only the parents (498 individuals)</li>
+      </ul>
     </PageSection>
     <PageSection>
       <h2 id="structual-variants-title">Structural variants</h2>
