@@ -47,7 +47,7 @@
 
 <script>
 import { PageFooter, PageFooterMeta, UnorderedList } from 'rd-components'
-import GenturisLogo from '@/assets/genturis-registry-logo.png'
+import GenturisLogo from '@/assets/genturis-registry-logo-bg-white.png'
 import MolgenisLogo from '$shared/images/molgenis-logo-blue-white.png'
 
 export default {
@@ -121,12 +121,6 @@ export default {
   .molgenis-citation {
     background-color: $gray-050;
   }
-}
-
-#genturis-logo-link {
-  background-color: $gray-000;
-  padding: 0 2px;
-  padding-top: 3px;
 }
 
 </style>

@@ -9,6 +9,11 @@
       titlePositionY="center"
     />
     <PageSection id="genturis-section-welcome" aria-labelledby="genturis-section-welcome-title" :verticalPadding="2" width="large">
+      <img
+        :src="GenturisLogo"
+        class="genturis-logo-large"
+        alt="ERN Genturis Registry - Registry for Genetic Tumour Risk Syndromes"
+      />
       <h2 id="genturis-section-welcome-title">Welcome to the GENTURIS registry</h2>
       <p>The <strong>GENTURIS</strong> registry is the European registry for patients with one of the genetic tumour risk syndromes (genturis). The registry is affiliated to the European Reference Network for all patients with one of the genetic tumour risk syndromes (ERN GENTURIS).</p>
     </PageSection>
@@ -55,6 +60,7 @@ import { Page, PageHeader, PageSection, LinkCard } from 'rd-components'
 import AppFooter from '@/components/AppFooter.vue'
 import GenturisAddress from '@/components/Address.vue'
 import GenturisHeaderPhoto from '@/assets/genturis-carousel.jpg'
+import GenturisLogo from '@/assets/genturis-registry-logo.png'
 import BkgPhotoDocument from '@/assets/images-wesley-tingey-documents.jpg'
 import BkgPhotoDashboard from '@/assets/images-markus-winkler-dashboard.jpg'
 
@@ -70,6 +76,7 @@ export default {
   data () {
     return {
       GenturisHeaderPhoto: GenturisHeaderPhoto,
+      GenturisLogo: GenturisLogo,
       BkgPhotoDocument: BkgPhotoDocument,
       BkgPhotoDashboard: BkgPhotoDashboard
     }
