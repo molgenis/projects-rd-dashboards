@@ -6,7 +6,7 @@ import ContactUs from '../views/ContactUs.vue'
 import Disclaimer from '../views/Disclaimer.vue'
 import Documents from '../views/Documents.vue'
 import GenturisGovernance from '../views/GenturisGovernance.vue'
-import MembersArea from '../views/MembersArea.vue'
+// import MembersArea from '../views/MembersArea.vue'
 import PrivacyPolicy from '../views/PrivacyPolicy.vue'
 import Dashboard from '../views/Dashboard.vue'
 
@@ -20,9 +20,6 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomePage,
-      meta: {
-        title: 'Home'
-      }
     },
     {
       path: '/about-us',
@@ -72,14 +69,15 @@ const router = createRouter({
         title: 'Governance'
       }
     },
-    {
-      path: '/members-area',
-      name: 'members-area',
-      component: MembersArea,
-      meta: {
-        title: 'Members Area'
-      }
-    },
+    // will be added at a later date
+    // {
+    //   path: '/members-area',
+    //   name: 'members-area',
+    //   component: MembersArea,
+    //   meta: {
+    //     title: 'Members Area'
+    //   }
+    // },
     {
       path: '/privacy-policy',
       name: 'privacy-policy',
@@ -97,7 +95,7 @@ const router = createRouter({
 })
 
 router.afterEach((to) => {
-  document.title = `${to.meta.title} | ERN GENTURIS` || 'ERN GENTURIS'
+  document.title = to.meta.title ? `${to.meta.title} | ERN GENTURIS` : 'ERN GENTURIS'
 })
 
 export default router
