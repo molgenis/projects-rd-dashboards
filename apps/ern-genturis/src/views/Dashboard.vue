@@ -33,6 +33,7 @@
           :chartHeight="210"
           :chartSize="114"
           :mapCenter="{latitude: 0, longitude: 51}"
+          :pointRadius="4"
           :legendLabels="['Data Submitted', 'No Data']"
           :legendColors="['#E9724C', '#f0f0f0']"
           :tooltipTemplate="(row) => {
