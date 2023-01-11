@@ -3,26 +3,27 @@
     <div class="footer-container width-full">
       <div class="footer-content width-medium">
         <div class="footer-column footer-links">
-          <p><strong>Ithaca registry</strong></p>
+          <p><strong>GoNL</strong></p>
           <UnorderedList listType="none">
             <li><router-link :to="{name: 'home'}">Home</router-link></li>
-            <li><router-link :to="{name: 'about-us'}">About Us</router-link></li>
-            <li><router-link :to="{name: 'dashboard'}">Dashboard</router-link></li>
-            <li><router-link :to="{name: 'documents'}">Documents</router-link></li>
-            <li><router-link :to="{name: 'transparency'}">Transparency</router-link></li>
+            <!-- <li><router-link :to="{name: 'about'}">About</router-link></li>
+            <li><router-link :to="{name: 'news'}">News</router-link></li>
+            <li><router-link :to="{name: 'Publications'}">Publications</router-link></li> -->
           </UnorderedList>
         </div>
         <div class="footer-column footer-links">
-          <p><strong>For members</strong></p>
+          <p><strong>For researchers</strong></p>
           <UnorderedList listType="none">
             <li><a href="/login">Sign in</a></li>
+            <!-- <li><router-link :to="{name: 'browse'}">Browse Data</router-link></li> -->
+            <!-- <li><router-link :to="{name: 'request'}">Request Access</router-link></li> -->
           </UnorderedList>
         </div>
         <div class="footer-column footer-logos">
           <UnorderedList listType="none">
-            <li id="ithaca-logo-link">
+            <li id="project-logo-entry">
               <a href="https://ern-ithaca.eu/">
-                <img :src="IthacaLogo" class="project-logo" altalt="European Reference Network for Rare Malformation Syndromes, Intellectual and Other Neurodevelopmental Disorders"/>
+                <img :src="gonlLogo" class="gonl-logo" alt="The Genome of the Netherlands Consortium"/>
               </a>
             </li>
             <li>
@@ -42,13 +43,13 @@
 <script>
 import { PageFooter, PageFooterMeta, UnorderedList } from 'rd-components'
 
-import IthacaLogo from '@/assets/ern-ithaca-logo-white.png'
-import MolgenisLogo from '$shared/images/molgenis-logo-blue-white.png'
+import gonlLogo from '@/assets/gonl_logo.png'
+import MolgenisLogo from '$shared/images/molgenis-logo-blue-text.png'
 
 export default {
   data () {
     return {
-      IthacaLogo: IthacaLogo,
+      gonlLogo: gonlLogo,
       MolgenisLogo: MolgenisLogo
     }
   },
@@ -62,11 +63,11 @@ export default {
 
 <style lang="scss">
 .page-footer {
+  box-shadow: 0 -2px 3px 1px $gray-transparent-100;
   background-color: $gray-050;
   
   .footer-container {
-    color: $gray-050;
-    background-color: $brand-blue-900;
+    color: $gray-900;
   }
   
   .footer-content {
@@ -98,8 +99,9 @@ export default {
   
   .page-footer-meta-links {
     box-sizing: padding-box;
-    padding: 0.2em;
-    background-color: $brand-red-orange;
+    padding: 0;
+    // padding: 0.2em;
+    // background-color: $brand-red-orange;
     
     a {
       @include textTransform;
