@@ -96,14 +96,14 @@ import logo_vumc from '@/assets/logo_vumc.png'
 export default {
   data () {
     return {
-      logo_bgi: logo_bgi.png,
-      logo_bmri: logo_bmri.png,
-      logo_eumc: logo_eumc.png,
-      logo_lumc: logo_lumc.png,
-      logo_nbic: logo_nbic.png,
-      logo_umcg: logo_umcg.png,
-      logo_umcu: logo_umcu.png,
-      logo_vumc: logo_vumc.png
+      logo_bgi: logo_bgi,
+      logo_bmri: logo_bmri,
+      logo_eumc: logo_eumc,
+      logo_lumc: logo_lumc,
+      logo_nbic: logo_nbic,
+      logo_umcg: logo_umcg,
+      logo_umcu: logo_umcu,
+      logo_vumc: logo_vumc
     }
   }
 }
@@ -112,8 +112,15 @@ export default {
 <style lang="scss">
 .logos {
   display: flex;
+  padding: 0;
+  margin: 1em auto;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 1em;
+  gap: 2em;
+  list-style: none;
+  
+  @media screen and (min-width: 972px) {
+    max-width: 600px;
+  }
 }
 </style>
