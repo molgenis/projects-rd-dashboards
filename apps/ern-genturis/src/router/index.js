@@ -95,7 +95,7 @@ const router = createRouter({
 })
 
 router.afterEach((to) => {
-  document.title = to.meta.title ? `${to.meta.title} | ERN GENTURIS` : 'ERN GENTURIS'
+  document.title = to.meta.title ? `${to.meta.title} | GENTURIS Registry` : 'GENTURIS Registry'
 })
 
 export default router
