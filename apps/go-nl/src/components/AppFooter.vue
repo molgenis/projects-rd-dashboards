@@ -5,26 +5,25 @@
         <div class="footer-column footer-links">
           <p><strong>GoNL</strong></p>
           <UnorderedList listType="none">
-            <li><router-link :to="{name: 'home'}">Home</router-link></li>
-            <!-- <li><router-link :to="{name: 'about'}">About</router-link></li>
+            <li><router-link :to="{name: 'about'}">About</router-link></li>
             <li><router-link :to="{name: 'news'}">News</router-link></li>
-            <li><router-link :to="{name: 'Publications'}">Publications</router-link></li> -->
+            <li><router-link :to="{name: 'publications'}">Publications</router-link></li>
           </UnorderedList>
         </div>
         <div class="footer-column footer-links">
           <p><strong>For researchers</strong></p>
           <UnorderedList listType="none">
             <li><a href="/login">Sign in</a></li>
-            <!-- <li><router-link :to="{name: 'browse'}">Browse Data</router-link></li> -->
-            <!-- <li><router-link :to="{name: 'request'}">Request Access</router-link></li> -->
+            <li><router-link :to="{name: 'browse'}">Browse Data</router-link></li>
+            <li><router-link :to="{name: 'request'}">Request Access</router-link></li>
           </UnorderedList>
         </div>
         <div class="footer-column footer-logos">
           <UnorderedList listType="none">
             <li id="project-logo-entry">
-              <a href="https://ern-ithaca.eu/">
+              <router-link :to="{name: 'home'}">
                 <img :src="gonlLogo" class="gonl-logo" alt="The Genome of the Netherlands Consortium"/>
-              </a>
+              </router-link>
             </li>
             <li>
               <a href="https://www.molgenis.org">
