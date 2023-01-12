@@ -1,18 +1,20 @@
 <template>
-  <Page id="page-home">
+  <Page id="page-about">
     <PageHeader
        id="go-nl-header"
        title="Genome of the Netherlands"
        subtitle="About the GoNL Project"
        height="medium"
+       titlePositionX="center"
+       titlePositionY="center"
     />
-    <PageSection id="section-consortium">
-      <h2>The GoNL Consortium</h2>
+    <PageSection id="about-consortium" :verticalPadding="2" aria-labelledby="about-consortium-title">
+      <h2 id="about-consortium-title">The GoNL Consortium</h2>
       <p>The Genome of the Netherlands (GoNL) is a consortium funded as part of the Netherlands Biobanking and Biomolecular Research Infrastructure (<a title="BBMRI-NL" href="http://www.bbmri.nl">BBMRI-NL</a>). The work is done by the <a href="http://www.umcg.nl/EN/corporate/pages/default.aspx">UMCG</a>, <a href="http://www.lumc.nl/home/?setlanguage=English&amp;setcountry=en">LUMC</a>, <a href="http://www.erasmusmc.nl/?lang=en">Erasmus MC</a>, <a href="http://www.psy.vu.nl/nl/over-de-faculteit/medewerkers-alfabetisch/medewerkers-a-b/d-boomsma/index.asp">VU university</a> and <a href="http://www.umcutrecht.nl/zorg/">UMCU</a>, led by Professor Cisca Wijmenga. Samples where contributed by <a title="LifeLines" href="http://lifelines.nl/lifelines-research/general">LifeLines</a>, <a href="http://www.healthy-ageing.nl">The Leiden Longevity Study</a>, <a href="http://www.tweelingenregister.org">The Netherlands Twin Registry</a> (NTR), <a href="http://www.erasmus-epidemiology.nl/rotterdamstudy">The Rotterdam studies</a>, and <a href="http://www.epib.nl/research/geneticepi/research.html#gip">The Genetic Research in Isolated Populations program</a>. All the sequencing work is done by <a href="http://www.bgisequence.com/">BGI Hong Kong</a>. All the sequencing work is done by <a href="http://www.bgisequence.com/">BGI Hong Kong</a>.</p>
       <ConsortiumLogos />
     </PageSection>
-    <PageSection id="section-participants">
-      <h2>GoNL Participants</h2>
+    <PageSection id="about-participants" :verticalPadding="2" aria-labelledby="about-participants-title">
+      <h2 id="about-participants-title">GoNL Participants</h2>
       <p>The individuals and organisations participated in the GoNL project.</p>
       <h3>Steering Committee</h3>
       <ul>
@@ -78,6 +80,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-</style>

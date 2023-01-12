@@ -67,17 +67,18 @@ export default {
   }
   
   .record-authors {
-    font-size: 11pt;
+    font-size: 13pt;
   }
 
   .record-metadata {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     flex-direction: row;
+    margin-top: 6px;
 
     .record-data {
-      margin-top: 4px;
-      font-size: 9pt;
+      font-size: 11pt;
       text-transform: uppercase;
       color: #5d666f;
     }
