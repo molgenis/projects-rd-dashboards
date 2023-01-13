@@ -1,12 +1,13 @@
 <template>
   <Page id="page-home">
     <PageHeader
-      id="go-nl-header"
+      class="gonl-page-header"
       title="Genome of the Netherlands"
       subtitle="An ultra-sharp genetic group portrait of the Dutch"
       titlePositionX="center"
       titlePositionY="center"
-      height="medium"
+      height="large"
+      :imageSrc="pageHeader"
     />
     <PageSection id="section-intro" :verticalPadding="2">
       <h2>Welcome to the Genome of the Netherlands project</h2>
@@ -27,6 +28,7 @@ import { Page, PageHeader, PageSection } from 'rd-components'
 import AppFooter from '@/components/AppFooter.vue'
 import ConsortiumLogos from '@/components/ConsortiumLogos.vue'
 import DataSourcesFlowChart from '@/assets/gonl_datasources_flowchart.png'
+import pageHeader from '@/assets/gonl-pg-header-2.jpg'
 
 export default {  
   components: {
@@ -38,7 +40,8 @@ export default {
   },
   data () {
     return {
-      DataSourcesFlowChart: DataSourcesFlowChart
+      DataSourcesFlowChart: DataSourcesFlowChart,
+      pageHeader: pageHeader
     }
   }
 }

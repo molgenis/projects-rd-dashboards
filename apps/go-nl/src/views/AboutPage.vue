@@ -1,12 +1,13 @@
 <template>
   <Page id="page-about">
     <PageHeader
-       id="go-nl-header"
+       class="go-nl-header"
        title="Genome of the Netherlands"
        subtitle="About the GoNL Project"
-       height="medium"
        titlePositionX="center"
        titlePositionY="center"
+       height="large"
+      :imageSrc="pageHeader"
     />
     <PageSection id="about-consortium" :verticalPadding="2" aria-labelledby="about-consortium-title">
       <h2 id="about-consortium-title">The GoNL Consortium</h2>
@@ -60,6 +61,7 @@
         <li><span style="text-decoration: underline;">University of Washington at Seattle</span>: Evan E. Eichler, Fereydoun Hormozdiari</li>
         <li><span style="text-decoration: underline;">University of Pennsylvania at Philadelphia</span>: Benjamin F. Voight</li>
       </ul>
+      <img :src="ConsortiumPhoto" alt="The Genome of the Netherlands Consortium" class="consortium-photo" />
     </PageSection>
   </Page>
   <AppFooter />
@@ -68,7 +70,9 @@
 <script>
 import { Page, PageHeader, PageSection } from 'rd-components'
 import AppFooter from '@/components/AppFooter.vue'
-import ConsortiumLogos from '../components/ConsortiumLogos.vue';
+import ConsortiumLogos from '@/components/ConsortiumLogos.vue'
+import ConsortiumPhoto from '@/assets/gonl_consortium.png'
+import pageHeader from '@/assets/gonl-pg-header-2.jpg'
 
 export default {
   components: {
@@ -77,6 +81,21 @@ export default {
     PageSection,
     ConsortiumLogos,
     AppFooter
+  },
+  data () {
+    return {
+      ConsortiumPhoto: ConsortiumPhoto,
+      pageHeader: pageHeader
+    }
   }
 }
 </script>
+
+<style lang="scss">
+.consortium-photo {
+  display: block;
+  margin: 1em auto;
+  max-height: 425px;
+  border-radius: 6px;
+}
+</style>

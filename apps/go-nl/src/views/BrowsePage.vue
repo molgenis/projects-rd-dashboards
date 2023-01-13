@@ -1,28 +1,22 @@
 <template>
-  <Page id="page-browse-data">
+  <Page id="page-browse">
     <PageHeader
-       id="go-nl-header"
-       title="Genome of the Netherlands"
-       subtitle="Browse Data"
-       height="medium"
+      id="go-nl-header"
+      title="Genome of the Netherlands"
+      subtitle="Browse Data"
+      titlePositionX="center"
+      titlePositionY="center"
+      height="large"
+      :imageSrc="pageHeader"
     />
-    <PageSection id="section-intro">
-      <h2>Browse Data</h2>
-      <PageForm
-        id="browse-data"
-        title="Browse Data"
-        description="Search counts of alternative alleles and genotypes."
-      >
+    <PageSection id="browse-search" :verticalPadding="2" aria-labelledby="browse-search-title">
+      <h2 id="browse-search-title">Browse Data</h2>
+      <p>Using the form below, you may search for counts of alternative alleles and genotypes. If you would like to request access to the data, please view the <router-link :to="{name: 'request'}">Request Access</router-link> page for more information.</p>
+      <PageForm id="search-form" title="Browse Data">
       <span class="input-error-message" v-if="form.error">{{ form.error }}</span>
         <div class="form-input">
-          <InputLabel
-           id="chromosome"
-           label="Select a chromosome"
-          />
-          <select
-            id="chromosome"
-            @change="(e) => updateChromosome(e.target.value)"
-          >
+          <InputLabel id="chromosome" label="Select a chromosome" />
+          <select id="chromosome" @change="(e) => updateChromosome(e.target.value)">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -47,7 +41,6 @@
             <option value="22">22</option>
           </select>
         </div>
-      
         <div class="form-input">
           <InputLabel
             id="start"
@@ -61,12 +54,6 @@
             class="form-control"
             @change="(e) => updateStart(e.target.value)"
           />
-          <!-- <span id="start-help-none" class="help-block" style="display:none">
-            Please specify the start position
-          </span>
-          <span id="start-help-negative" class="help-block" style="display:none">
-            Smalles position possible is 0
-          </span> -->
         </div>
         <div class="form-input">
           <InputLabel
@@ -81,24 +68,9 @@
             class="form-control"
             @change="(e) => updateStop(e.target.value)"
           />
-          <!-- <span id="stop-help-none" class="help-block" style="display:none">
-            Please specify the stop position
-          </span> -->
-          <!-- <span id="stop-help-too-big" class="help-block" style="display:none">
-            Stop position exceeds max chromosome position of ~249,000,000
-          </span>
-          <span id="stop-help-smaller-than-start" class="help-block" style="display:none">
-            Stop position should be bigger than start position
-          </span> -->
         </div>
         <ButtonSearch id="search" @click="search" />
       </PageForm>
-      
-      <output>
-        chromosome: {{ chromosome }}
-        start: {{ start }}
-        stop: {{ stop }}
-      </output>
     </PageSection>
   </Page>
   <AppFooter />
@@ -107,6 +79,7 @@
 <script>
 import { Page, PageHeader, PageSection, PageForm, InputLabel, ButtonSearch } from 'rd-components'
 import AppFooter from '@/components/AppFooter.vue'
+import pageHeader from '@/assets/gonl-pg-header-2.jpg'
 
 export default {
   components: {
@@ -119,7 +92,8 @@ export default {
     AppFooter
   },
   data () {
-    return {      
+    return {   
+      pageHeader: pageHeader,   
       chromosome: null,
       start: {
         value: null,
@@ -183,53 +157,24 @@ export default {
         const filterParam = `&filter=(POS=ge=${this.start.value};POS=le=${this.stop.value})`
         const options = '&hideselect=true&mod=data'
         const searchUrl = [baseUrl, entityParam, filterParam, options].join('')
-        // window.location.replace(searchUrl)
-        console.log(searchUrl)
+        window.location.replace(searchUrl)
       }
     }
   }
 }
-
-// $("#browse-data").on("submit", function(e) {
-// 		e.preventDefault();
-//         var chromosome = $('#chromosome').val();
-//         var start = $('#start').val();
-//         var stop = $('#stop').val();
-//         $("#stop").removeClass("has-error");
-//         $("#start-form").removeClass("has-error");
-//         $(".help-block").css("display", "none");
-//         if ((stop && start) && (Number(stop) > Number(start)) && Number(stop) < 249000000 && Number(start) > -1) {
-//             window.location.replace(`/menu/main/dataexplorer?entity=gonl_chr${chromosome}&hideselect=true&mod=data&filter=(POS=ge=${start};POS=le=${stop})`);
-//         } else if (start && !stop) {
-//             $("#stop-form").addClass("has-error");
-//             $("#stop-help-none").css("display", "inline");
-//         } else if (stop && !start) {
-//             $("#start-form").addClass("has-error");
-//             $("#start-help-none").css("display", "inline");
-//         } else if (Number(stop) > 250000000) {
-//             $("#stop-form").addClass("has-error");
-//             $("#stop-help-too-big").css("display", "inline");
-//         } else if (Number(start) < 0) {
-//             $("#start-form").addClass("has-error");
-//             $("#start-help-negative").css("display", "inline");
-//         } else if (Number(stop) < Number(start)) {
-//             $("#start-form").addClass("has-error");
-//             $("#stop-form").addClass("has-error");
-//             $("#stop-help-smaller-than-start").css("display", "inline");
-//         } else {
-//             $("#stop-form").addClass("has-error");
-//             $("#start-form").addClass("has-error");
-//             $("#stop-help-none").css("display", "inline");
-//             $("#start-help-none").css("display", "inline");
-//         }
-//     });
-
 </script>
 
 <style lang="scss">
-.page-form {
+#browse-search {
+  background-color: $blue-050;
+}
+
+#search-form {
   max-width: 500px;
   margin: 0 auto;
+  background-color: $gray-000;
+  box-shadow: none;
+  border-radius: 0;
   
   .form-input {
     margin: 12px 0;

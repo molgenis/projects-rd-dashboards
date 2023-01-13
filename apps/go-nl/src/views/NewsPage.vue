@@ -4,7 +4,11 @@
        id="go-nl-header"
        title="Genome of the Netherlands"
        subtitle="Latest News"
-       height="medium"
+       titlePositionX="center"
+       titlePositionY="center"
+       height="large"
+       :imageSrc="pageHeader"
+       
     />
     <PageSection id="news-latest" :verticalPadding="2" aria-labelledby="news-latest-title">
       <h2 id="news-latest-title">Latest Interviews and announcements</h2>
@@ -91,6 +95,7 @@
 import { Page, PageHeader, PageSection } from 'rd-components'
 import AppFooter from '@/components/AppFooter.vue'
 import NewsItem from '@/components/NewsItem.vue'
+import pageHeader from '@/assets/gonl-pg-header-2.jpg'
 
 export default {
   components: {
@@ -99,12 +104,17 @@ export default {
     PageSection,
     NewsItem,
     AppFooter
+  },
+  data () {
+    return {
+      pageHeader: pageHeader
+    }
   }
 }
 </script>
 
 <style lang="scss">
 #news-articles {
-  background-color: $gray-050;
+  background-color: $blue-050;
 }
 </style>

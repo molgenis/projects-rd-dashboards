@@ -4,9 +4,10 @@
        id="go-nl-header"
        title="Genome of the Netherlands"
        subtitle="Recent Publications"
-       height="medium"
        titlePositionX="center"
        titlePositionY="center"
+       height="large"
+       :imageSrc="pageHeader"
     />
     <PageSection id="section-intro" :verticalPadding="2" aria-labelledby="publications-title">
       <h2 id="publications-title">Publications</h2>
@@ -37,6 +38,7 @@ import { Page, PageHeader, PageSection, MessageBox } from 'rd-components'
 import AppFooter from '@/components/AppFooter.vue'
 import PublicationRecord from '@/components/PublicationCard.vue'
 import { fetchData } from '$shared/js/utils.js'
+import pageHeader from '@/assets/gonl-pg-header-2.jpg'
 
 export default {
   components: {
@@ -50,7 +52,8 @@ export default {
   data () {
     return {
       publications: [],
-      hasError: false
+      hasError: false,
+      pageHeader: pageHeader
     }
   },
   methods: {
