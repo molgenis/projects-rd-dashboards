@@ -1,7 +1,7 @@
 <template>
   <Page id="page-browse">
     <PageHeader
-      id="go-nl-header"
+      class="gonl-page-header"
       title="Genome of the Netherlands"
       subtitle="Browse Data"
       titlePositionX="center"

@@ -1,12 +1,12 @@
 <template>
   <Page id="page-about">
     <PageHeader
-       class="go-nl-header"
-       title="Genome of the Netherlands"
-       subtitle="About the GoNL Project"
-       titlePositionX="center"
-       titlePositionY="center"
-       height="large"
+      class="gonl-page-header"
+      title="Genome of the Netherlands"
+      subtitle="About the GoNL Project"
+      titlePositionX="center"
+      titlePositionY="center"
+      height="large"
       :imageSrc="pageHeader"
     />
     <PageSection id="about-consortium" :verticalPadding="2" aria-labelledby="about-consortium-title">

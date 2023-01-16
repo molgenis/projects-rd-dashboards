@@ -10,7 +10,7 @@
       :imageSrc="pageHeader"
     />
     <PageSection id="section-intro" :verticalPadding="2">
-      <h2>Welcome to the Genome of the Netherlands project</h2>
+      <h2>Welcome to the Genome of the Netherlands!</h2>
       <p>What genetic variation is to be found in the Dutch indigenous population? Detailed knowledge about this is not only interesting in itself, it also helps to extract useful biomedical information from Dutch biobanks. The Dutch biobank collaboration BBMRI-NL has initiated the extensive Rainbow Project &#8220;Genome of the Netherlands&#8221; (GoNL) because it offers unique opportunities for science and for the development of new treatments and diagnostic techniques. A close-up look at the DNA of 750 Dutch people-250 trio&#8217;s of two parents and an adult child-plus a global genetic profile of large numbers of Dutch will disclose a wealth of new information, new insights, and possible applications.</p>
       <img id="datasources-chart" :src="DataSourcesFlowChart" alt="data from 769 individuals comes from four biobanks in the netherlands;" />
     </PageSection>
@@ -48,10 +48,6 @@ export default {
 </script>
 
 <style lang="scss">
-#go-nl-header {
-  background-color: $gray-050;
-}
-
 #datasources-chart {
   display: block;
   max-width: 525px;

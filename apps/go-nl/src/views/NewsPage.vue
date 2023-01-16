@@ -1,14 +1,13 @@
 <template>
   <Page id="page-news">
     <PageHeader
-       id="go-nl-header"
-       title="Genome of the Netherlands"
-       subtitle="Latest News"
-       titlePositionX="center"
-       titlePositionY="center"
-       height="large"
-       :imageSrc="pageHeader"
-       
+      class="gonl-page-header"
+      title="Genome of the Netherlands"
+      subtitle="Latest News"
+      titlePositionX="center"
+      titlePositionY="center"
+      height="large"
+      :imageSrc="pageHeader"
     />
     <PageSection id="news-latest" :verticalPadding="2" aria-labelledby="news-latest-title">
       <h2 id="news-latest-title">Latest Interviews and announcements</h2>

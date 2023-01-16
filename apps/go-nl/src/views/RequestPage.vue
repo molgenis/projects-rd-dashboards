@@ -1,12 +1,13 @@
 <template>
   <Page id="page-request">
     <PageHeader
-       id="go-nl-header"
-       title="Genome of the Netherlands"
-       subtitle="Request data"
-       height="medium"
-       titlePositionX="center"
-       titlePositionY="center"
+      class="gonl-page-header"
+      title="Genome of the Netherlands"
+      subtitle="Request access"
+      titlePositionX="center"
+      titlePositionY="center"
+      height="large"
+      :imageSrc="pageHeader"
     />
     <PageSection id="request-process" :verticalPadding="2" aria-labelledby="request-process-title">
       <h2 id="request-process-title">Request Data</h2>
@@ -26,6 +27,7 @@
 <script>
 import { Page, PageHeader, PageSection } from 'rd-components'
 import AppFooter from '@/components/AppFooter.vue'
+import pageHeader from '@/assets/gonl-pg-header-2.jpg'
 
 export default {
   components: {
@@ -33,6 +35,11 @@ export default {
     PageHeader,
     PageSection,
     AppFooter
+  },
+  data () {
+    return {
+      pageHeader: pageHeader
+    }
   }
 }
 </script>

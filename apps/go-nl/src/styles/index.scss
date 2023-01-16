@@ -4,25 +4,32 @@ $font-family: Helvetica, sans-serif;
   width: 175px;
 }
 
-.genturis-logo-crab {
-  display: block;
-  margin: 0 auto;
-  width: 85px;
-}
-
 .app-page {
   font-size: 13pt;
   font-family: $font-family;
+  
+  .page-header.gonl-page-header {
+    &.header-image-background {
+      background-position: 50% 50%;
+      .background-image-filter {
+        opacity: 0.3;
+      }
+    }
+  }
+  
   .page-section {
-    // background: $gray-050;
     
     h2 {
       margin-top: 24px;
       margin-bottom: 16px;
     }
     
-    ul {
+    ul, ol {
       line-height: 1.5;
+    }
+    
+    p {
+      color: $gray-700;
     }
   }  
   min-height: 46vh;
