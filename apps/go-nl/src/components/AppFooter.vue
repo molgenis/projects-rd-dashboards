@@ -13,7 +13,6 @@
         <div class="footer-column footer-links">
           <p><strong>For researchers</strong></p>
           <UnorderedList listType="none">
-            <li><a href="/login">Sign in</a></li>
             <li><router-link :to="{name: 'browse'}">Browse Data</router-link></li>
             <li><router-link :to="{name: 'download'}">Download Data</router-link></li>
             <li><router-link :to="{name: 'request'}">Request Access</router-link></li>
