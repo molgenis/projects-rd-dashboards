@@ -11,12 +11,14 @@
     />
     <PageSection id="browse-search" :verticalPadding="2" aria-labelledby="browse-search-title">
       <h2 id="browse-search-title">Browse Data</h2>
-      <p>Using the form below, you may search for counts of alternative alleles and genotypes. If you would like to request access to the data, please view the <router-link :to="{name: 'request'}">Request Access</router-link> page for more information.</p>
+      <p>Using the form below, you may search for counts of alternative alleles and genotypes. If you would like to request access to the data, please view the <router-link :to="{name: 'request'}">Request Access</router-link> page for more information. Some data is also available for download. Please see the <router-link :to="{'name': 'download'}">Download page</router-link> for more information.</p>
       <PageForm id="search-form" title="Browse Data">
       <span class="input-error-message" v-if="form.error">{{ form.error }}</span>
         <div class="form-input">
           <InputLabel id="chromosome" label="Select a chromosome" />
+          <span class="input-error-message" v-if="chromosome.error">{{ chromosome.error }}</span>
           <select id="chromosome" @change="(e) => updateChromosome(e.target.value)">
+            <option>--- Select ---</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -94,7 +96,10 @@ export default {
   data () {
     return {   
       pageHeader: pageHeader,   
-      chromosome: null,
+      chromosome: {
+        value: null,
+        error: null
+      },
       start: {
         value: null,
         error: null
@@ -110,7 +115,7 @@ export default {
   },
   methods: {
     updateChromosome (value) {
-      this.chromosome = parseInt(value)
+      this.chromosome.value = parseInt(value)
     },
     updateStart (value) {
       this.start.error = null
@@ -122,6 +127,7 @@ export default {
       if (this.stop.value && (start > this.stop.value)) {
         this.start.error = 'Start position cannot be larger than stop position'
       }
+
       if (start > -1) {
         this.start.value = start
       }
@@ -146,18 +152,19 @@ export default {
     },
     search () {
       this.form.error = null
-      console.log(this.start.value, this.stop.value)
-      if (this.start.error || this.stop.error) {
+      if (this.chromosome.value === null || this.chromosome.value === 'NA') {
+        this.chromosome.error = 'Please select a chromosome'
+      } else if (this.start.error || this.stop.error) {
         this.form.error = 'There is an issue with one or more fields. Please fix and try again.'
       } else if (this.start.value === null || this.stop.value === null) {
         this.form.error = 'One or more fields are blank'
       } else {
         const baseUrl = '/menu/main/dataexplorer?'
-        const entityParam = `entity=gonl_chr${this.chromosome}`
+        const entityParam = `entity=gonl_chr${this.chromosome.value}`
         const filterParam = `&filter=(POS=ge=${this.start.value};POS=le=${this.stop.value})`
         const options = '&hideselect=true&mod=data'
         const searchUrl = [baseUrl, entityParam, filterParam, options].join('')
-        window.location.replace(searchUrl)
+        window.open(searchUrl, '_blank')
       }
     }
   }
@@ -179,6 +186,10 @@ export default {
   .form-input {
     margin: 12px 0;
     
+    select, input {
+      margin: 12px 0;
+    }
+    
     input {
       display: block;
       width: calc(100% - 19px);
@@ -189,11 +200,11 @@ export default {
       padding-left: 12px;
       border-radius: 4px;
       box-shadow: $box-shadow-inset;
-      margin: 12px 0;
     }
     
   }
   .input-error-message {
+    display: block;
     color: $red-800;
     font-size: 11pt;
     font-weight: bold;

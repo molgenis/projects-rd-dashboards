@@ -77,7 +77,7 @@ const router = createRouter({
 })
 
 router.afterEach((to) => {
-  document.title = `${to.meta.title} | GoNL` || 'GoNL'
+  document.title = to.meta.title === 'Home' ? `GoNL` : `${to.meta.title} | GoNL`
 })
 
 export default router
