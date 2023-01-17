@@ -13,8 +13,8 @@
       <h2 id="section-download-title">Download data</h2>
       <p>The Genome of the Netherlands data distributed on this page is publicly available and can be used under the condition of citation (main paper, additional papers when appropriate).</p>
       <ul>
-        <li>The Genome of the Netherlands Consortium. <strong>Whole-genome sequence variation, population structure and demographic history of the Dutch population.</strong> Nature Genetics (2014) doi:10.1038/ng.3021. See (<a title="NG" href="http://www.nature.com/ng/journal/vaop/ncurrent/full/ng.3021.html" target="_blank" rel="noopener">pubmed</a>)</li>
-        <li>Francioli <em>et al</em>. <strong>Genome-wide patterns and properties of de novo mutations in humans</strong>. Nature Genetics (2015) doi:10.1038/ng.3292. See (<a title="NG" href="http://www.nature.com/ng/journal/vaop/ncurrent/full/ng.3292.html" target="_blank" rel="noopener">pubmed</a>)</li>
+        <li>The Genome of the Netherlands Consortium (2014). Whole-genome sequence variation, population structure and demographic history of the Dutch population. <em>Nature Genetics, 46</em>, 818-825. <a href="https://doi.org/10.1038/ng.3021">https://doi.org/10.1038/ng.3021</a></li>
+        <li>Francioli, L.C, Polak, P.P., Koren, A., et al (2015). Genome-wide patterns and properties of de novo mutations in humans. <em>Nature Genetics, 47</em>, 822-826. <a href="https://doi.org/10.1038/ng.3292">https://doi.org/10.1038/ng.3292</a></li>
       </ul>
       <p>In addition, the following acknowledgements can be used when reusing public data on a website.</p>
       <blockquote>

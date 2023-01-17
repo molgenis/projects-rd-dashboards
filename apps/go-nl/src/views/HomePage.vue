@@ -9,6 +9,23 @@
       height="large"
       :imageSrc="pageHeader"
     />
+    <PageSection aria-labelledby="quicklinks-card-title" width="full" :verticalPadding="0" :horizontalPadding="0">
+      <h2 class="visually-hidden" id="quicklinks-card-title">quick links</h2>
+      <div class="quicklink-cards">
+        <LinkCard id="quicklinks-about">
+          <router-link :to="{ name: 'about' }">About Us</router-link>
+        </LinkCard>
+        <LinkCard id="quicklink-documents">
+          <router-link :to="{ name: 'documents' }">Documents</router-link>
+        </LinkCard>
+        <LinkCard id="quicklink-browse">
+          <router-link :to="{ name: 'browse' }">Browse Data</router-link>
+        </LinkCard>
+        <LinkCard id="quicklink-request">
+          <router-link :to="{ name: 'request' }">Request access</router-link>
+        </LinkCard>
+      </div>
+    </PageSection>
     <PageSection id="section-intro" :verticalPadding="2">
       <h2>Welcome to the Genome of the Netherlands!</h2>
       <p>What genetic variation is to be found in the Dutch indigenous population? Detailed knowledge about this is not only interesting in itself, it also helps to extract useful biomedical information from Dutch biobanks. The Dutch biobank collaboration BBMRI-NL has initiated the extensive Rainbow Project &#8220;Genome of the Netherlands&#8221; (GoNL) because it offers unique opportunities for science and for the development of new treatments and diagnostic techniques. A close-up look at the DNA of 750 Dutch people-250 trio&#8217;s of two parents and an adult child-plus a global genetic profile of large numbers of Dutch will disclose a wealth of new information, new insights, and possible applications.</p>
@@ -24,7 +41,7 @@
 </template>
 
 <script>
-import { Page, PageHeader, PageSection } from 'rd-components'
+import { Page, PageHeader, PageSection, LinkCard } from 'rd-components'
 import AppFooter from '@/components/AppFooter.vue'
 import ConsortiumLogos from '@/components/ConsortiumLogos.vue'
 import DataSourcesFlowChart from '@/assets/gonl_datasources_flowchart.png'
@@ -35,6 +52,7 @@ export default {
     Page,
     PageHeader,
     PageSection,
+    LinkCard,
     ConsortiumLogos,
     AppFooter
   },
