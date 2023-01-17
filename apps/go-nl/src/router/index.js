@@ -2,12 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 const initialState = window.__INITIAL_STATE__ || {}
 
 import HomePage from '@/views/HomePage.vue'
-import AboutPage from '../views/AboutPage.vue'
-import BrowsePage from '../views/BrowsePage.vue'
-import DownloadPage from '../views/DownloadPage.vue'
-import NewsPage from '../views/NewsPage.vue'
-import PublicationsPage from '../views/PublicationsPage.vue'
-import RequestPage from '../views/RequestPage.vue'
+import AboutPage from '@/views/AboutPage.vue'
+import BrowsePage from '@/views/BrowsePage.vue'
+import DocumentsPage from '@/views/DocumentsPage.vue'
+import DownloadPage from '@/views/DownloadPage.vue'
+import NewsPage from '@/views/NewsPage.vue'
+import PublicationsPage from '@/views/PublicationsPage.vue'
+import RequestPage from '@/views/RequestPage.vue'
 
 const router = createRouter({
   history: createWebHistory(initialState.baseUrl),
@@ -34,6 +35,14 @@ const router = createRouter({
       component: BrowsePage,
       meta: {
         title: 'Browse Data'
+      }
+    },
+    {
+      path: '/documents',
+      name: 'documents',
+      component: DocumentsPage,
+      meta: {
+        title: 'Documents'
       }
     },
     {

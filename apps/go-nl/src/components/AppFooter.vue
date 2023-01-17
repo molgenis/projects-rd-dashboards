@@ -8,6 +8,7 @@
             <li><router-link :to="{name: 'about'}">About</router-link></li>
             <li><router-link :to="{name: 'news'}">News</router-link></li>
             <li><router-link :to="{name: 'publications'}">Publications</router-link></li>
+            <li><router-link :to="{name: 'documents'}">Documents</router-link></li>
           </UnorderedList>
         </div>
         <div class="footer-column footer-links">

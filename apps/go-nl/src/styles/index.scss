@@ -4,6 +4,33 @@ $font-family: Helvetica, sans-serif;
   width: 175px;
 }
 
+.quicklink-cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  
+  .link-card {
+    flex-grow: 1;
+    max-height: 6em;
+    
+    &:nth-child(1) {
+      background-color: $gray-800;
+    }
+    &:nth-child(2) {
+      background-color: $blue-800;
+    }
+    &:nth-child(3) {
+      background-color: $blue-600;
+    }
+    &:nth-child(4) {
+      background-color: $blue-200;
+      a {
+        color: $gray-900;
+      }
+    }
+  }
+}
+
 .app-page {
   font-size: 13pt;
   font-family: $font-family;
