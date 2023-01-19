@@ -1,8 +1,11 @@
 <template>
   <Page id="page-patient-tree" class="page-bkg-light-gray">
     <PageHeader
+      class="solverd-header"
       title="Solve-RD"
       subtitle="Patient Tree"
+      height="medium"
+      :imageSrc="headerImage"
     />
     <PageSection id="patient-tree" aria-labelledby="patient-tree-title" :verticalPadding="2">
       <h2 id="patient-tree-title">Patient Tree</h2>
@@ -74,15 +77,10 @@ import {
 } from 'rd-components'
 import SolveRdFooter from '../components/SolveRdFooter.vue'
 import TreeView from '../components/TreeView.vue'
-
-import {
-  fetchData,
-  removeNullObjectKeys,
-  objectToUrlFilterArray
-} from '../utils/utils.js'
+import { fetchData, removeNullObjectKeys, objectToUrlFilterArray } from '$shared/js/utils.js'
+import headerImage from '@/assets/solverd-bkg-header.jpg'
 
 export default {
-  name: 'patient-tree',
   components: {
     Page,
     PageHeader,
@@ -97,6 +95,7 @@ export default {
   },
   data () {
     return {
+      headerImage: headerImage,
       endpoint: '/api/v2/rd3stats_treedata',
       filters: {
         subjectID: null,

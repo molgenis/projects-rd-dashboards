@@ -1,9 +1,11 @@
 <template>
-  <Page>
+  <Page id="page-home">
     <PageHeader
+      class="solverd-header"
       title="Solve-RD"
       subtitle="The Rare Disease Database"
       height="medium"
+      :imageSrc="headerImage"
     />
     <PageSection id="section-intro-title" aria-labelledby="section-intro-title" :verticalPadding="2">
       <SolveRdIcon />
@@ -60,12 +62,12 @@
 
 <script>
 import { Page, PageHeader, PageSection, LinkCard } from 'rd-components'
-import SolveRdFooter from '../components/SolveRdFooter.vue';
+import SolveRdFooter from '@/components/SolveRdFooter.vue';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline'
-import SolveRdIcon from '../components/icons/solve-rd-icon.vue'
+import SolveRdIcon from '@/components/icons/solve-rd-icon.vue'
+import headerImage from '@/assets/solverd-bkg-header.jpg'
 
 export default {
-  name: 'home-page',
   components: {
     Page,
     PageHeader,
@@ -74,6 +76,11 @@ export default {
     SolveRdFooter,
     ArrowTopRightOnSquareIcon,
     SolveRdIcon
+  },
+  data () {
+    return {
+      headerImage: headerImage
+    }
   }
 }
 </script>
@@ -82,7 +89,6 @@ export default {
 .page-header {
   background-color: $gray-800;
   color: $gray-050;
-  // background-color: $blue-200;
 }
 
 #section-learn-more {

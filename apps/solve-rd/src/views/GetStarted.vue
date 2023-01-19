@@ -1,9 +1,11 @@
 <template>
-  <Page>
+  <Page id="page-get-started">
     <PageHeader
+      class="solverd-header"
       title="Solve-RD"
-      subtitle="Getting Started with RD3"
+      subtitle="Getting started with RD3"
       height="medium"
+      :imageSrc="headerImage"
     />
     <PageSection id="getstarted-quick-links" aria-labelledby="getstarted-quick-links-title">
       <h2 id="getstarted-quick-links-title">Quick Links</h2>
@@ -49,14 +51,15 @@
 
 <script>
 import { Page, PageSection, PageHeader, LinkCard } from 'rd-components'
-import SolveRdFooter from '../components/SolveRdFooter.vue'
-import rd3ImageDataFlow from '../assets/rd3-data-flow.png'
-import rd3ImageCoreStructure from '../assets/rd3-core-data-structure.png'
+import SolveRdFooter from '@/components/SolveRdFooter.vue'
+import rd3ImageDataFlow from '@/assets/rd3-data-flow.png'
+import rd3ImageCoreStructure from '@/assets/rd3-core-data-structure.png'
+import headerImage from '@/assets/solverd-bkg-header.jpg'
 
 export default {
-  name: 'get-started',
   data () {
     return {
+      headerImage: headerImage,
       rd3ImageDataFlow: rd3ImageDataFlow,
       rd3ImageCoreStructure: rd3ImageCoreStructure,
       isLoading: false,

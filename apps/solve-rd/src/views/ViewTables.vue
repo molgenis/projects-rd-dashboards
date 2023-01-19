@@ -1,9 +1,11 @@
 <template>
-  <Page>
+  <Page id="page-view-tables">
     <PageHeader
+      class="solverd-header"
       title="Solve-RD"
-      subtitle="Navigating RD3"
+      subtitle="Navigating the RD3 tables"
       height="medium"
+      :imageSrc="headerImage"
     />
     <PageSection id="getstarted-releases" aria-labelledby="getstarted-releases-title" :verticalPadding="2">
       <h2 id="getstarted-releases-title">The RD3 database</h2>
@@ -59,13 +61,14 @@
 
 <script>
 import { Page, PageSection, PageHeader, Accordion, MessageBox } from 'rd-components'
-import SolveRdFooter from '../components/SolveRdFooter.vue'
-import { fetchData as fetchData } from '../utils/utils.js'
+import SolveRdFooter from '@/components/SolveRdFooter.vue'
+import { fetchData } from '$shared/js/utils.js'
+import headerImage from '@/assets/solverd-bkg-header.jpg'
 
 export default {
-  name: 'view-tables',
   data () {
     return {
+      headerImage: headerImage,
       isLoading: false,
       hasError: false,
       errorMessage: null,
