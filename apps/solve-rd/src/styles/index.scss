@@ -3,6 +3,12 @@
   font-family: Helvetica, sans-serif;
 }
 
+.solverd-header {
+  filter: hue-rotate(40deg);
+  .background-image-filter {
+    opacity: 0.4;
+  }
+}
 
 .app-page {
   &.page-bkg-light-gray {
