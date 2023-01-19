@@ -4,9 +4,10 @@ import HomePage from '../views/HomePage.vue'
 import GetStartedPage from '../views/GetStarted.vue'
 import PatientTreePage from '../views/PatientTree.vue'
 import ViewTablesPage from '../views/ViewTables.vue'
+const initialState = window.__INITIAL_STATE__ || {}
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(initialState.baseUrl),
   routes: [
     {
       name: 'home',

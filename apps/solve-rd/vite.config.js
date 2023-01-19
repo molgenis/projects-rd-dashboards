@@ -17,10 +17,13 @@ build-date: ${buildDate}
 `
 
 const shared = {
-  plugins: [vue()],
+  define: {
+    appversion: JSON.stringify(pkgjson.version)
+  },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '$shared': fileURLToPath(new URL('../rd-shared/', import.meta.url))
     }
   },
   css: {
@@ -29,7 +32,7 @@ const shared = {
         additionalData: `
         @import "../../rd-components/src/styles/palettes.scss";
         @import "../../rd-components/src/styles/variables.scss";
-        @import "./src/styles/mixins.scss";
+        @import "../../rd-shared/styles/mixins.scss";
         @import "./src/styles/index.scss";
         `
       }
@@ -37,11 +40,11 @@ const shared = {
   }
 }
 
-
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
   if (command === 'serve') {
     return {
+      plugins: [vue()],
       base: "",
       server: {
         port: 8080,
@@ -85,7 +88,6 @@ export default defineConfig(({ command }) => {
           }
         }
       }
-
     }
   }
 })
