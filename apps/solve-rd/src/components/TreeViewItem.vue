@@ -48,8 +48,8 @@
 </template>
 
 <script>
-import TreeViewItemIcon from './TreeViewItemIcon.vue'
-import TreeViewItemLink from './TreeViewItemLink.vue'
+import TreeViewItemIcon from '@/components/TreeViewItemIcon.vue'
+import TreeViewItemLink from '@/components/TreeViewItemLink.vue'
 
 export default {
   name: 'treeViewItem',

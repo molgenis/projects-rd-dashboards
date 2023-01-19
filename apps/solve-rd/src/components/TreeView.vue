@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import TreeViewItem from './TreeViewItem.vue'
+import TreeViewItem from '@/components/TreeViewItem.vue'
 
 export default {
   name: 'tree-view',

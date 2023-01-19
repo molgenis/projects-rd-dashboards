@@ -61,8 +61,8 @@
 <script>
 import { PageFooter, UnorderedList } from 'rd-components'
 import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline'
-import SolveRdLogo from './SolveRdLogo.vue'
-import MolgenisLogo from '../assets/molgenis-logo-blue-white.png'
+import SolveRdLogo from '@/components/SolveRdLogo.vue'
+import MolgenisLogo from '@/assets/molgenis-logo-blue-white.png'
 
 export default {
   name: 'solverd-footer',
