@@ -15,13 +15,20 @@
 }
 
 .genturis-header {
-  filter: saturate(50%);
+  filter: saturate(90%);
   height: 28em;
 }
 
 .app-page {
   font-size: 13pt;
   font-family: $font-family;
+  
+  .page-header {
+    .background-image-filter {
+      opacity: 0.5;
+    }
+  }
+  
   .page-section {
     background: $gray-050;
     
