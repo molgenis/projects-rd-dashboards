@@ -84,6 +84,13 @@ import { InputLabel } from 'rd-components'
 
 ### MessageBox
 
+Display an error, warning, or a general message.
+
+| Property    | Description                                                                 | Default | Required | Type   |
+|-------------|-----------------------------------------------------------------------------|---------|----------|--------|
+| type | message type (error, success, warning, default) | `default` | true | String |
+| showIcon | If `false`, message icon will not be displayed | `true` | false | Boolean |
+
 ### MolgenisLogo
 
 ### Page
@@ -109,6 +116,29 @@ import { InputLabel } from 'rd-components'
 ### VizDataTable
 
 ### VizDataValueHighlights
+
+Component for displaying a data highlights box.
+
+| Property    | Description                                                                 | Default | Required | Type   |
+|-------------|-----------------------------------------------------------------------------|---------|----------|--------|
+| title | a short, concise title that describes the data highlights | --- | false | String |
+| showTitle | If `true`, the title will be hidden | `false` | false | String
+| values | an array of values | --- | true | Array |
+| labels | an array of labels that describe each value | --- | true | Array
+
+The title that describes all data highlights can be hidden. However, labels for each value is required.
+
+```js
+import { VizDataHighlights as DataHighlights } from 'rd-components'
+
+<template>
+  <DataHighlights
+    title="My Project at a glance"
+    :values="[432, 10, 3]"
+    :labels="['Partners', 'Organisations', 'Countries']"
+  />
+</template>
+```
 
 ### VizGeoMercator
 
