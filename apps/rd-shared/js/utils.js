@@ -37,6 +37,29 @@ export function asDataObject (data, key, value) {
   return newDataObject
 }
 
+
+// Minimum Data
+// In an array of objects, return the earliest date in by named property
+
+// @param data an array of objects
+// @param dateVar name of attribute that contains the date value
+//
+// @param date; earliest date
+export function minDate (data, dateVar) {
+  return new Date(Math.min(...data.map(row => new Date(row[dateVar]))))
+}
+
+// Minimum Data
+// In an array of objects, return the most recent date in by named property
+//
+// @param data an array of objects
+// @param dateVar name of attribute that contains the date value
+//
+// @return date; most recent date
+export function maxDate (data, dateVar) {
+  return new Date(Math.max(...data.map(row => new Date(row[dateVar]))))
+}
+
 // Object To Url Filter Array
 // Object containing  to an array of strings (in Molgenis format). Any value
 // that is a comma-separated string, will be formatted accordingly
@@ -155,6 +178,15 @@ export function sortData (data, column) {
   return data.sort((current, next) => {
     return current[column] < next[column] ? -1 : 1
   })
+}
+
+// String as Number
+// Attempt to parse string as a number
+//
+// @param value a string containing a number
+// @return a number
+export function stringAsNumber (value) {
+  return typeof value === 'string' ? parseFloat(value.replace(/,/g, '')) : value
 }
 
 // subset data
