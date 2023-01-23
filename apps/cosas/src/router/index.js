@@ -35,7 +35,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/cosas/dashboard',
+      path: '/cosas-dashboard',
       name: 'cosas-dashboard',
       component: CosasDashboard,
       meta: {
@@ -43,7 +43,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/cosas/data-finder',
+      path: '/cosas-data-finder',
       name: 'cosas-data-finder',
       component: CosasDataFinder,
       meta: {
@@ -51,7 +51,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/varian-db',
+      path: '/variant-db',
       name: 'variant-db',
       component: VariantLandingPage,
       meta: {
