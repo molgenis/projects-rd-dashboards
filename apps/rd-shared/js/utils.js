@@ -37,6 +37,21 @@ export function asDataObject (data, key, value) {
   return newDataObject
 }
 
+// Init Search Object
+// Create object that will handle all loading messages (loading, error, successful)
+// when querying for results via the MOLGENIS API
+//
+// @return object
+export function initSearchResultsObject () {
+  return {
+    isSearching: false,
+    wasSuccessful: false,
+    hasFailed: false,
+    errorMessage: null,
+    successMessage: null,
+    resultsUrl: null
+  }
+}
 
 // Minimum Data
 // In an array of objects, return the earliest date in by named property
@@ -145,7 +160,7 @@ export function removeNullObjectKeys (data) {
 }
 
 // setDataExplorerUrl
-// Create full URL with filters
+// Create full URL with filters for MOLGENIS (EMX1) DataExplorer
 //
 // @param entity EMX table location as <package>_<entity>
 // @param array an array of filters (i.e., output of objectToUrlFilterArray)
@@ -166,6 +181,24 @@ export function setDataExplorerUrl(entity, array) {
   const filtersEncoded = encodeURIComponent(filters)
   const baseUrl = `/menu/plugins/dataexplorer?entity=${entity}&mod=data&hideselect=true`
   const url = baseUrl + '&filter=' + filtersEncoded
+  return url
+}
+
+// setSearchAllUrl
+// Generate the Data Explorer URL for a search all query
+//
+// @param entity EMX table location as <package>_<entity>
+// @param query a string containing a search term
+//
+// @examples
+// const query = 'my-search-term'
+//
+// @return a string containing a URL to a dataexplorer table
+export function setSearchAllUrl (entity, query) {
+  const baseUrl = `/menu/plugins/dataexplorer?entity=${entity}&mod=data&hideselect=true`
+  const urlParamEncoded = 'query%5Bq%5D%5B0%5D%5Boperator%5D=SEARCH&query%5Bq%5D%5B0%5D%5Bvalue%5D'
+  const queryEncoded = encodeURIComponent(query)
+  const url = `${baseUrl}&${urlParamEncoded}=${queryEncoded}`
   return url
 }
 
@@ -199,4 +232,13 @@ export function stringAsNumber (value) {
 // @return an array of objects
 export function subsetData (data, column, value) {
   return data.filter(row => row[column] === value)
+}
+
+// windowReplaceUrl
+// Open a URL in another tab
+//
+// @param url URL to open
+//
+export function windowReplaceUrl (url) {
+  window.open(url, '_blank')
 }
