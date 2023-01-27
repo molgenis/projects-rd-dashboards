@@ -78,6 +78,46 @@ import { InputLabel } from 'rd-components'
 
 ### InputSearch
 
+Create a search field for use in a form.
+
+| Property    | Description                                                                 | Default | Required | Type   |
+|-------------|-----------------------------------------------------------------------------|---------|----------|--------|
+| id | an ID for the input element | --- | true | String |
+| label | a short title to give for the input | --- | true | String |
+| description | a short, optional description of the input | --- | false | String
+
+To access the value, use the `search` event and assign it a corresponding attribute in `data`.
+
+You may also want to use the `<PageForm>` and `<PageFormSection>` components for additional styling and layouts.
+
+```js
+<script>
+import { PageForm, PageFormSection, InputSearch } from 'rd-components'
+
+export default {
+  data () {
+    return {
+      query: null
+    }
+  }
+}
+</script>
+
+<template>
+  <PageForm>
+    <PageFormSection>
+      <InputSearch
+        id="database-search"
+        label="Search for Patients"
+        description="E.g., identifier, age, gender, etc."
+        @search="(value) => query = value"
+      />
+    </PageFormSection>
+    ....
+  </PageForm>
+</tempate>
+```
+
 ### LinkCard
 
 ### LoadingScreen
