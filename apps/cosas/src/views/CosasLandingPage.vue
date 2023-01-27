@@ -2,8 +2,8 @@
   <Page id="page-cosas-landing">
     <PageHeader
       class="cosas-page-header"
-      title="Genetica Diagnostiek Portal"
-      subtitle="Find, explore, and access data"
+      title="COSAS"
+      subtitle="Catalog of Sequences, Arrays, and Samples"
       :imageSrc="pageHeaderImage"
       height="medium"
       titlePositionX="center"
