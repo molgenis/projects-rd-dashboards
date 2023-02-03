@@ -1,17 +1,17 @@
 <template>
-  <Page id="page-patient-tree" class="page-bkg-light-gray">
+  <Page id="page-patient-explorer" class="page-bkg-light-gray">
     <PageHeader
       class="solverd-header"
       title="Solve-RD"
-      subtitle="Patient Tree"
+      subtitle="Patient Explorer"
       height="medium"
       :imageSrc="headerImage"
     />
-    <PageSection id="patient-tree" aria-labelledby="patient-tree-title" :verticalPadding="2">
-      <h2 id="patient-tree-title">Patient Tree</h2>
-      <p>The <strong>Patient Tree</strong> visualizes the connection between patients, samples, and experiments. Search for records using one or more subject- or family identifiers. To search for more than one identifier, separate values by a comma like so "firstID, secondID,...". At the top level, are patients. Click a patient ID to view all linked samples. Click a sample ID to view all linked experiments.</p>
+    <PageSection id="patient-explorer" aria-labelledby="patient-explorer-title" :verticalPadding="2">
+      <h2 id="patient-explorer-title">Patient Explorer</h2>
+      <p>The <strong>Patient Explorer</strong> visualizes the connection between patients, samples, and experiments. Search for records using one or more subject- or family identifiers. To search for more than one identifier, separate values by a comma like so "firstID, secondID,...". At the top level, are patients. Click a patient ID to view all linked samples. Click a sample ID to view all linked experiments.</p>
       <div class="flex-container">
-        <PageForm id="patient-tree-search" title="Search for patients or families" class="aside" @submit.prevent>
+        <PageForm id="patient-explorer-search" title="Search RD3" class="aside" @submit.prevent>
           <PageFormSection>
             <MessageBox type="error" v-if="validation.hasError" :showIcon="false" style="margin-top:0;">
               <p v-html="validation.message"></p>
@@ -43,7 +43,7 @@
             <p v-html="request.message"></p>
           </MessageBox>
           <MessageBox v-else-if="!request.hasError && !request.isLoading && !treedata.length" style="background-color: #ffffff; font-size: 14pt;margin: 0;">
-            <p>To view the patient tree, search for subjects and families using one or more identifier.</p>
+            <p>To start the patient explorer, search for subjects and families using one or more identifier.</p>
           </MessageBox>
           <div v-else>
             <div class="tree-controls">
@@ -61,7 +61,6 @@
       </div>
     </PageSection>
   </Page>
-  <SolveRdFooter />
 </template>
 
 <script>
@@ -75,7 +74,6 @@ import {
   MessageBox,
   ButtonSearch
 } from 'rd-components'
-import SolveRdFooter from '../components/SolveRdFooter.vue'
 import TreeView from '../components/TreeView.vue'
 import { fetchData, removeNullObjectKeys, objectToUrlFilterArray } from '$shared/js/utils.js'
 import headerImage from '@/assets/solverd-bkg-header.jpg'
@@ -90,8 +88,7 @@ export default {
     InputSearch,
     MessageBox,
     ButtonSearch,
-    TreeView,
-    SolveRdFooter
+    TreeView
   },
   data () {
     return {
@@ -195,7 +192,7 @@ export default {
 
 <style lang="scss">
 
-#patient-tree {
+#patient-explorer {
   background-color: $gray-050;
 }
 

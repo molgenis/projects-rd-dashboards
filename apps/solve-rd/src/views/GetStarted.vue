@@ -17,7 +17,7 @@
           <a href="https://rdnexus.molgeniscloud.org/discover/index">Discovery Nexus</a>
         </LinkCard>
         <LinkCard>
-          <router-link :to="{ name: 'patient-tree' }">Patient Tree</router-link>
+          <router-link :to="{ name: 'patient-explorer' }">Patient Explorer</router-link>
         </LinkCard>
       </div>
     </PageSection>
@@ -46,12 +46,10 @@
       </ul>
     </PageSection>
   </Page>
-  <SolveRdFooter />  
 </template>
 
 <script>
 import { Page, PageSection, PageHeader, LinkCard } from 'rd-components'
-import SolveRdFooter from '@/components/SolveRdFooter.vue'
 import rd3ImageDataFlow from '@/assets/rd3-data-flow.png'
 import rd3ImageCoreStructure from '@/assets/rd3-core-data-structure.png'
 import headerImage from '@/assets/solverd-bkg-header.jpg'
@@ -72,8 +70,7 @@ export default {
     Page,
     PageHeader,
     PageSection,
-    LinkCard,
-    SolveRdFooter
+    LinkCard
   }
 }
 </script>

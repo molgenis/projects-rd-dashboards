@@ -57,12 +57,10 @@
       </div> 
     </PageSection>
   </Page>
-  <SolveRdFooter />
 </template>
 
 <script>
 import { Page, PageHeader, PageSection, LinkCard } from 'rd-components'
-import SolveRdFooter from '@/components/SolveRdFooter.vue';
 import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline'
 import SolveRdIcon from '@/components/icons/solve-rd-icon.vue'
 import headerImage from '@/assets/solverd-bkg-header.jpg'
@@ -73,7 +71,6 @@ export default {
     PageHeader,
     PageSection,
     LinkCard,
-    SolveRdFooter,
     ArrowTopRightOnSquareIcon,
     SolveRdIcon
   },

@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import HomePage from '../views/HomePage.vue'
 import GetStartedPage from '../views/GetStarted.vue'
-import PatientTreePage from '../views/PatientTree.vue'
+import PatientExplorerPage from '../views/PatientExplorer.vue'
 import ViewTablesPage from '../views/ViewTables.vue'
 const initialState = window.__INITIAL_STATE__ || {}
 
@@ -27,11 +27,11 @@ const router = createRouter({
       }
     },
     {
-      name: 'patient-tree',
-      path: '/patient-tree',
-      component: PatientTreePage,
+      name: 'patient-explorer',
+      path: '/patient-explorer',
+      component: PatientExplorerPage,
       meta: {
-        title: 'Patient Tree'
+        title: 'Patient Explorer'
       }
     },
     {

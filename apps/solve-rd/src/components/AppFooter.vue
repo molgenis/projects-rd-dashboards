@@ -7,7 +7,7 @@
           <UnorderedList listType="none">
             <li><router-link :to="{name: 'get-started'}">Get Started</router-link></li>
             <li><router-link :to="{name: 'view-tables'}">View Tables</router-link></li>
-            <li><router-link :to="{name: 'patient-tree'}">Patient Tree</router-link></li>
+            <li><router-link :to="{name: 'patient-explorer'}">Patient Explorer</router-link></li>
             <li>
               <a href="https://solve-rd.eu">
                 <span>solve-rd.eu</span>
@@ -22,12 +22,14 @@
             <li><a href="/login">Sign in</a></li>
             <li>
               <a href="https://docs.google.com/document/d/10N6kTdbyUgjzsEO3BjwV6nSKZymIyv36-jxooqDPMOc/edit#">
-                RD3 User Guide
+                <span>RD3 User Guide</span>
+                <ExternalLink class="heroicons external-link" />
               </a>
             </li>
             <li>
               <a href="http://docs.gcc.rug.nl/fender/index.html">
-                Sandbox Manual
+                <span>Sandbox Manual</span>
+                <ExternalLink class="heroicons external-link" />
               </a>
             </li>
             <li>
@@ -102,6 +104,7 @@ export default {
   }
   
   .footer-links {
+    position: relative;
     flex-grow: 2;
     
     a {
@@ -116,7 +119,7 @@ export default {
     }
     .heroicons {
       position: absolute;
-      top: -3px;
+      top: 0;
       margin-left: 3px;
       $size: 15px;
       width: $size;

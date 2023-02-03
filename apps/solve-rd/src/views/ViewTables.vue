@@ -56,12 +56,10 @@
       </div>
     </PageSection>
   </Page>
-  <SolveRdFooter />  
 </template>
 
 <script>
 import { Page, PageSection, PageHeader, Accordion, MessageBox } from 'rd-components'
-import SolveRdFooter from '@/components/SolveRdFooter.vue'
 import { fetchData } from '$shared/js/utils.js'
 import headerImage from '@/assets/solverd-bkg-header.jpg'
 
@@ -80,8 +78,7 @@ export default {
     PageHeader,
     PageSection,
     Accordion,
-    MessageBox,
-    SolveRdFooter
+    MessageBox
   },
   methods: {
     buildDataExplorerUrl(table, q) {
