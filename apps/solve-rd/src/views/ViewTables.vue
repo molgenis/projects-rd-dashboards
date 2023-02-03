@@ -3,7 +3,7 @@
     <PageHeader
       class="solverd-header"
       title="Solve-RD"
-      subtitle="Navigating the RD3 tables"
+      subtitle="Navigating the RD3 database"
       height="medium"
       :imageSrc="headerImage"
     />
@@ -13,7 +13,7 @@
         <p v-html="errorMessage"></p>
       </MessageBox>
       <div v-else-if="!hasError && !isLoading && releaseData">
-        <p>As described in the <router-link :to="{ name: 'get-started'}">Get Started</router-link> page, RD3 has five core tables. Click any of the links below, to view a them. If you are looking for data in a specific Solve-RD release, have a look at the next section.</p>
+        <p>As described in the <router-link :to="{name: 'get-started'}">Get Started</router-link> page, RD3 has five core tables. Click any of the links below, to view a them. If you are looking for data in a specific Solve-RD release, have a look at the next section.</p>
         <ul>
           <li><a href="/menu/subjects/dataexplorer?entity=solverd_subjects&hideselect=true">Subjects</a>: information about the subjects and their families. This includes diagnoses, phenotypic information, sex, associated organisations (ERNs, institutions), etc.</li>
           <li><a href="/menu/subjects/dataexplorer?entity=solverd_subjectinfo&hideselect=true">Subject Information</a>: secondary information about the subjects. This table is linked with subjects tables.</li>
@@ -93,7 +93,7 @@ export default {
         fetchData('/api/v2/solverd_info_datareleases')
       ).then(response => {
         const data = response.items
-        this.releaseData = data.filter(release => !release.id.includes('patch'))
+        this.releaseData = data.filter(release => !release.id.includes('patch') && !release.id.includes('novelomics_original'))
         this.isLoading = false
       }).catch(error => {
         this.hasError = true
