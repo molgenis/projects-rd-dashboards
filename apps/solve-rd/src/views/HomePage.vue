@@ -88,22 +88,23 @@ export default {
   color: $gray-050;
 }
 
-#section-learn-more {
-  background-color: $gray-050;
-}
-
-#linkViewTables {
-  background-color: $blue-800;
-}
-
-#linkDiscoveryNexus {
-  background-color: $blue-500;
-}
-
-#linkGetStarted {
-  background-color: $blue-200;
-  a {
-    color: $gray-800;
+.link-cards-container {
+  .link-card {
+    &:nth-child(1) {
+      background-color: $blue-600;
+    }
+    
+    &:nth-child(2) {
+      background-color: $blue-400;
+    }
+    
+    &:nth-child(3) {
+      background-color: $blue-200;
+      
+      a {
+        color: $gray-800;
+      }
+    }
   }
 }
 
