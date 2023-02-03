@@ -1,4 +1,5 @@
-.app-page, .page-footer {
+.app-page,
+.page-footer {
   font-size: 14pt;
   font-family: Helvetica, sans-serif;
 }
@@ -14,6 +15,51 @@
   &.page-bkg-light-gray {
     background-color: $gray-050;
   }
+
+  .message-box {
+    .message-text {
+      padding: 0.8em; 
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      p {
+        margin: 0;
+      }
+    }
+  }
+
+  .btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    .btn-icon {
+      $size: 18px;
+      width: $size;
+      height: $size;
+    }
+
+    &.btn-text-only {
+      color: $gray-600;
+      margin-bottom: 6px;
+    }
+
+    &.btn-secondary {
+      width: 100%;
+      text-align: center;
+      padding: 6px 12px;
+      background-color: transparent;
+      border: 1px solid $gray-500;
+      color: $gray-800;
+      border-radius: 6px;
+      font-size: 13pt;
+    }
+  }
 }
 
 .page-action-link {
@@ -25,52 +71,19 @@
   color: $molgenis-blue-800;
   text-decoration: none;
   text-align: center;
-  
+
   &.page-action-secondary {
     border-color: $gray-400;
   }
-  
+
   &.page-action-primary {
     border-color: $molgenis-blue-800;
     background-color: $molgenis-blue-800;
     color: $molgenis-blue-050;
   }
-  
+
   &:hover {
     text-decoration: underline;
-  }
-}
-
-.btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  margin: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  
-  .btn-icon {
-    $size: 18px;
-    width: $size;
-    height: $size;
-  }
-  
-  &.btn-text-only {
-    color: $gray-600;
-    margin-bottom: 6px;
-  }
-  
-  &.btn-secondary {
-    width: 100%;
-    text-align: center;
-    padding: 6px 12px;
-    background-color: transparent;
-    border: 1px solid $gray-500;
-    color: $gray-800;
-    border-radius: 6px;
-    font-size: 13pt;
   }
 }
 
@@ -81,7 +94,7 @@
   flex-direction: row;
   margin-top: 1.2em;
   gap: 1.7em;
-  
+
   .info-card {
     box-sizing: content-box;
     padding: 1em;
@@ -89,24 +102,24 @@
     border-radius: 6px;
     box-shadow: 0 0 6px 4px $gray-transparent-100;
     flex-grow: 1;
-    
+
     p {
       margin: 0;
     }
-    
+
     .card-title {
       color: $gray-800;
     }
-    
+
     .card-description {
       font-size: 12pt;
       margin-top: 6px;
       margin-bottom: 10px;
     }
-    
+
     a {
-      font-size: 12pt; 
-      
+      font-size: 12pt;
+
       svg {
         position: relative;
         $size: 13pt;
@@ -115,8 +128,9 @@
         margin-left: 3px;
         margin-bottom: -2px;
       }
-      
-      &:hover, &:focus {
+
+      &:hover,
+      &:focus {
         background-color: $molgenis-blue-800;
         color: $molgenis-blue-050;
       }
@@ -130,7 +144,7 @@
   align-items: center;
   flex-direction: row;
   flex-wrap: wrap;
-  
+
   .link-card {
     flex-grow: 1;
   }
@@ -141,7 +155,7 @@
     h3.accordion-heading {
       margin-bottom: 0;
     }
-    
+
     ul {
       line-height: 1.5;
     }
