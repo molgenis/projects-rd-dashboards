@@ -28,7 +28,7 @@
     }
   }
 
-  .btn {
+  .button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -38,28 +38,32 @@
     border: none;
     cursor: pointer;
 
-    .btn-icon {
+    .button-icon {
       $size: 18px;
       width: $size;
       height: $size;
     }
 
-    &.btn-text-only {
+    &.button-text-only {
       color: $gray-600;
       margin-bottom: 6px;
     }
 
-    &.btn-secondary {
+    &.button-secondary {
       width: 100%;
       text-align: center;
       padding: 6px 12px;
       background-color: transparent;
-      border: 1px solid $gray-500;
-      color: $gray-800;
+      border: 1px solid $gray-400;
+      color: $gray-700;
       border-radius: 6px;
-      font-size: 13pt;
     }
   }
+
+  .button-search, .button {
+    font-size: 11pt;
+  }
+
 }
 
 .page-action-link {

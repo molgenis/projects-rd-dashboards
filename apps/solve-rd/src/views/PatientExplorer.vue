@@ -33,8 +33,8 @@
               @search="(value) => updateFamilyID(value)"
             />
           </PageFormSection>
-          <ButtonSearch id="search" @click="getData" class="btn" />
-          <button id="clear" class="btn btn-secondary" @click="clearForm">
+          <ButtonSearch id="search" @click="getData" />
+          <button id="clear" class="button button-secondary" @click="clearForm">
             <span>Clear</span>
           </button>
         </PageForm>
@@ -47,8 +47,8 @@
           </MessageBox>
           <div v-else>
             <div class="tree-controls">
-              <button id="expand-all" class="btn btn-text-only" @click="onclick" aria-controls="tree" :aria-expanded="expandAll">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="btn-icon">
+              <button id="expand-all" class="button button-text-only" @click="onclick" aria-controls="tree" :aria-expanded="expandAll">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="button-icon">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" v-if="expandAll" />
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" v-else />
                 </svg>
@@ -222,10 +222,18 @@ export default {
       top: 1.5em;
     }
     
-    .btn {
-      margin-bottom: 12px;
+  }
+  .page-form {
+    .form-sections {
+      .form-section {
+        padding-bottom: 0.4em;
+      }
+    }
+    .button-search {
+      margin-bottom: 0.7em;
     }
   }
+  
 
   .main {
     box-sizing: content-box;
