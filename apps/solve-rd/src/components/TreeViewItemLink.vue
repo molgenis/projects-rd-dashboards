@@ -47,9 +47,5 @@ export default {
   .link__label {
     @include visuallyHidden;
   }
-  
-  &:hover, &:focus {
-    background-color: $blue-100;
-  }
 }
 </style>
