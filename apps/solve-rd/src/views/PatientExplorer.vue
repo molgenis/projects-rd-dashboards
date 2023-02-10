@@ -115,6 +115,7 @@ export default {
     clearForm () {
       this.$refs.formInputSubjectID.value = ''
       this.$refs.formInputFamilyID.value = ''
+      this.filters = {subjectID: null, familyID: null}
     },
     collapseAll () {
       const tree = this.$refs.tree

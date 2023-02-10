@@ -37,12 +37,13 @@ export default {
 
 <style lang="scss" scoped>
 .tree__item__link {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  padding: 2px;
-  border-radius: 100%;
-  text-align: center; 
+  
+  .link__icon {
+    $size: 14px;
+    width: $size;
+    height: $size;
+    margin-top: 4px;
+  }
 
   .link__label {
     @include visuallyHidden;
