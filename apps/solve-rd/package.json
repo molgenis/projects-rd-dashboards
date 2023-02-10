@@ -1,7 +1,7 @@
 {
   "name": "solve-rd",
   "description": "vue application for the solve-rd RD3 database",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "scripts": {
     "copy-html:dev": "copyfiles -f ../rd-shared/templates/dev/index.html ./",
     "copy-html:prod": "copyfiles -f ../rd-shared/templates/build/index.html ./",
