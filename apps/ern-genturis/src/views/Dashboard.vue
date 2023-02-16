@@ -72,7 +72,7 @@
       </div>
       <div id="viz-data-table" class="dashboard-viz">
         <h2 id="patient-enrollment-summary-title" class="chart-title">
-          Summary of patients enrolled by thematic disease group (n={{ diseaseGroupEnrollmentTotal }})
+          Summary of patients enrolled by thematic disease group (n={{ totalPatients }})
         </h2>
         <DataTable
           tableId="disease-group-enrollment-table"
@@ -129,11 +129,10 @@ export default {
       institutionGeoData: [],
       enrollmentHighlights: {},
       diseaseGroupEnrollment: [],
-      diseaseGroupEnrollmentTotal: null,
+      totalPatients: null,
       sexAtBirth: [],
       ageAtInclusion: [],
-      patientsRegistry: [],
-      geojson: geojson
+      geojson: geojson,
     }
   },
   mounted () {
@@ -148,14 +147,13 @@ export default {
         ...row, hasSubmittedData: row.hasSubmittedData ? row.hasSubmittedData : 'false'
       }))
 
-      const patientEnrollment = subsetData(data, 'component', 'table-enrollment-patients')[0]
-      const countryEnrollment = subsetData(data, 'component', 'table-enrollment-country')[0]
-      const providersEnrollment = subsetData(data, 'component', 'table-enrollment-providers')[0]
+      this.totalPatients = subsetData(data,'id', 'data-highlight-0')[0]['value']
+      const dataHighlights = subsetData(data, 'component', 'data-highlights')
       this.enrollmentHighlights = {
-        values: [patientEnrollment.value, countryEnrollment.value, providersEnrollment.value],
-        labels: ['Patients', 'Member Countries', 'Healthcare Providers']
+        values: dataHighlights.map(row => row.value),
+        labels: dataHighlights.map(row => row.label)
       }
-
+      
       const sexAtBirthData = subsetData(data, 'component', 'pie-sex-at-birth')
       this.sexAtBirth = asDataObject(sexAtBirthData, 'label', 'value')
       

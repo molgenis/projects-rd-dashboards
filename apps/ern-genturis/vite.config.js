@@ -6,7 +6,7 @@ import generateFile from 'vite-plugin-generate-file'
 
 import pkgjson from './package.json'
 import newDevProxy from '../dev-proxy.config.js'
-const devProxyConfig = newDevProxy('https://genturis-acc.molgeniscloud.org/')
+const devProxyConfig = newDevProxy('https://genturis.molgeniscloud.org/')
 
 const now = new Date()
 const buildDate = now.toUTCString()
