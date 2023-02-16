@@ -1,3 +1,20 @@
 node_modules
 .DS_Store
 private
+
+# open xlsx files
+~$*.xlsx
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
