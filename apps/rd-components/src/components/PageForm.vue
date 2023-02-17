@@ -11,13 +11,19 @@
 </template>
 
 <script>
+// @displayName PageForm
+// The `<PageForm>` component is the parent layout component for creating forms within an page. Ideally, this should be child element of `<PageSection />`.
+// @group LAYOUTS
 export default {
-  name: 'ui-form',
+  name: 'PageForm',
   props: {
+    // A title for the form (passed down to `<legend>`)
     title: {
       type: String,
       required: true
     },
+    
+    // An optional description of the form to provide additional context
     description: {
       type: String,
       required: false

@@ -1,14 +1,18 @@
 <template>
   <ul :class="classNames">
+    <!-- main content -->
     <slot></slot>
   </ul>
 </template>
 
 <script>
+
+// The `<UnorderedList />` component is primarily used in the `<PageFooter />` component to display links to other pages (both internally and externally). The list may be rendered horizontally (ideal for the links to legal pages) or vertically (site maps).
 export default {
-  name: 'unordered-list',
   props: {
+    // determine if the list should be rendered vertically (default) or horizontally
     listLayout: {
+      // `'vertical' / 'horizontal'`
       type: String,
       default: 'vertical',
       validator: (value) => {
@@ -16,7 +20,9 @@ export default {
         return layouts.includes(value)
       }
     },
+    // Choose the icon that separates each link
     listType: {
+      // `'none' / 'circle' / 'square' `
       type: String,
       default: 'circle',
       validator: (value) => {

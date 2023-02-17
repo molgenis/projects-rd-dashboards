@@ -4,9 +4,8 @@
   </div>
 </template>
   
-  <script>
+<script>
 export default {
-  name: 'page-footer',
   data () {
     return {
       molgenisVersion: null,

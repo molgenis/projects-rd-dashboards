@@ -8,29 +8,38 @@
 import { select, selectAll } from 'd3'
 const d3 = { select, selectAll }
 
+// @displayName Datatable
+// The datatable component is a D3 component that renders a dataset into a responsive, interactive table. By default, all tables are rendered with interactive features enabled (i.e., row highlighting and row clicks), but these can be disabled as needed. Column selection and order can be defined using the `columnOrder` property. This allows you to customise the layout of the table rather than processing the data beforehand.
+//
 export default {
   name: 'DataTable',
   props: {
+    // A unique identifier for the table
     tableId: {
       type: String,
       required: true
     },
+    // dataset to render (array of objects)
     data: {
       type: Array,
       required: true
     },
+    // an array of column names that define the selection and order of columns
     columnOrder: {
       type: Array,
       required: true
     },
+    // optional text that describes the table 
     caption: {
       type: String,
       default: null
     },
+    // If true, rows will be highlighted on mouse events
     enableRowHighlighting: {
       type: Boolean,
       default: true
     },
+    // If true, row clicks will return the selected row (as an object)
     enableRowClicks: {
       type: Boolean,
       default: true
@@ -66,6 +75,7 @@ export default {
         rowIndex: parseInt(clickedRow.getAttribute('data-row-index')),
         data: data
       }
+      // When a row is clicked, the data is returned
       this.$emit('row-selection', selection)
     },
     renderTable () {

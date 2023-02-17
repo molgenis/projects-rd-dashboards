@@ -31,19 +31,23 @@
       role="region"
       v-show="visible"
     >
+      <!-- Content to be hidden or shown -->
       <slot></slot>
     </section>
   </div>
 </template>
 
 <script>
+// @displayName Accordion
+// Create a collapsible element for hiding and showing content
 export default {
-  name: 'accordion',
   props: {
+    // A unique identifier for the accordion
     id: {
       type: String,
       required: true
     },
+    // A label that describes the hidden content
     title: {
       type: String,
       required: true
