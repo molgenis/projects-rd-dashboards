@@ -3,7 +3,9 @@
   "workspaces": [
     "ern-genturis",
     "ern-ithaca",
+    "ern-skin",
     "go-nl",
+    "hello-world",
     "solve-rd",
     "rd-components",
     "rd-shared"
