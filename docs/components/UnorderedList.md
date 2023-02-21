@@ -8,7 +8,7 @@ The `<UnorderedList />` component is primarily used in the `<PageFooter />` comp
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |listLayout|determine if the list should be rendered vertically (default) or horizontally|`'vertical' / 'horizontal'`|`false`|vertical|
-|listType|Choose the icon that separates each link|`'none' / 'circle' / 'square' `|`false`|circle|
+|listType|Choose the icon that separates each link|`'none' / 'circle' / 'square' `|`false`|`circle`|
 
 <!-- @vuese:UnorderedList:props:end -->
 
@@ -18,7 +18,7 @@ The `<UnorderedList />` component is primarily used in the `<PageFooter />` comp
 <!-- @vuese:UnorderedList:slots:start -->
 |Name|Description|Default Slot Content|
 |---|---|---|
-|default|main content|-|
+|default|list content|-|
 
 <!-- @vuese:UnorderedList:slots:end -->
 

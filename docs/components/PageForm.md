@@ -18,7 +18,7 @@ The `<PageForm>` component is the parent layout component for creating forms wit
 <!-- @vuese:PageForm:slots:start -->
 |Name|Description|Default Slot Content|
 |---|---|---|
-|default|-|-|
+|default|form content|-|
 
 <!-- @vuese:PageForm:slots:end -->
 

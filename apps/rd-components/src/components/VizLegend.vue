@@ -10,12 +10,21 @@
 </template>
 
 <script>
+
+// Create a legend for a visualisation for use outside the chart element. This
+// component may be useful if you have several charts that display the
+// same groups.
+//
+// @group VISUALISATIONS
 export default {
+  name: 'ChartLegend',
   props: {
+    // An array of labels to display
     labels: {
       type: Array,
       required: true
     },
+    // An array of colors that correspond to the labels
     colors: {
       type: Array,
       required: true

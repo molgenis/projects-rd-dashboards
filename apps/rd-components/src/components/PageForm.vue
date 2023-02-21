@@ -5,6 +5,7 @@
       <span class="form-header-description" v-if="description">{{ description }}</span>
     </legend>
     <div class="form-sections">
+      <!-- form content -->
       <slot></slot>
     </div>
   </form>

@@ -12,48 +12,69 @@ import chartLegend from './VizLegend.vue'
 import { select, selectAll, geoMercator, geoPath, json, zoom } from 'd3'
 const d3 = { select, selectAll, geoMercator, geoPath, json, zoom }
 
+// Create a point location visualation using a geomercator map from the D3 library.
+// Each point represents a unique location in the dataset.
+//
+// @group VISUALISATIONS
 export default {
+  name: 'GeoMercator',
   props: {
+    // a unique identifier for the map
     chartId: {
       type: String,
       required: true
     },
+    // reference dataset for the base layer
     geojson: {
       type: Object,
       required: true
     },
+    // the dataset containing all locations and coordinates
     chartData: {
       type: Array,
       required: true
     },
+    // the column containing the identifiers of each location
     rowId: {
       type: String,
       required: true
     },
+    // the name of the column containing the latitudes
     latitude: {
       type: String,
       required: true
     },
+    // the name of the column containing the longitude
     longitude: {
       type: String,
       required: true
     },
+    // the name of the column containing grouping information (i.e., how locations 
+    // are related, categorised, etc.)
     groupingVariable: {
       type: String
     },
+    // if grouping variable is supplied, color mappings can also be added here.
+    // Input must be an object that maps each unique group to a colour.
     groupColorMappings: {
       type: Object
     },
+    // set the width of a chart
     chartWidth: {
       type: Number,
+      // `500`
       default: 500
     },
+    // set the height of the chart
     chartHeight: {
       type: Number,
+      // `500`
       default: 500
     },
+    // the point (lat, long) to the center map
     mapCenter: {
       type: Object,
+      // `{latitude: 3.55, longitude: 47.55 }`
       default () { 
         return {
           latitude: 3.55,
@@ -61,40 +82,61 @@ export default {
         }
       }
     },
+    // control the size of the chart
     chartSize: {
       type: Number,
+      // `700`
       default: 700
     },
+    // set the scale of the chart
     chartScale: {
       type: Number,
+      // `1.1`
       default: 1.1
     },
+    // set the radius of the points
     pointRadius: {
       type: Number,
+      // `6`
       default: 6
     },
+    
+    // set the labels in the chart legend
     legendLabels: {
       type: Array
     },
+    // set the color of the labels in the chart legend
     legendColors: {
       type: Array
     },
+    // If true (default), a tool will be displayed when hovering over a point
     showTooltip: {
       type: Boolean,
+      // `true`
       default: true
     },
+    // A function that controls the HTML content in the tooltip. The name
+    // of the point is always displayed. However, you may specify the
+    // content in the body of the tooltip. The default text is:
+    // `<row-id>: <latitude>, <longitude>`. To modify the content, pass define
+    // a new function. Row-level data can be accessed by supplying `row` in the
+    // function. E.g., `(row) { return ...}`.
     tooltipTemplate: {
       type: Function,
+      // `<p>${row[this.rowId]}: ${row[this.latitude]}, ${row[this.longitude]}</p>`
       default (row) {
         return `<p>${row[this.rowId]}: ${row[this.latitude]}, ${row[this.longitude]}</p>`
       }
     },
+    // If true (default), the map can be zoomed in and out
     enableZoom: {
       type: Boolean,
       default: true
     },
+    // Set the colors of the land, borders, and water
     mapColors: {
       type: Object,
+      // `{land: '#4E5327', border: '#757D3B', water: '#6C85B5'}`
       default () {
         return {
           land: '#4E5327',

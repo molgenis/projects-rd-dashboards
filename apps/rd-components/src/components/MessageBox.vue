@@ -18,18 +18,22 @@ import ExclaimationCircle from './icons/ExclaimationCircle.vue'
 import ExclaimationTriangle from './icons/ExclaimationTriangle.vue'
 import ChatBubble from './icons/ChatBubble.vue'
 
+// Display an error, success, warning, or general text message.
 export default {
-  name: 'error-box',
   props: {
     type: {
+      // `'default' / 'error' / 'success' / 'warning'`
       type: String,
+      // `default`
       default: 'default',
       validator: (value) => {
         return ['default', 'error', 'success', 'warning'].includes(value)
       }
     },
+    // If true (default), the message type icon will be displayed
     showIcon: {
       type: Boolean,
+      // `true`
       default: true
     }
   },

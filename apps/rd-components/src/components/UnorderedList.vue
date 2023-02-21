@@ -1,6 +1,6 @@
 <template>
   <ul :class="classNames">
-    <!-- main content -->
+    <!-- list content -->
     <slot></slot>
   </ul>
 </template>
@@ -24,6 +24,7 @@ export default {
     listType: {
       // `'none' / 'circle' / 'square' `
       type: String,
+      // `circle`
       default: 'circle',
       validator: (value) => {
         const separators = ['none', 'circle', 'square']

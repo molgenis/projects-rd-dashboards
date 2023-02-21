@@ -1,6 +1,7 @@
 <template>
   <section class="page-section">
     <div :class="classNames">
+      <!-- page section content -->
       <slot></slot>
     </div>
   </section>
@@ -9,25 +10,35 @@
 <script>
 const widthOptions = ['small','medium', 'large', 'full']
 
+// A layout component for creating sections in page.
+// @group LAYOUTS
 export default {
-  name: 'page-section',
   props: {
+    // Control the width of the default slot
     width: {
+      // `'small' / 'medium' / 'large' / 'full'`
       type: String,
+      // `medium`
       default: 'medium',
       validator: (value) => {
         return widthOptions.includes(value)
       }
     },
+    // specify the left and right padding of the default slot
     horizontalPadding: {
+      // `0:5`
       type: Number,
+      // `1`
       default: 1,
       validator: (value) => {
         return value >= 0 && value <= 5;
       }
     },
+    // specify the top and bottom padding of the default slote
     verticalPadding: {
+      // `0:5`
       type: Number,
+      // `1`
       default: 1,
       validator: (value) => {
         return value >= 0 && value <= 5;

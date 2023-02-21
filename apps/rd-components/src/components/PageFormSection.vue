@@ -1,12 +1,15 @@
 <template>
   <div class="form-section">
+    <!-- form section content -->
     <slot></slot>
   </div>
 </template>
 
 <script>
+// A layout component for creating sections within a form
+// @group LAYOUTS
 export default {
-  name: 'form-section'
+  name: 'PageFormSection'
 }
 </script>
 

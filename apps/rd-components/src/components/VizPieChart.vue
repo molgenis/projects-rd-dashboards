@@ -8,13 +8,25 @@
 import { select, selectAll, scaleOrdinal, pie, arc, schemeBlues } from 'd3'
 const d3 = { select, selectAll, scaleOrdinal, pie, arc, schemeBlues }
 
+// Create a pie chart to visually display subelements of your data in relation
+// to the entire dataset. The data should contain no more than 7 elements and
+// all group-values pairs that are less than 1% must be combined into an
+// "other" category. Colors should be used to highlight interesting findings
+// rather than emphasizing groups. However, if you require a group-based color
+// scheme, make sure colors are accessible and use a *muted* color palette.
+// Please note that group differences can be emphasized by enabling animations.
+//
+// @group VISUALISATIONS 
 export default {
   name: 'PieChart',
   props: {
+    // A unique ID for the chart
     chartId: {
       type: String,
       required: true
     },
+    
+    // An object containing 7 or fewer group-value pairs
     chartData: {
       type: Object,
       required: true,
@@ -22,29 +34,34 @@ export default {
         return Object.keys(object).length <= 7
       }
     },
+    // set the height of the chart
     chartHeight: {
       type: Number,
+      // `300`
       default: 300
     },
+    
+    // set the width of the chart
     chartWidth: {
       type: Number,
+      // `400`
       default: 400
     },
+    
+    // set all chart margins
     chartMargins: {
       type: Number,
+      // `20`
       default: 20
     },
-    /*
-    * @param chartColors An object containing one-to-one mappings of groups to colors.
-    *     If colors are not defined, a default palette will be chosen for you.
-    */
+  
+    // An object containing one-to-one mappings of groups to colors.
+    // If colors are not defined, a default palette will be chosen for you.
     chartColors: {
       type: Object,
       default: null
     },
-    /*
-    * @param animate If True (default), the chart will render with interactive elements
-    */
+    // If True (default), the chart will render with interactive elements
     animate: {
       type: Boolean,
       default: true

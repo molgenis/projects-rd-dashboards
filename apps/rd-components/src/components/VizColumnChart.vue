@@ -13,46 +13,72 @@ const validateNumRange = function (value) {
   return value >= 0 && value <= 1
 }
 
+// Create a column chart that plots values (y-axis) to groups (x-axis).
+// At the moment, this component only displays positive values and does
+// group or stack columns. Please see the BarChart component (in.progress)
+// to arrange the chart horizontally.
+//
+// @group VISUALISATIONS
 export default {
-  name: 'bar-chart',
+  name: 'ColumnChart',
   props: {
+    // a unique ID for the chart
     chartId: {
       type: String,
       required: true
     },
-    title: {
-      type: String
-    },
+    // A title that describes the chart
+    title: String,
+
+    // Name of the column that contains the groups to plot
+    // along the x-axis
     xvar: {
       type: String,
-      require: true
+      required: true
     },
+    // Name of the column that contains the values to plot
+    // along the y-axis
     yvar: {
       type: String,
-      require: true
+      required: true
     },
-    yMax: {
-      type: Number
-    },
-    yTickValues: {
-      type: Array
-    },
+    // Specify the max value of the y-axis. If left undefined,
+    // max value will be automatically calculated using `d3.max`
+    yMax: Number,
+    
+    // Specify the y-axis ticks
+    yTickValues: Array,
+    
+    // A label that describes the x-axis
     xAxisLabel: String,
+    
+    // A label that describes the y-axis
     yAxisLabel: String,
+    
+    // the dataset the plot
     chartData: {
       type: Array,
       required: true
     },
+    
+    // set the width of the chart
     chartWidth: {
       type: Number,
+      // `675`
       default: 675
     },
+    
+    // set the height of the chart
     chartHeight: {
       type: Number,
+      // `425`
       default: 425
     },
+    
+    // adjust the chart margins
     chartMargins: {
       type: Object,
+      // `{ top: 15, right: 0, bottom: 60, left: 60 }`
       default () {
         return {
           top: 15,
@@ -62,30 +88,52 @@ export default {
         }
       }
     },
+    
+    // If true, the drawing of the columns will be animated
     chartAnimate: {
       type: Boolean,
       default: true
     },
+    
+    // Set the fill of all columns (hex code)
     columnFill: {
       type: String,
+      // `#6C85B5`
       default: '#6C85B5'
     },
+    
+    // Set the color that is displayed when a column is hovered (hex code)
     columnHoverFill: {
       type: String,
+      // `#163D89`
       default: '#163D89'
     },
+    
+    // Adjust the amount of blank space inbetween columns between 0 and 1
     columnPaddingInner: {
+      // `0.0:1.0`
       type: Number,
+      // `0.2`
       default: 0.2,
       validator: (value) => validateNumRange(value)
     },
+    
+    // Adjust the amount of blank space before the first column and after
+    // the last column.
     columnPaddingOuter: {
+      // `0.0:1.0`
       type: Number,
+      // `0.2`
       default: 0.2,
       validator: (value) => validateNumRange(value)
     },
+    
+    // Along with `columnPaddingOuter`, specify how the columns are distributed
+    // x-axis. A value of 0 will position the columns closer to the y-axis.
     columnAlign: {
+      // `0.0:1.0`
       type: Number,
+      // `0.5`
       default: 0.5,
       validator: (value) => validateNumRange(value)
     }

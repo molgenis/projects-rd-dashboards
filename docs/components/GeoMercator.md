@@ -1,10 +1,10 @@
-# VizGeoMercator
+# GeoMercator
 
 Create a point location visualation using a geomercator map from the D3 library. Each point represents a unique location in the dataset. 
 
 ## Props
 
-<!-- @vuese:VizGeoMercator:props:start -->
+<!-- @vuese:GeoMercator:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |chartId|a unique identifier for the map|`String`|`true`|-|
@@ -24,12 +24,10 @@ Create a point location visualation using a geomercator map from the D3 library.
 |legendLabels|set the labels in the chart legend|`Array`|`false`|-|
 |legendColors|set the color of the labels in the chart legend|`Array`|`false`|-|
 |showTooltip|If true (default), a tool will be displayed when hovering over a point|`Boolean`|`false`|`true`|
-|tooltipTemplate|A function that controls the HTML content in the tooltip. The name of the point is always displayed. However, you may specify the content in the body of the tooltip. The default text is: `<row-id>: <latitude>, <longitude>`. To modify the content, pass define a new function. Row-level data can be accessed by supplying `row` in the function. E.g., `(row) { return `<address>{row.address}</address>`}.|`Function`|`false`|default(row) {
-  return `<p>${row[this.rowId]}: ${row[this.latitude]}, ${row[this.longitude]}</p>`;
-}|
+|tooltipTemplate|A function that controls the HTML content in the tooltip. The name of the point is always displayed. However, you may specify the content in the body of the tooltip. The default text is: `<row-id>: <latitude>, <longitude>`. To modify the content, pass define a new function. Row-level data can be accessed by supplying `row` in the function. E.g., `(row) { return ...}`.|`Function`|`false`|`<p>${row[this.rowId]}: ${row[this.latitude]}, ${row[this.longitude]}</p>`|
 |enableZoom|If true (default), the map can be zoomed in and out|`Boolean`|`false`|true|
 |mapColors|Set the colors of the land, borders, and water|`Object`|`false`|`{land: '#4E5327', border: '#757D3B', water: '#6C85B5'}`|
 
-<!-- @vuese:VizGeoMercator:props:end -->
+<!-- @vuese:GeoMercator:props:end -->
 
 

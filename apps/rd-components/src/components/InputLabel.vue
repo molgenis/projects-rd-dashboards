@@ -6,17 +6,21 @@
 </template>
 
 <script>
-export default {
-  name: 'input-label',
+// @displayName InputLabel
+// Create a label and an optional description for an input element
+export default {  
   props: {
+    // the identifier of the input element to be passed on to the `for` attribute
     id: {
       type: String,
       required: true
     },
+    // a label that describes the input element
     label: {
       type: String,
       required: true
     },
+    // an optional description that provides context for the input element (e.g., examples, etc.)
     description: {
       type: String,
       required: false

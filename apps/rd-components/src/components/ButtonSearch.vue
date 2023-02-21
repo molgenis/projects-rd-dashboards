@@ -7,16 +7,21 @@
 
 <script>
 import MagnifyingGlassCircle from './icons/MagnifyingGlassCircle.vue';
+
+// @displayName SearchButton
+// Create a search button for use in forms.
 export default {
-  name: 'search-button',
   props: {
+    // a unique identifier for the button
     id: {
       type: String,
       required: true
     },
+    // Set the text of the button
     label: {
       type: String,
       required: false,
+      // `'Search'`
       default: 'Search'
     }
   },

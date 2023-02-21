@@ -11,6 +11,7 @@ const d3 = { select, selectAll }
 // @displayName Datatable
 // The datatable component is a D3 component that renders a dataset into a responsive, interactive table. By default, all tables are rendered with interactive features enabled (i.e., row highlighting and row clicks), but these can be disabled as needed. Column selection and order can be defined using the `columnOrder` property. This allows you to customise the layout of the table rather than processing the data beforehand.
 //
+// @group VISUALISATIONS
 export default {
   name: 'DataTable',
   props: {

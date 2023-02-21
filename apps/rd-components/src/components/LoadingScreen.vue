@@ -30,11 +30,13 @@
 </template>
 
 <script>
+// Create a loading screen while some action is being performed
 export default {
-  name: 'loading-screen',
   props: {
+    // Specify the message to display
     message: {
       type: String,
+      // `Loading`
       default: 'Loading'
     } 
   }

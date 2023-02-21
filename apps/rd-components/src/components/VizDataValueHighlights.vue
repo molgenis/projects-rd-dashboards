@@ -10,20 +10,34 @@
 </template>
 
 <script>
+// Data highlights are used to display an interesting value for a given
+// scenario (e.g., total of *x*, recruit to date, etc.). This component
+// is designed to give a quick look -- or highlight -- variables of
+// interest. It is suggested to use this component at the top of a
+// dashboard and to display 3 to 4 values. It is not recommended to
+// display more than 4 or one value. Titles must be short and consise as
+// this element can be rather small. Limit to one or two words max.
+//
+// @group VISUALISATIONS
 export default {
-  name: 'viz-data-highlights',
+  name: 'DataHighlights',
   props: {
+    // one or two words that describes the value
     title: {
       type: String,
     },
+    // If false, titles will be visually hidden
     showTitle: {
       type: Boolean,
+      // `false`
       default: false
     },
+    // An array of values to display
     values: {
       type: Array,
       required: true
     },
+    // An array of labels that describe the values
     labels: {
       type: Array,
       required: true

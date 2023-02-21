@@ -39,7 +39,8 @@
 
 <script>
 // @displayName Accordion
-// Create a collapsible element for hiding and showing content
+// Create a collapsible element for hiding and showing content. For example, the
+// accordion component is a good option for structuring an FAQ page.
 export default {
   props: {
     // A unique identifier for the accordion
