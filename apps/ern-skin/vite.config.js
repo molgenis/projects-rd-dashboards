@@ -6,7 +6,7 @@ import generateFile from 'vite-plugin-generate-file'
 import pkgjson from './package.json'
 
 import newDevProxy from '../dev-proxy.config.js'
-const devProxyConfig = newDevProxy('https://david.gcc.rug.nl/')
+const devProxyConfig = newDevProxy('https://erras.molgeniscloud.org/')
 
 const now = new Date()
 const buildDate = now.toUTCString()
