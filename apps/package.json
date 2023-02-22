@@ -9,5 +9,10 @@
     "solve-rd",
     "rd-components",
     "rd-shared"
-  ]
+  ],
+  "dependencies": {
+    "glob-parent": "^6.0.2",
+    "got": "^12.5.3",
+    "marked": "^4.2.12"
+  }
 }
