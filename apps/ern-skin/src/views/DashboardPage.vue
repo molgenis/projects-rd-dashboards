@@ -1,9 +1,9 @@
 <template>
-  <Page id="page-about-us">
+  <Page id="page-dashboard">
     <PageHeader
       class="project-header"
       title="ERN ITHACA"
-      subtitle="About Us"
+      subtitle="Dashboard"
       :imageSrc="headerImage"
     />
     <PageSection>
@@ -19,6 +19,7 @@ import { Page, PageHeader, PageSection, MessageBox } from 'rd-components'
 import HeaderImage from '@/assets/app-header-background.png'
 
 export default {
+  name: 'download-documents',
   components: {
     Page,
     PageHeader,

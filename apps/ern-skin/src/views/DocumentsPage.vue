@@ -1,12 +1,10 @@
 <template>
   <Page id="page-documents">
     <PageHeader
-      class="ernskin-header"
+      class="project-header"
       title="ERN ITHACA"
       subtitle="Download Documents"
       :imageSrc="headerImage"
-      height="medium"
-      :vertical-padding="2"
     />
     <PageSection>
       <MessageBox class="page-warning" type="warning">
@@ -14,13 +12,11 @@
       </MessageBox>
     </PageSection>
   </Page>
-  <AppFooter />
 </template>
 
 <script>
 import { Page, PageHeader, PageSection, MessageBox } from 'rd-components'
-import AppFooter from '@/components/AppFooter.vue'
-import HeaderImage from '@/assets/ern-skin-header.jpg'
+import HeaderImage from '@/assets/app-header-background.png'
 
 export default {
   name: 'download-documents',
@@ -28,8 +24,7 @@ export default {
     Page,
     PageHeader,
     PageSection,
-    MessageBox,
-    AppFooter
+    MessageBox
   },
   data () {
     return {

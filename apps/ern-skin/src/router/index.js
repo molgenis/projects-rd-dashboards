@@ -1,5 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/Home.vue'
+
+import HomeView from '@/views/HomePage.vue'
+import AboutUsView from '@/views/AboutUs.vue'
+import DocumentsView from '@/views/DocumentsPage.vue'
+import DashboardView from '@/views/DashboardPage.vue'
+
 const initialState = window.__INITIAL_STATE__ || {}
 
 const router = createRouter({
@@ -10,6 +15,30 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
+    {
+      path: '/about-us',
+      name: 'about-us',
+      component: AboutUsView,
+      meta: {
+        title: 'About Us'
+      }
+    },
+    {
+      path: '/documents',
+      name: 'documents',
+      component: DocumentsView,
+      meta: {
+        title: 'Documents'
+      }
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: DashboardView,
+      meta: {
+        title: 'Dashboard'
+      }
+    }
   ],
   scrollBehavior () {
     return {
@@ -20,7 +49,7 @@ const router = createRouter({
 
 // set window title using meta property
 router.afterEach((to) => {
-  document.title = `${to.meta.title} | Hello world` || 'Hello world'
+  document.title = to.meta.title ? `${to.meta.title} | ERN-Skin` : 'ERN-Skin'
 })
 
 export default router
