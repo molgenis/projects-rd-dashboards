@@ -1,5 +1,47 @@
+
+$brand-blue: #365cb7;
+$brand-green: #169742;
+$brand-orange: #f07726;
+$brand-red: #fc0006;
+
+$brand-blue-alt: hsl(222, 54%, 98%);
+$brand-green-alt: hsl(140, 75%, 98%);
+$brand-orange-alt: hsl(24, 87%, 98%);
+$brand-red-alt: hsl(359, 100%, 98%);
+
+
+.ern-skin-logo {
+  max-width: 250px;
+}
+
 .app-page,
 .page-footer {
   font-size: 14pt;
   font-family: Helvetica, sans-serif;
+}
+
+.app-page {
+  
+  .project-header {
+    filter: saturate(60%);
+    height: 20em;
+
+    .background-image-filter {
+      opacity: 0.7;
+    }
+
+  }
+  
+  .page-section {
+    
+    h2 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+    }
+    
+    ul {
+      line-height: 1.5;
+    }
+  
+  }
 }

@@ -3,9 +3,12 @@
     <div class="footer-container width-full">
       <div class="footer-content width-medium">
         <div class="footer-column footer-links">
-          <p><strong>My project</strong></p>
+          <p><strong>ERN-Skin</strong></p>
           <UnorderedList listType="none">
             <li><router-link :to="{name: 'home'}">Home</router-link></li>
+            <li><router-link :to="{name: 'about-us'}">About Us</router-link></li>
+            <li><router-link :to="{name: 'documents'}">Documents</router-link></li>
+            <li><router-link :to="{name: 'dashboard'}">Dashboard</router-link></li>
             <!-- more links here -->
           </UnorderedList>
         </div>
@@ -18,10 +21,9 @@
         </div>
         <div class="footer-column footer-logos">
           <UnorderedList listType="none">
-            <li id="solverd-logo-link">
+            <li id="project-logo-link">
               <router-link :to="{ name: 'home' }"> 
-                <!-- insert project logo here -->
-                *My Project Logo here*
+                <img :src="ProjectLogo" alt="ERN-Skin" class="ern-skin-logo" />
               </router-link>
             </li>
             <li>
@@ -39,12 +41,14 @@
 
 <script>
 import { PageFooter, UnorderedList } from 'rd-components'
-import MolgenisLogo from '$shared/images/molgenis-logo-blue-white.png'
+import MolgenisLogo from '$shared/images/molgenis-logo-blue-text.png'
+import ProjectLogo from '@/assets/ern-skin-logo.png'
 
 export default {
   data () {
     return {
-      MolgenisLogo: MolgenisLogo
+      MolgenisLogo: MolgenisLogo,
+      ProjectLogo: ProjectLogo
     }
   },
   components: {
@@ -56,11 +60,10 @@ export default {
 
 <style lang="scss">
 .page-footer {
-  background-color: $gray-050;
+  background-color: $gray-000;
   
   .footer-container {
-    color: $gray-050;
-    background-color: $gray-800;
+    background-color: $gray-050;
   }
   
   .footer-content {
@@ -117,7 +120,7 @@ export default {
   }
   
   .molgenis-citation {
-    background-color: $gray-050;
+    background-color: $gray-000;
   }
 }
 </style>
