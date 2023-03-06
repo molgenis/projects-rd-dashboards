@@ -30,7 +30,7 @@
           groupingVariable="hasSubmittedData"
           :groupColorMappings="{'true': '#E9724C', 'false': '#F0F0F0'}"
           :chartWidth="350"
-          :chartHeight="210"
+          :chartHeight="mapHeight"
           :chartSize="114"
           :mapCenter="{latitude: 0, longitude: 51}"
           :pointRadius="4"
@@ -54,7 +54,7 @@
         />
       </div>
       <div id="viz-column-chart" class="dashboard-viz">
-        <h2 id="age-at-inclusion-title" class="chart-title">Age of patients at time of inclusion</h2>
+        <h2 id="age-at-inclusion-title" class="chart-title">Age at last follow-up</h2>
         <ColumnChart
           chartId="age-at-inclusion-chart"
           :chartData="ageAtInclusion"
@@ -72,7 +72,7 @@
       </div>
       <div id="viz-data-table" class="dashboard-viz">
         <h2 id="patient-enrollment-summary-title" class="chart-title">
-          Summary of patients enrolled by thematic disease group (n={{ totalPatients }})
+          Summary of patients enrolled by thematic disease group
         </h2>
         <DataTable
           tableId="disease-group-enrollment-table"
@@ -133,6 +133,7 @@ export default {
       sexAtBirth: [],
       ageAtInclusion: [],
       geojson: geojson,
+      mapHeight: 215,
     }
   },
   mounted () {
@@ -141,8 +142,8 @@ export default {
       fetchData('/api/v2/ernstats_dataproviders')
     ]).then(response => {
       const data = response[0].items
-      
       const mapData = response[1].items
+
       this.institutionGeoData = mapData.map(row => ({
         ...row, hasSubmittedData: row.hasSubmittedData ? row.hasSubmittedData : 'false'
       }))
@@ -160,14 +161,17 @@ export default {
       const ageAtInclusionData = subsetData(data, 'component', 'barchart-age')
       this.ageAtInclusion = sortData(ageAtInclusionData, 'valueOrder')
 
-      const diseaseGroupEnrollmentData = subsetData(data, 'component', 'table-enrollment-disease-group')
+      const diseaseGroupEnrollmentData = data.filter(row => {
+        return (row.component == 'table-enrollment-disease-group' && (row.label != 'Undeterminded' && row.value != 0))
+      })
       this.diseaseGroupEnrollment = sortData(diseaseGroupEnrollmentData, 'valueOrder')
       renameKey(this.diseaseGroupEnrollment, 'label', 'Thematic Disease Group')
       renameKey(this.diseaseGroupEnrollment, 'value', 'Number of Patients')
       
-      this.diseaseGroupEnrollmentTotal = subsetData(
-        data, 'component', 'table-enrollment-disease-group-total'
-      )[0].value
+      const groups = this.diseaseGroupEnrollment.map(row => row['Thematic Disease Group'])
+      if (groups.includes('Undetermined')) {
+        this.mapHeight = 260
+      }
 
     }).then(() => {
       this.loading = false
@@ -277,6 +281,11 @@ export default {
         tr {
           td {
             font-size: 11pt;
+            
+            &[data-value="Undetermined"],
+            &[data-value="Undetermined"] + td {
+              background-color: $yellow-100;
+            }
           }
         }
       }
@@ -295,9 +304,12 @@ export default {
 }
 
 .dashboard-main-message {
-  margin: 1em;
+  padding: 1em;
+  border: 1px solid red;
   
   .message-box {
+    margin: 0;
+
     .message-text {
       display: flex;
       justify-content: flex-start;
