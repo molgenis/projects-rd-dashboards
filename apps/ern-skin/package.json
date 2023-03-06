@@ -1,7 +1,7 @@
 {
   "name": "ern-skin",
-  "description": "an template vue app for molgenis",
-  "version": "0.0.0",
+  "description": "web app for ERN-Skin",
+  "version": "0.9.0",
   "scripts": {
     "copy-html:dev": "copyfiles -f ../rd-shared/templates/dev/index.html ./",
     "copy-html:prod": "copyfiles -f ../rd-shared/templates/build/index.html ./",
