@@ -170,7 +170,7 @@ export default {
       
       const groups = this.diseaseGroupEnrollment.map(row => row['Thematic Disease Group'])
       if (groups.includes('Undetermined')) {
-        this.mapHeight = 260
+        this.mapHeight = 300
       }
 
     }).then(() => {
@@ -305,11 +305,9 @@ export default {
 
 .dashboard-main-message {
   padding: 1em;
-  border: 1px solid red;
-  
+
   .message-box {
     margin: 0;
-
     .message-text {
       display: flex;
       justify-content: flex-start;
