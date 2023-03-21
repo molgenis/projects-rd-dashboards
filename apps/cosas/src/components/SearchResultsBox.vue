@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import LoadingBox from './Loading.vue'
-import ActionLink from './ActionLink.vue'
+import { ActionLink } from 'rd-components'
+import LoadingBox from '@/components/Loading.vue'
 
 export default {
   name: 'search-results-box',
