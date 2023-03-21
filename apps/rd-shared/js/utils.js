@@ -234,6 +234,32 @@ export function subsetData (data, column, value) {
   return data.filter(row => row[column] === value)
 }
 
+
+// get today's date
+export function today () {
+  const date = new Date()
+  return date.toLocaleDateString()
+}
+
+// daysdiff
+// calculate the difference between two dates in days
+// 
+// @param recent date object
+// @param earliest date object
+//
+// @return integer
+export function daysDiff (recent, earliest) {
+  const diff = Math.abs(recent.getTime() - earliest.getTime())
+  const daysdiff = Math.floor(diff / (1000 * 60 * 60 * 24))
+  if (daysdiff === 0) {
+    return 'today'
+  } else if (daysdiff === 1) {
+    return 'yesterday'
+  } else {
+    return `${daysdiff} days ago`
+  }
+}
+
 // windowReplaceUrl
 // Open a URL in another tab
 //
