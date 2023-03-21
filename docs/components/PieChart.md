@@ -1,6 +1,6 @@
 # PieChart
 
-Create a pie chart to visually display subelements of your data in relation to the entire dataset. The data should contain no more than 7 elements and all group-values pairs that are less than 1% must be combined into an "other" category. Colors should be used to highlight interesting findings rather than emphasizing groups. However, if you require a group-based color scheme, make sure colors are accessible and use a *muted* color palette. Please note that group differences can be emphasized by using on hover styling. 
+Create a pie chart to visually display subelements of your data in relation to the entire dataset. The data should contain no more than 7 elements and all group-values pairs that are less than 1% must be combined into an "other" category. Colors should be used to highlight interesting findings rather than emphasizing groups. However, if you require a group-based color scheme, make sure colors are accessible and use a *muted* color palette. Please note that group differences can be emphasized by enabling animations. 
 
 ## Props
 
