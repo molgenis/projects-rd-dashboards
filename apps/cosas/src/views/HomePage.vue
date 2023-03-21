@@ -2,14 +2,14 @@
   <Page id="page-home">
     <PageHeader
       class="cosas-page-header"
-      title="Genetica Diagnostiek Portal"
+      title="Genetica Diagnostics Portal"
       subtitle="Find, explore, and access data"
       :imageSrc="pageHeaderImage"
       height="medium"
-      titlePositionX="center"
+      titlePositionX="left"
       titlePositionY="center"
     />
-    <PageSection id="page-home-welcome" aria-labelledby="page-home-welcome-title">
+    <PageSection id="page-home-welcome" aria-labelledby="page-home-welcome-title" :verticalPadding="2" :horizontalPadding="2">
       <h2 id="page-home-welcome-title">Welcome</h2>
       <p>Through the <strong>Genetica Diagnostics Portal</strong>! With this site, you can access a number of databases and systems available to members of the genetica department developed by the Molgenis team.</p>
     </PageSection>
@@ -25,7 +25,7 @@
         </InfoCard>
       </div>
     </PageSection>
-    <PageSection id="page-home-help" aria-labelledby="page-home-help-title">
+    <PageSection id="page-home-help" aria-labelledby="page-home-help-title" :verticalPadding="2" :horizontalPadding="2">
       <h2 id="page-home-help-title">Get help</h2>
       <p>If you are experiencing any issues with the database or related systems, please get in touch with the MOLGENIS support desk. In addition, we also have a list of <router-link :to="{ name: 'help' }">Frequently Asked Questions</router-link> where you may find additional information to your questions.</p>
       <ActionLink id="contactSupport" href="mailto:molgenis-support@umcg.nl">Contact Support</ActionLink>
@@ -63,9 +63,10 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  gap: 1.5em;
+  gap: 2em;
   
   .info-card {
+    flex-grow: 1;
 
     .info-card-title {
       text-align: left;
