@@ -9,46 +9,44 @@
       titlePositionX="center"
       titlePositionY="center"
     />
-    <PageSection id="cosas-search-instructions" aria-labelledby="cosas-search-instructions-title">
+    <PageSection id="cosas-search-instructions" aria-labelledby="cosas-search-instructions-title" :verticalPadding="2">
       <h2 id="cosas-search-instructions-title">Instructions</h2>
       <p>Using the forms below, you can search for files or for patients with a certain phenotype. In all search fields, you may search for more than one value by separating each value with a comma. For example, if you would like to search for more than one patient by ID, format the values in the following way: "Patient-1234, Patient-5678". Click the search button to search the variant database.</p>
       <p>If there are any matching records, you will see a message below the search button that displays the total number of results along with a link to view the results. Click the link to view the data in the database.</p>
       <p>If you encounter any issues, take a look at the <router-link :to="{name: 'help'}">troubleshooting guide</router-link>.</p>
     </PageSection>
-    <div id="cosas-search" class="....">
-      <div class="page-form-container cosas-search-form">
-        <PageForm id="cosas-files-search-form" title="Search for Files">
-          <PageFormSection>
-            <InputSearch
-              id="subjectID"
-              label="Search for MDN/UMCG Numbers"
-              description="Search for patients and their relatives"
-              @search="(value) => fileFilters.belongsToSubject = value"
-            />
-          </PageFormSection>
-          <PageFormSection>
-            <legend>
-              Search for file types
-              <span>Select one or more file types</span>
-            </legend>
-            <div class="checkbox__group">
-              <div class="checkbox" v-for="filetype in filetypes" :key="filetype.value">
-                <input
-                  :id="filetype.value"
-                  type="checkbox"
-                  :value="filetype.value"
-                  class="checkbox__input"
-                  v-model="selectedFileTypes"
-                  @change="updateFileFormats"
-                />
-                <label :for="filetype.value" class="checkbox__label">
-                  {{ filetype.label }}
-                </label>
-              </div>
+    <PageSection id="cosas-search" class="search-forms-container" :verticalPadding="2">
+      <PageForm id="cosas-files-search-form" title="Search for Files">
+        <PageFormSection>
+          <InputSearch
+            id="subjectID"
+            label="Search for MDN/UMCG Numbers"
+            description="Search for patients and their relatives"
+            @search="(value) => fileFilters.belongsToSubject = value"
+          />
+        </PageFormSection>
+        <PageFormSection>
+          <legend>
+            Search for file types
+            <span>Select one or more file types</span>
+          </legend>
+          <div class="checkbox__group">
+            <div class="checkbox" v-for="filetype in filetypes" :key="filetype.value">
+              <input
+                :id="filetype.value"
+                type="checkbox"
+                :value="filetype.value"
+                class="checkbox__input"
+                v-model="selectedFileTypes"
+                @change="updateFileFormats"
+              />
+              <label :for="filetype.value" class="checkbox__label">
+                {{ filetype.label }}
+              </label>
             </div>
-          </PageFormSection>
-          <ButtonSearch id="search-subjects" @click="searchFiles"/>
-        </PageForm>
+          </div>
+        </PageFormSection>
+        <ButtonSearch id="search-subjects" @click="searchFiles"/>
         <SearchResultsBox
           label="Unable to retrieve records"
           :isPerformingAction="fileSearch.isSearching"
@@ -58,27 +56,25 @@
           :totalRecordsFound="fileSearch.totalRecordsFound"
           :searchResultsUrl="fileSearch.resultsUrl"
         />
-      </div>
-      <div class="page-form-container cosas-search-form">
-        <PageForm id="cosas-diagnostic-search-form" title="Search for Diagnostic Information">
-          <PageFormSection>
-            <SearchInput
-              id="clinicalSubjectID"
-              label="Search for MDN/UMCG Numbers"
-              description="Search for patients and their relatives"
-              @search="(value) => clinicalFilters.belongsToSubject = value"
-            />
-          </PageFormSection>
-          <PageFormSection>
-            <InputSearch
-              id="clinicalObservedPhenotype"
-              label="Clinical Phenotype (HPO)"
-              description="Enter one or more HPO code, e.g., 'HP:0001270, HP:0001638'"
-              @search="(value) => clinicalFilters.observedPhenotype = value"
-            />
-          </PageFormSection>
-          <ButtonSearch id="search-clinical" @click="searchClinical"/>
-        </PageForm>
+      </PageForm>
+      <PageForm id="cosas-diagnostic-search-form" title="Search for Diagnostic Information">
+        <PageFormSection>
+          <InputSearch
+            id="clinicalSubjectID"
+            label="Search for MDN/UMCG Numbers"
+            description="Search for patients and their relatives"
+            @search="(value) => clinicalFilters.belongsToSubject = value"
+          />
+        </PageFormSection>
+        <PageFormSection>
+          <InputSearch
+            id="clinicalObservedPhenotype"
+            label="Clinical Phenotype (HPO)"
+            description="Enter one or more HPO code, e.g., 'HP:0001270, HP:0001638'"
+            @search="(value) => clinicalFilters.observedPhenotype = value"
+          />
+        </PageFormSection>
+        <ButtonSearch id="search-clinical" @click="searchClinical"/>
         <SearchResultsBox
           label="Unable to retrieve records"
           :isPerformingAction="clinicalSearch.isSearching"
@@ -88,8 +84,8 @@
           :totalRecordsFound="clinicalSearch.totalRecordsFound"
           :searchResultsUrl="clinicalSearch.resultsUrl"
         />
-      </div>
-    </div>
+      </PageForm>
+    </PageSection>
   </Page>
 </template>
 
@@ -164,7 +160,7 @@ export default {
         this.fileSearch.wasSuccessful = true
         
         if (totalRecordsFound > 0) {
-          const idsForUrl = data.items.map(row => { return row.belongsToSubject.subjectID }) // use fileID when available
+          const idsForUrl = [...new Set(data.items.map(row => { return row.belongsToSubject.subjectID }))]
           const filtersAsUrlParams = objectToUrlFilterArray(
             { belongsToSubject: idsForUrl.join(',') },
             { fileFormat: this.fileFilters.fileFormat }
@@ -178,7 +174,8 @@ export default {
         this.fileSearch.isSearching = false
         this.fileSearch.wasSuccesful = false
         this.fileSearch.hasFailed = true
-        this.fileSearch.errorMessage = error.message
+        const err = JSON.parse(error.message)
+        this.fileSearch.errorMessage = `${err.message} (${err.status})`
       })
     },
     searchClinical () {
@@ -206,7 +203,9 @@ export default {
         this.clinicalSearch.isSearching = false
         this.clinicalSearch.wasSuccesful = false
         this.clinicalSearch.hasFailed = true
-        this.clinicalSearch.errorMessage = error.message
+        
+        const err = JSON.parse(error.message)
+        this.clinicalSearch.errorMessage = `${err.message} (${err.status})`
       })
     }
   }

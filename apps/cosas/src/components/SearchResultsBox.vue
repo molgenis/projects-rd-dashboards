@@ -3,7 +3,7 @@
     <div class="error__box" v-if="hasError">
       <p class="error__box__message">
         <strong>{{ label }}</strong>
-        <code>{{ actionErrorMessage }}</code>
+        <span>{{ actionErrorMessage }}</span>
       </p>
     </div>
     <LoadingBox v-else-if="hasAction" message="Searching for files" />
@@ -73,7 +73,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .search__results {
   margin-top: 16px;
   box-sizing: border-box;
@@ -91,12 +91,12 @@ export default {
   
   .error__box {
     .error__box__message {
-      white-space: pre-wrap;
-      
-      code {
+      strong {
         display: block;
-        color: currentColor;
       }
+
+      display: block;
+      color: currentColor;
     }
   }
   
@@ -112,7 +112,13 @@ export default {
     .action-link {
       background-color: $blue-800;
       color: $gray-050;
-      padding: 4px 0;
+      padding: 6px 0;
+      
+      .heroicons.arrow-top-right-on-square {
+        $size: 11pt;
+        width: $size;
+        height: $size;
+      }
     }
   }
   

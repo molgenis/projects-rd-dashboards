@@ -29,4 +29,26 @@ $font-family: Helvetica,Arial,sans-serif;
     }
   }
   
+  .search-forms-container {
+    background-color: $blue-050;
+
+    .page-section-content {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 2em;
+
+      .page-form {
+        background-color: $gray-000;
+        flex-grow: 1;
+        max-width: 450px;
+        
+        .button-search {
+          margin-top: 1em;
+        }
+      }
+    }
+  }
 }
