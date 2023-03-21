@@ -5,6 +5,9 @@
       title="Database Help"
       subtitle="Frequently asked questions and troubleshooting"
       :imageSrc="pageHeaderImage"
+      height="medium"
+      titlePositionX="center"
+      titlePositionY="center"
     />
     <PageSection id="variantdb-search-instructions" aria-labelledby="variantdb-search-instructions-title">
       <h2 id="variantdb-search-instructions-title">Instructions</h2>
@@ -139,13 +142,11 @@
       </PageForm>
     </PageSection>
   </Page>
-  <AppFooter />
 </template>
 
 <script>
 import { Page, PageHeader, PageSection, PageForm, PageFormSection, ButtonSearch, InputSearch } from 'rd-components'
 import SearchResultsBox from '@/components/SearchResultsBox.vue'
-import AppFooter from '@/components/AppFooter.vue'
 import pageHeaderImage from '@/assets/cosas-page-header.jpg'
 import {
   fetchData,
@@ -165,8 +166,7 @@ export default {
     PageFormSection,
     ButtonSearch,
     InputSearch,
-    SearchResultsBox,
-    AppFooter,
+    SearchResultsBox
   },
   data () {
     return {

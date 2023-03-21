@@ -14,20 +14,17 @@
       <p>....</p>
     </PageSection>
   </Page>
-  <AppFooter />
 </template>
 
 <script>
 import { Page, PageHeader, PageSection } from 'rd-components'
-import AppFooter from '@/components/AppFooter.vue'
 import pageHeaderImage from '@/assets/cosas-page-header.jpg'
 
 export default {
   components: {
     Page,
     PageHeader,
-    PageSection,
-    AppFooter
+    PageSection
   },
   data () {
     return {

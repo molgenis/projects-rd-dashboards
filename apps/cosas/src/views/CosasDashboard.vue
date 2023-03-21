@@ -9,13 +9,17 @@
       titlePositionX="center"
       titlePositionY="center"
     />
-    <MessageBox type="error" v-if="requestHasFailed">
-      <p>Error! Unable to retrieve data. Please sign in or try again later.</p>
-    </MessageBox>
-    <MessageBox type="default" v-else-if="!requestHasFailed && loading">
-      <p>Retrieving data....</p>
-    </MessageBox>
-    <template v-else>
+    <PageSection v-if="requestHasFailed">
+      <MessageBox type="error">
+        <p>Error! Unable to retrieve data. Please sign in or try again later.</p>
+      </MessageBox>
+    </PageSection>
+    <PageSection v-else-if="!requestHasFailed && loading">
+      <MessageBox type="default">
+        <p>Retrieving data....</p>
+      </MessageBox>
+    </PageSection>
+    <div v-else>
       <PageSection id="cosas-dashboard-highlights" aria-labelledby="cosas-dashboard-highlights-title">
         <h2 class="visually-hidden" id="cosas-dashboard-highlights-title">
           Cosas to date
@@ -82,14 +86,12 @@
           :columnOrder="attributeSummaryColumnOrder"
         />
       </PageSection>
-    </template>
+    </div>
   </Page>
-  <AppFooter />  
 </template>
 
 <script>
-import { Page, PageHeader, PageSection, MessageBox, VizDataHighlights, VizDataTable } from 'rd-components'
-import AppFooter from '@/components/AppFooter.vue'
+import { Page, PageHeader, PageSection, MessageBox, DataValueHighlights, DataTable } from 'rd-components'
 import pageHeaderImage from '@/assets/cosas-page-header.jpg'
 import { fetchData, minDate, maxDate, stringAsNumber } from '$shared/js/utils.js'
 
@@ -100,9 +102,8 @@ export default {
     PageHeader,
     PageSection,
     MessageBox,
-    AppFooter,
-    DataHighlights: VizDataHighlights,
-    DataTable: VizDataTable,
+    DataHighlights: DataValueHighlights,
+    DataTable: DataTable,
   },
   data () {
     return {

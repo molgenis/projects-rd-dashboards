@@ -5,6 +5,9 @@
       title="Database Help"
       subtitle="Frequently asked questions and troubleshooting"
       :imageSrc="pageHeaderImage"
+      height="medium"
+      titlePositionX="center"
+      titlePositionY="center"
     />
     <PageSection id="troubleshooting-searches">
       <h2>Troubleshooting</h2>
@@ -32,7 +35,7 @@
 </template>
 
 <script>
-import { Page, PageHeader, PageSection, Accordion } from 'rd-compontents'
+import { Page, PageHeader, PageSection, Accordion } from 'rd-components'
 import pageHeaderImage from '@/assets/cosas-page-header.jpg'
 
 export default {
