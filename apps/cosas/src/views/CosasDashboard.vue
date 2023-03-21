@@ -1,5 +1,5 @@
 <template>
-  <Page id="cosas-dashboard">
+  <Page id="cosas-dashboard" class="data-page">
     <PageHeader
       class="cosas-page-header"
       title="COSAS"
@@ -20,10 +20,8 @@
       </MessageBox>
     </PageSection>
     <div v-else>
-      <PageSection id="cosas-dashboard-highlights" aria-labelledby="cosas-dashboard-highlights-title">
-        <h2 class="visually-hidden" id="cosas-dashboard-highlights-title">
-          Cosas to date
-        </h2>
+      <PageSection id="cosas-dashboard-highlights" aria-labelledby="cosas-dashboard-highlights-title" :verticalPadding="1" width="large">
+        <h2 class="visually-hidden" id="cosas-dashboard-highlights-title">Cosas to date</h2>
         <DataHighlights
           title="summary of the database based on the most recent import"
           :values="mostRecentImport.values"
@@ -31,7 +29,7 @@
         />
         <p class="viz-note">
           <span v-if="mostRecentImport.date">
-            Data was last updated on {{ mostRecentImport.date }}
+            Data was last updated {{ mostRecentImport.date }}
           </span>
           <span v-else class="text-error">Error: unable to retrieve latest metadata.</span>
         </p>
@@ -39,7 +37,10 @@
       <PageSection
         id="cosas-dashboard-summary"
         aria-labelledby="cosas-dashboard-sumary-title"
+        :verticalPadding="2"
+        :horizontalPadding="2"
       >
+        <h2>COSAS over the last 30 days</h2>
         <p>Data is imported into COSAS at regular intervals. The following table displays the change in values over the last 30 days. For more information, see the <a href="/menu/plugins/dataexplorer?entity=cosasreports_imports&hideselect=true">Daily Import</a> table to view the raw data.</p>
         <DataTable
           tableId="daily-import-summary"
@@ -51,6 +52,7 @@
       <PageSection
         id="cosas-dashboard-coverage-report" 
         aria-labelledby="cosas-dashboard-coverage-report-title"
+        :verticalPadding="2"
       >
         <h2 id="cosas-dashboard-coverage-report-title">COSAS Coverage Report</h2>
         <p>How much of the COSAS database is used? COSAS has 6 primary tables, 7 secondary tables, and 24 reference tables. To understand how much data is in COSAS, the following tables provide a summary of the primary tables. This includes the columns that are used and how much data is stored in those columns.</p>
@@ -93,7 +95,7 @@
 <script>
 import { Page, PageHeader, PageSection, MessageBox, DataValueHighlights, DataTable } from 'rd-components'
 import pageHeaderImage from '@/assets/cosas-page-header.jpg'
-import { fetchData, minDate, maxDate, stringAsNumber } from '$shared/js/utils.js'
+import { fetchData, minDate, maxDate, stringAsNumber, daysDiff } from '$shared/js/utils.js'
 
 
 export default {
@@ -112,7 +114,8 @@ export default {
       requestHasFailed: false,
       mostRecentImport: {
         values: [],
-        labels: ['subjects', 'samples', 'sequencing']
+        labels: ['subjects', 'samples', 'sequencing'],
+        date: null
       },
       attributeSummaryData: {},
       dateAttributeSummaryDataUpdated: null,
@@ -180,8 +183,11 @@ export default {
       const dailyImportReports = result[0]
       const attributeSummaryData = result[1]
       
-      const latestImport = dailyImportReports.items[0]
-      this.mostRecentImport = [
+      const latestImport = dailyImportReports.items[0]      
+      const dateLastUpdated = daysDiff(new Date(), new Date(latestImport.date))
+      this.mostRecentImport.date = dateLastUpdated
+
+      this.mostRecentImport.values = [
         latestImport.subjects.toLocaleString('en'),
         latestImport.samples.toLocaleString('en'),
         latestImport.sequencing.toLocaleString('en')
@@ -200,3 +206,22 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+#cosas-dashboard-highlights {
+  background-color: $gray-100;
+}
+
+.viz-note {
+  font-size: 11pt;
+  font-style: italic;
+  color: $gray-600;
+}
+
+#cosas-dashboard-coverage-report {
+  .d3-table { 
+    margin-bottom: 2.25em;
+  }
+}
+
+</style>

@@ -10,16 +10,23 @@ $font-family: Helvetica,Arial,sans-serif;
 }
 
 .app-page {
-  // .quicklinks {
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  //   flex-direction: row;
-  //   flex-wrap: wrap;
-    
-  //   .link-card {
-  //     height: 9em;
-  //     flex-grow: 1;
-  //   }
-  // }
+  .page-section {
+    .page-section-content {
+      h2 {
+        text-align: left;
+      }
+    }
+  }
+  
+  &.data-page {
+    .d3-table { 
+      caption {
+        font-size: 15pt;
+        font-weight: bold;
+        color: $gray-900;
+        margin-bottom: 0.8em;
+      }
+    }
+  }
+  
 }
