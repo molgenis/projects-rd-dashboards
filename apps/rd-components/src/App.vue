@@ -134,6 +134,12 @@
         </PageFormSection>
       </PageForm>
     </PageSection>
+    <PageSection>
+      <h2>Info Cards</h2>
+      <InfoCard title="Hello world" text="this is an example card with link">
+        <ActionLink href="#">Test</ActionLink>
+      </InfoCard>
+    </PageSection>
     <PageFooter>
       <PageFooterMeta>
         <UnorderedList listLayout="horizontal" listType="circle">
@@ -160,6 +166,9 @@ import LinkCard from './components/LinkCard.vue'
 import Accordion from './components/Accordion.vue'
 import MessageBox from './components/MessageBox.vue'
 import InputSearch from './components/InputSearch.vue'
+
+import ActionLink from './components/ActionLink.vue'
+import InfoCard from './components/InfoCard.vue'
 
 import VizDataHighlights from './components/VizDataValueHighlights.vue'
 import ColumnChart from './components/VizColumnChart.vue'
@@ -189,7 +198,9 @@ export default {
     GeoMercator,
     PieChart,
     Accordion,
-    MessageBox
+    MessageBox,
+    ActionLink,
+    InfoCard
   },
   data () {
     return {

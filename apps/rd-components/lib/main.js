@@ -1,6 +1,8 @@
 
 import Accordion from "../src/components/Accordion.vue"
+import ActionLink from "../src/components/ActionLink.vue"
 import ButtonSearch from '../src/components/ButtonSearch.vue'
+import InfoCard from "../src/components/InfoCard.vue"
 import InputLabel from '../src/components/InputLabel.vue'
 import InputSearch from '../src/components/InputSearch.vue'
 import LinkCard from "../src/components/LinkCard.vue"
@@ -25,7 +27,9 @@ import PieChart from '../src/components/VizPieChart.vue'
 
 export {
   Accordion,
+  ActionLink,
   ButtonSearch,
+  InfoCard,
   InputLabel,
   InputSearch,
   LinkCard,
