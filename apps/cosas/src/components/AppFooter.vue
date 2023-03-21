@@ -15,11 +15,17 @@
             <li><router-link :to="{ name: 'variant-db-data-finder' }">Data Finder</router-link></li>
           </UnorderedList>
         </div>
+        <div class="footer-column footer-links">
+          <p><strong>Information</strong></p>
+          <UnorderedList listType="none">
+            <li><router-link :to="{ name: 'help' }">Frequently  Asked Questions</router-link></li>
+          </UnorderedList>
+        </div>
         <div class="footer-column footer-logos">
           <UnorderedList listType="none">
             <li id="project-logo-link">
               <router-link :to="{ name: 'home' }"> 
-                <img :src="ProjectLogo" class="umcg-genettica-logo" alt="Universitair Medisch Centrum Groningen; Genetica Afdeling"/>
+                <img :src="ProjectLogo" class="umcg-genetics-logo" alt="Universitair Medisch Centrum Groningen; Genetica Afdeling"/>
               </router-link>
             </li>
             <li>
@@ -32,17 +38,11 @@
         </div>
       </div>
     </div>
-    <PageFooterMeta>
-      <UnorderedList listLayout="horizontal" listType="circle">
-        <li><router-link :to="{ name: 'privacy-policy' }">Privacy Policy</router-link></li>
-        <li><router-link :to="{ name: 'disclaimer'}" >Disclaimer</router-link></li>
-      </UnorderedList>
-    </PageFooterMeta>
   </PageFooter>
 </template>
 
 <script>
-import { PageFooter, PageFooterMeta, UnorderedList } from 'rd-components'
+import { PageFooter, UnorderedList } from 'rd-components'
 import ProjectLogo from '@/assets/umcg-genetica-logo.jpg'
 import MolgenisLogo from '$shared/images/molgenis-logo-blue-white.png'
 
@@ -55,7 +55,6 @@ export default {
   },
   components: {
     PageFooter,
-    PageFooterMeta,
     UnorderedList
   }
 }
