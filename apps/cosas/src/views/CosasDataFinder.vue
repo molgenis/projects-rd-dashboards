@@ -26,10 +26,7 @@
           />
         </PageFormSection>
         <PageFormSection>
-          <legend>
-            Search for file types
-            <span>Select one or more file types</span>
-          </legend>
+          <p class="form-section-title">Search for file types<span>Select one or more file types</span></p>
           <div class="checkbox__group">
             <div class="checkbox" v-for="filetype in filetypes" :key="filetype.value">
               <input
@@ -175,7 +172,9 @@ export default {
         this.fileSearch.wasSuccesful = false
         this.fileSearch.hasFailed = true
         const err = JSON.parse(error.message)
-        this.fileSearch.errorMessage = `${err.message} (${err.status})`
+        const message = `${err.message} (${err.status})`
+        this.fileSearch.errorMessage = message
+        throw new Error(`${message} (${err.url})`)
       })
     },
     searchClinical () {
@@ -205,7 +204,9 @@ export default {
         this.clinicalSearch.hasFailed = true
         
         const err = JSON.parse(error.message)
-        this.clinicalSearch.errorMessage = `${err.message} (${err.status})`
+        const message = `${err.message} (${err.status})`
+        this.clinicalSearch.errorMessage = message
+        throw new Error(`${message} (${err.url})`)
       })
     }
   }
