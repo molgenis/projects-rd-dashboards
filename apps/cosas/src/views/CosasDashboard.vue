@@ -97,7 +97,6 @@ import { Page, PageHeader, PageSection, MessageBox, DataValueHighlights, DataTab
 import pageHeaderImage from '@/assets/cosas-page-header.jpg'
 import { fetchData, minDate, maxDate, stringAsNumber, daysDiff } from '$shared/js/utils.js'
 
-
 export default {
   components: {
     Page,
@@ -112,6 +111,7 @@ export default {
       pageHeaderImage: pageHeaderImage,
       loading: true,
       requestHasFailed: false,
+      error: null,
       mostRecentImport: {
         values: [],
         labels: ['subjects', 'samples', 'sequencing'],
@@ -200,8 +200,11 @@ export default {
     }).then(() => {
       this.loading = false
     }).catch(error => {
+      const err = JSON.parse(error.message)
+      const message = `${err.message} (${err.status})`
       this.requestHasFailed = true
-      this.error = error
+      this.error = message
+      throw new Error(`${message} ${err.url}`)
     })
   }
 }

@@ -48,6 +48,19 @@ $font-family: Helvetica,Arial,sans-serif;
         .button-search {
           margin-top: 1em;
         }
+        
+        p.form-section-title {
+          margin: 0;
+          display: block;
+          color: $gray-900;
+          font-size: 13pt;
+          
+          span {
+            display: block;
+            font-size: 11pt;
+            color: $gray-400;
+          }
+        }
       }
     }
   }

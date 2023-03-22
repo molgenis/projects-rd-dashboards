@@ -59,7 +59,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/variant-db/data-finder',
+      path: '/variant-db-data-finder',
       name: 'variant-db-data-finder',
       component: VariantDataFinder,
       meta: {

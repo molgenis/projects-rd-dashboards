@@ -18,10 +18,10 @@
       <p>Sign in to any of the following databases using your UMCG credentials. If you have been given access to a system and it isn't in the list below, contact <a href="mailto:molgenis-support@umcg.nl">molgenis-support@umcg.nl</a></p>
       <div class="quicklinks">
         <InfoCard title="COSAS" text="View the Catalog of Sequences, Arrays, and Samples.">
-          <ActionLink href="/cosas-data-finder">View</ActionLink>
+          <router-link :to="{name: 'cosas-data-finder'}">View</router-link>
         </InfoCard>
         <InfoCard title="VariantDB" text="Find and explore variants in the Variants database.">
-          <ActionLink href="/variant-db">View</ActionLink>
+          <router-link :to="{name: 'variant-db-data-finder'}">View</router-link>
         </InfoCard>
       </div>
     </PageSection>
@@ -76,7 +76,24 @@ export default {
     .info-card-text {
       margin: 6px 0;
     }
-  } 
+    
+    a {
+      display: block;
+      width: 100%;
+      text-align: center;
+      color: $molgenis-blue-800;
+      box-sizing: border-box;
+      padding: 0.5em 1em;
+      border: 1px solid $molgenis-blue-800;
+      background-color: $molgenis-blue-050;
+      border-radius: 6px;
+      margin: auto;
+   
+      &:hover, &:focus {
+        outline: 1px solid;
+      } 
+    }
+  }
 }
 
 #contactSupport {
