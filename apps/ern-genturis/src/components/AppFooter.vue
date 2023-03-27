@@ -32,6 +32,9 @@
                 <img :src="MolgenisLogo" class="molgenis-logo" alt="molgenis open source data platform"/>
               </a>
             </li>
+            <li>
+              <img :src="FundingLogo" class="funding-logo" alt="funded by the European Union" />
+            </li>
           </UnorderedList>
         </div>
       </div>
@@ -49,12 +52,14 @@
 import { PageFooter, PageFooterMeta, UnorderedList } from 'rd-components'
 import GenturisLogo from '@/assets/genturis-registry-logo-bg-white.png'
 import MolgenisLogo from '$shared/images/molgenis-logo-blue-white.png'
+import FundingLogo from '@/assets/en-funded-by-the-eu-neg.png'
 
 export default {
   data () {
     return {
       MolgenisLogo: MolgenisLogo,
-      GenturisLogo: GenturisLogo
+      GenturisLogo: GenturisLogo,
+      FundingLogo: FundingLogo
     }
   },
   components: {
@@ -121,6 +126,10 @@ export default {
   .molgenis-citation {
     background-color: $gray-050;
   }
+}
+
+.funding-logo {
+  width: 250px;
 }
 
 </style>
