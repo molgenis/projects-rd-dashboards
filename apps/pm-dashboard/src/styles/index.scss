@@ -1,0 +1,10 @@
+
+.app-page {
+  font-family: Helvetica, Arial, sans-serif;
+  
+  .page-section {
+    &.background-gray-050 {
+      background-color: $gray-050;
+    }
+  }
+}
