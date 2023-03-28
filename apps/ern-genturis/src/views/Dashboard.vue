@@ -284,7 +284,10 @@ export default {
             
             &[data-value="Undetermined"],
             &[data-value="Undetermined"] + td {
-              background-color: $yellow-100;
+              background-color: $gray-000;
+              span {
+                color: $gray-400;
+              }
             }
           }
         }
