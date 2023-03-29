@@ -52,7 +52,10 @@
                 @change="(event) => updateSortBy(event.target.value)"
               >
                 <option value="name" selected>Name</option>
+                <option value="project">Project</option>
+                <option value="status">Status</option>
                 <option value="tags">Tags</option>
+                <option value="date.assigned">Date Assigned</option>
                 <option value="date.started">Date Started</option>
                 <option value="date.ended">Date Ended</option>
                 <option value="duration">Duration</option>
@@ -81,7 +84,17 @@
           <DataTable
             :tableId="`table-${dataset.toLowerCase().replaceAll(' ','-')}`"
             :data="datasets[dataset]"
-            :columnOrder="['project','name','status','date.started','date.ended','duration','tags', 'options']"
+            :columnOrder="[
+              'project',
+              'name',
+              'status',
+              'date.assigned',
+              'date.started',
+              'date.ended',
+              'duration',
+              'tags',
+              'options'
+            ]"
             :caption="`${dataset} Tasks`"
             :renderHtml="true"
           />
@@ -218,6 +231,10 @@ export default {
       this.rawdatasets = this.flattenData(response.items)
       this.rawdatasets = this.rawdatasets.map(row => {
         row.options = this.setRowHtml(row)
+        if (row.dateTimeAssigned) {
+          row.dateTimeAssigned = new Date(row.dateTimeAssigned)
+          row['date.assigned'] = row.dateTimeAssigned.toLocaleDateString()
+        }
         if (row.dateTimeStarted) {
           row.dateTimeStarted = new Date(row.dateTimeStarted)
           row['date.started'] = row.dateTimeStarted.toLocaleDateString()
@@ -267,6 +284,14 @@ export default {
 #task-highlights {
   .data-highlight {
     background-color: $green-700;
+    padding: 0.8em 1em;
+    .data-label {
+      margin-bottom: 2px;
+      font-size: 11pt;
+    }
+    .data-value::after {
+      font-size: 21pt;
+    }
   }
 }
 
