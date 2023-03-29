@@ -213,6 +213,17 @@ export function sortData (data, column) {
   })
 }
 
+// Reverse Sort Data
+// Reverse sort an dataset (array of objects) by a specific property
+//
+// @param data an array of objects
+// @param column column to sort by
+export function reverseSortData (data, column) {
+  return data.sort((current, next) => {
+    return current[column] < next[column] ? 1 : -1
+  })
+}
+
 // String as Number
 // Attempt to parse string as a number
 //
