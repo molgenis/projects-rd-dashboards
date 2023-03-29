@@ -1,10 +1,35 @@
 
 .app-page {
   font-family: Helvetica, Arial, sans-serif;
+  font-size: 14pt;
   
   .page-section {
     &.background-gray-050 {
       background-color: $gray-050;
+    }
+    
+    .page-form {
+      padding: 0;
+      box-shadow: none;
+      
+      .form-header {
+        .form-header-title {
+          font-size: 18pt;
+          text-transform: uppercase;
+          font-weight: bold;
+          letter-spacing: 0.08em;
+        }
+      }
+      
+      .input-label {
+        font-size: 14pt;
+        margin: 0.5em 0;
+        
+        .input-description {
+          font-size: 12pt;
+          color: $gray-600;
+        }
+      }
     }
   }
 }
