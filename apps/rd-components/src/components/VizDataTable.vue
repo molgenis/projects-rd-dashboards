@@ -44,6 +44,11 @@ export default {
     enableRowClicks: {
       type: Boolean,
       default: true
+    },
+    // If true, all values will be rendered as HTML. Otherwise, values will be rendered as text
+    renderHtml: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['row-selection'],
@@ -120,10 +125,16 @@ export default {
         .attr('class', 'cell-colname')
         .attr('aria-hidden', 'true')
         .text(cell => cell.column)
-        
-      tableCells.append('span')
-        .attr('class', 'cell-value')
-        .text(cell => cell.value)
+      
+      if (this.renderHtml) {
+        tableCells.append('span')
+          .attr('class', 'cell-value')
+          .html(cell => cell.value)
+      } else {
+        tableCells.append('span')
+          .attr('class', 'cell-value')
+          .text(cell => cell.value)
+      }
 
       const numericColumns = []
       tableCells.attr('class', (cell) => {
