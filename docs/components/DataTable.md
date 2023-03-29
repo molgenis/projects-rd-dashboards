@@ -13,6 +13,7 @@ The datatable component is a D3 component that renders a dataset into a responsi
 |caption|optional text that describes the table|`String`|`false`|null|
 |enableRowHighlighting|If true, rows will be highlighted on mouse events|`Boolean`|`false`|true|
 |enableRowClicks|If true, row clicks will return the selected row (as an object)|`Boolean`|`false`|true|
+|renderHtml|If true, all values will be rendered as HTML. Otherwise, values will be rendered as text|`Boolean`|`false`|false|
 
 <!-- @vuese:DataTable:props:end -->
 
