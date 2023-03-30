@@ -17,7 +17,7 @@
       <h2 id="quicklinks-card-title">Search</h2>
       <p>Sign in to any of the following databases using your UMCG credentials. If you have been given access to a system and it isn't in the list below, contact <a href="mailto:molgenis-support@umcg.nl">molgenis-support@umcg.nl</a></p>
       <div class="quicklinks">
-        <InfoCard title="COSAS" text="View the Catalog of Sequences, Arrays, and Samples.">
+        <InfoCard title="COSAS" text="View the Catalog of Sequences and Arrays Samples.">
           <router-link :to="{name: 'cosas-data-finder'}">View</router-link>
         </InfoCard>
         <InfoCard title="VariantDB" text="Find and explore variants in the Variants database.">
