@@ -13,11 +13,10 @@ const validateNumRange = function (value) {
   return value >= 0 && value <= 1
 }
 
-// Create a column chart that plots values (y-axis) to groups (x-axis).
-// At the moment, this component only displays positive values and does
-// group or stack columns. Please see the BarChart component (in.progress)
-// to arrange the chart horizontally.
-//
+// Create a column chart (vertical bars) where the height of a bar
+// is corresponds to a value of a categorical variable (along the x-axis). If
+// you have many groups, consider using the `<BarChart>` component. You may also
+// want to combine or exclude, groups with smaller values.
 // @group VISUALISATIONS
 export default {
   name: 'ColumnChart',
@@ -111,7 +110,6 @@ export default {
     
     // Adjust the amount of blank space inbetween columns between 0 and 1
     columnPaddingInner: {
-      // `0.0:1.0`
       type: Number,
       // `0.2`
       default: 0.2,
@@ -119,9 +117,8 @@ export default {
     },
     
     // Adjust the amount of blank space before the first column and after
-    // the last column.
+    // the last column. Value must be between 0 and 1
     columnPaddingOuter: {
-      // `0.0:1.0`
       type: Number,
       // `0.2`
       default: 0.2,
@@ -131,7 +128,6 @@ export default {
     // Along with `columnPaddingOuter`, specify how the columns are distributed
     // x-axis. A value of 0 will position the columns closer to the y-axis.
     columnAlign: {
-      // `0.0:1.0`
       type: Number,
       // `0.5`
       default: 0.5,
@@ -207,12 +203,12 @@ export default {
           .transition()
           .delay(200)
           .duration(500)
-          .attr('y', row => yAxis(row[this.yvar]))
-          .attr('height', row => heightMarginAdjusted - yAxis(row[this.yvar]))
+          .attr('y', row => yAxis(Math.max(0, row[this.yvar])))
+          .attr('height', row => Math.abs(yAxis(row[this.yvar]) - yAxis(0)))
       } else {
         chartColumns
-          .attr('y', row => yAxis(row[this.yvar]))
-          .attr('height', row => heightMarginAdjusted - yAxis(row[this.yvar]))
+          .attr('y', row => yAxis(Math.max(0, row[this.yvar])))
+          .attr('height', row => Math.abs(yAxis(row[this.yvar]) - yAxis(0)))
       }
       
       chartArea.selectAll('column-labels')

@@ -205,15 +205,17 @@ export default {
         .attr('height', yAxis.bandwidth())
 
       if (this.chartAnimate) {
-        chartColumns.attr('width', xAxis(0))
+        chartColumns.attr('width', 0)
           .transition()
           .delay(200)
           .duration(500)
-          .attr('width', row => xAxis(row[this.xvar]))
+          .attr('x', row => xAxis(Math.min(0, row[this.xvar])))
+          .attr('width', row => Math.abs(xAxis(row[this.xvar]) - xAxis(0)))
         } else {
           chartColumns
-            .attr('width', row => xAxis(row[this.xvar]))
-      }
+            .attr('x', row => xAxis(Math.min(0, row[this.xvar])))
+            .attr('width', row => Math.abs(xAxis(row[this.xvar]) - xAxis(0)))
+        }
 
       chartArea.selectAll('bar-labels')
         .data(this.chartData)
