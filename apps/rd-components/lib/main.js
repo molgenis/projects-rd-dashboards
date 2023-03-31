@@ -18,6 +18,7 @@ import PageFormSection from '../src/components/PageFormSection.vue'
 import PageHeader from "../src/components/PageHeader.vue"
 import PageSection from "../src/components/PageSection.vue"
 import UnorderedList from "../src/components/UnorderedList.vue"
+import BarChart from "../src/components/VizBarChart.vue"
 import ColumnChart from "../src/components/VizColumnChart.vue"
 import DataTable from "../src/components/VizDataTable.vue"
 import DataValueHighlights from "../src/components/VizDataValueHighlights.vue"
@@ -45,6 +46,7 @@ export {
   PageHeader,
   PageSection,
   UnorderedList,
+  BarChart,
   ColumnChart,
   DataTable,
   DataValueHighlights,

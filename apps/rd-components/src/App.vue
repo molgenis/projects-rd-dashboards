@@ -44,10 +44,10 @@
     </PageSection>
     <PageSection id="viz-section" :verticalPadding="2">
       <h2>Interactive D3 Charts Example</h2>
-      <Accordion id="exampleText" title="Recruitment Overview">
+      <Accordion id="exampleText" title="Recruitment Overview" :isOpenByDefault="true">
         <p>Recuitment began in August 2022. Three centers are actively recruiting while the others are expected to start recruiting in late 2022. The first few months of recruitment were exceptional for all centers. The table below shows the total recruitment to date by center. Click a row to view recruitment numbers by research group.</p>
       </Accordion>
-      <div class="flex">  
+      <div class="interactive-table">  
         <DataTable
           tableId="recruiment"
           :data="siteSummary"
@@ -55,21 +55,38 @@
           caption="Total Recruitment by Centre"
           @row-selection="rowSelection"
         />
-        <ColumnChart
-          chartId="centerRecruitment"
-          title="Center-level Recruitment by Group"
-          :chartData="selectedCenter"
-          xvar="group"
-          yvar="total"
-          :yMax="300"
-          :yTickValues="[0, 50, 100,150, 200, 250, 300]"
-          :chartWidth="575"
-          :chartHeight="350"
-          :columnPaddingInner="0.5"
-          :columnPaddingOuter="0.5"
-          :xAxisLabel="`${selectedCenter[0].name} by Group`"
-          yAxisLabel="Total Subjects Recruited"
-        />
+        <div>
+          <ColumnChart
+            chartId="centerRecruitment"
+            title="Center-level Recruitment by Group"
+            :chartData="selectedCenter"
+            xvar="group"
+            yvar="total"
+            :yMax="300"
+            :yTickValues="[0, 50, 100,150, 200, 250, 300]"
+            :chartWidth="500"
+            :chartHeight="350"
+            :columnPaddingInner="0.5"
+            :columnPaddingOuter="0.5"
+            :xAxisLabel="`${selectedCenter[0].name} by Group`"
+            yAxisLabel="Total Subjects Recruited"
+          />
+          <BarChart
+            chartId="centerRecruitment2"
+            title="Center-level Recruitment by Group"
+            :chartData="selectedCenter"
+            xvar="total"
+            yvar="group"
+            :xMax="300"
+            :xTickValues="[0, 50, 100,150, 200, 250, 300]"
+            :chartWidth="500"
+            :chartHeight="350"
+            :barPaddingInner="0.5"
+            :barPaddingOuter="0.5"
+            :yAxisLabel="`${selectedCenter[0].name} by Group`"
+            xAxisLabel="Total Subjects Recruited"
+          />
+        </div>
       </div>
       <PieChart
         chartId="recruitmentBreakdown"
@@ -172,6 +189,7 @@ import InfoCard from './components/InfoCard.vue'
 
 import VizDataHighlights from './components/VizDataValueHighlights.vue'
 import ColumnChart from './components/VizColumnChart.vue'
+import BarChart from './components/VizBarChart.vue'
 import DataTable from './components/VizDataTable.vue'
 import GeoMercator from './components/VizGeoMercator.vue'
 import PieChart from './components/VizPieChart.vue'
@@ -194,6 +212,7 @@ export default {
     LinkCard,
     VizDataHighlights,
     DataTable,
+    BarChart,
     ColumnChart,
     GeoMercator,
     PieChart,
@@ -322,13 +341,14 @@ body {
   }
 }
 
-.flex {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 2em;
-  div {
-    flex-grow: 1;
+.interactive-table {
+  padding: 1em 0;
+  > div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 2em 0;
+    gap: 1em;
   }
 }
 
