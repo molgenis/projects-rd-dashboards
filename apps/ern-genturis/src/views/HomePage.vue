@@ -52,12 +52,10 @@
       <GenturisAddress :centerText="true" />
     </PageSection>
   </Page>
-  <AppFooter />
 </template>
 
 <script>
 import { Page, PageHeader, PageSection, LinkCard } from 'rd-components'
-import AppFooter from '@/components/AppFooter.vue'
 import GenturisAddress from '@/components/Address.vue'
 import GenturisHeaderPhoto from '@/assets/genturis-carousel.jpg'
 import GenturisLogo from '@/assets/genturis-registry-logo.png'
@@ -70,8 +68,7 @@ export default {
     PageHeader,
     PageSection,
     LinkCard,
-    GenturisAddress,
-    AppFooter
+    GenturisAddress
   },
   data () {
     return {

@@ -49,12 +49,10 @@
       <p>Access to the restricted area of the GENTURIS registry is only possible for collaborators from HCPs that are Full Member, Affiliated Partner or Supporting Partner of ERN GENTURIS, who have a GENTURIS registry login account.</p>
     </PageSection>
   </Page>
-  <AppFooter />
 </template>
 
 <script>
 import { Page, PageHeader, PageSection } from 'rd-components'
-import AppFooter from '@/components/AppFooter.vue'
 import GenturisHeaderPhoto from '@/assets/genturis-carousel.jpg'
 import GenturisDiseaseGroups from '@/assets/genturis-disease-groups.png'
 
@@ -62,8 +60,7 @@ export default {
   components: {
     Page,
     PageHeader,
-    PageSection,
-    AppFooter
+    PageSection
   },
   data () {
     return {

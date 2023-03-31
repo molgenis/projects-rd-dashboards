@@ -45,21 +45,14 @@
       </ul>
     </PageSection>
   </Page>
-  <AppFooter />
 </template>
 
 <script>
 import { Page, PageHeader, PageSection } from 'rd-components'
-import AppFooter from '../components/AppFooter.vue'
 import GenturisHeaderPhoto from '@/assets/genturis-carousel.jpg'
 
 export default {
-  components: {
-    Page,
-    PageHeader,
-    PageSection,
-    AppFooter
-  },
+  components: { Page, PageHeader, PageSection },
   data () {
     return {
       GenturisHeaderPhoto: GenturisHeaderPhoto

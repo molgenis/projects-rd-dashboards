@@ -37,23 +37,15 @@
       <p>This website includes links to third party website. By clicking on those links, third parties may collect or share your data. The GENTURIS registry is not responsible for the privacy policy of these third party websites and does not control these third party websites. Please read the privacy policy of these third party websites.</p>
     </PageSection>
   </Page>
-  <AppFooter />
 </template>
 
 <script>
 import { Page, PageSection, PageHeader } from 'rd-components'
 import GenturisAddress from '@/components/Address.vue'
-import AppFooter from '@/components/AppFooter.vue'
 import GenturisHeaderPhoto from '@/assets/genturis-carousel.jpg'
 
 export default {
-  components: {
-    Page,
-    PageHeader,
-    PageSection,
-    GenturisAddress,
-    AppFooter
-  },
+  components: { Page, PageHeader, PageSection, GenturisAddress },
   data () {
     return {
       GenturisHeaderPhoto: GenturisHeaderPhoto

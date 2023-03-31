@@ -83,10 +83,10 @@
       </div>
     </div>
   </Page>
-  <AppFooter />
 </template>
 
 <script>
+import { fetchData, sortData, subsetData, renameKey, asDataObject } from '$shared/js/utils.js'
 import {
   Page,
   LoadingScreen,
@@ -97,15 +97,6 @@ import {
   GeoMercator,
   PieChart
 } from 'rd-components'
-
-import AppFooter from '@/components/AppFooter.vue'
-import { 
-  fetchData,
-  sortData,
-  subsetData,
-  renameKey,
-  asDataObject
-} from '$shared/js/utils.js'
 
 import geojson from '$shared/data/world.geo.json'
 
@@ -119,8 +110,7 @@ export default {
     DataTable,
     DataValueHighlights,
     GeoMercator,
-    PieChart,
-    AppFooter
+    PieChart
   },
   data () {
     return {

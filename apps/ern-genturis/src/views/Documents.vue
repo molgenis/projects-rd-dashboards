@@ -27,12 +27,10 @@
       </div>
     </PageSection>
   </Page>
-  <AppFooter />
 </template>
 
 <script>
 import { Page, PageHeader, PageSection, MessageBox, LoadingScreen } from 'rd-components'
-import AppFooter from '@/components/AppFooter.vue'
 import GenturisHeaderPhoto from '@/assets/genturis-carousel.jpg'
 import { fetchData, subsetData } from '$shared/js/utils.js'
 
@@ -42,7 +40,6 @@ export default {
     Page,
     PageHeader,
     PageSection,
-    AppFooter,
     MessageBox,
     LoadingScreen
   },

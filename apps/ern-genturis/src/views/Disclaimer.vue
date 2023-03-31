@@ -13,22 +13,15 @@
       <p>The GENTURIS registry was funded by the European Union's Health Programme (2014-2020). The content of this website represents the views of the GENTURIS registry only and is it sole responsibility; it cannot be considered to reflect the views of the European Commission and/or the Consumers, Health, Agriculture and Food Executive Agency (CHAFEA) or any other body of the European Union. The European Commission and the Agency do not accept any responsibility for use that may be made of the information it contains.</p>
     </PageSection>
   </Page>
-  <AppFooter />
 </template>
 
 <script>
 import { Page, PageHeader, PageSection } from 'rd-components'
-import AppFooter from '@/components/AppFooter.vue'
 import GenturisHeaderPhoto from '@/assets/genturis-carousel.jpg'
 
 export default {
   name: 'page-disclaimer',
-  components: {
-    Page,
-    PageHeader,
-    PageSection,
-    AppFooter
-  },
+  components: { Page, PageHeader, PageSection },
   data () {
     return {
       GenturisHeaderPhoto: GenturisHeaderPhoto
