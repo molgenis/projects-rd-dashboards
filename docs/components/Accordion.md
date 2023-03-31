@@ -9,6 +9,7 @@ Create a collapsible element for hiding and showing content. For example, the ac
 |---|---|---|---|---|
 |id|A unique identifier for the accordion|`String`|`true`|-|
 |title|A label that describes the hidden content|`String`|`true`|-|
+|isOpenByDefault|If true, the accordion will be opened on render|`Boolean`|`false`|false|
 
 <!-- @vuese:Accordion:props:end -->
 

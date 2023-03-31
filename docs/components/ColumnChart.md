@@ -1,6 +1,6 @@
 # ColumnChart
 
-Create a column chart that plots values (y-axis) to groups (x-axis). At the moment, this component only displays positive values and does group or stack columns. Please see the BarChart component (in.progress) to arrange the chart horizontally. 
+Create a column chart (vertical bars) where the height of a bar is corresponds to a value of a categorical variable (along the x-axis). If you have many groups, consider using the `<BarChart>` component. You may also want to combine or exclude, groups with smaller values.
 
 ## Props
 
@@ -22,9 +22,9 @@ Create a column chart that plots values (y-axis) to groups (x-axis). At the mome
 |chartAnimate|If true, the drawing of the columns will be animated|`Boolean`|`false`|true|
 |columnFill|Set the fill of all columns (hex code)|`String`|`false`|`#6C85B5`|
 |columnHoverFill|Set the color that is displayed when a column is hovered (hex code)|`String`|`false`|`#163D89`|
-|columnPaddingInner|Adjust the amount of blank space inbetween columns between 0 and 1|`0.0:1.0`|`false`|`0.2`|
-|columnPaddingOuter|Adjust the amount of blank space before the first column and after the last column.|`0.0:1.0`|`false`|`0.2`|
-|columnAlign|Along with `columnPaddingOuter`, specify how the columns are distributed x-axis. A value of 0 will position the columns closer to the y-axis.|`0.0:1.0`|`false`|`0.5`|
+|columnPaddingInner|Adjust the amount of blank space inbetween columns between 0 and 1|`Number`|`false`|`0.2`|
+|columnPaddingOuter|Adjust the amount of blank space before the first column and after the last column. Value must be between 0 and 1|`Number`|`false`|`0.2`|
+|columnAlign|Along with `columnPaddingOuter`, specify how the columns are distributed x-axis. A value of 0 will position the columns closer to the y-axis.|`Number`|`false`|`0.5`|
 
 <!-- @vuese:ColumnChart:props:end -->
 
