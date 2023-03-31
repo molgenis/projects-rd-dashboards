@@ -13,7 +13,7 @@
       </MessageBox>
     </div>
     <div v-else-if="!hasError && !loading">
-      <PageSection id="task-highlights" class="background-gray-050" :verticalPadding="2" width="large">
+      <PageSection id="task-highlights" :verticalPadding="2" width="large">
         <DataValueHighlights          
           title="summary of tasks"
           :showTitle="false"
@@ -24,60 +24,83 @@
       <PageSection>
         <h2>View Tasks</h2>
         <p>View current and past tasks. You can view all tasks in one table or split them into separate tables by project or status. You may also sort tables.</p>
-        <PageForm title="Customise Layout">
-          <div class="sort-by-form">
-            <PageFormSection>
-              <InputLabel
-                id="arrangeTables"
-                label="Arrange tables by"
-              />
-              <select
-                id="arrangeTables"
-                class="input-sortby"
-                @change="(event) => updateArrangeBy(event.target.value)"
-              >
-                <option value="all" selected>All</option>
-                <option value="project">Project</option>
-                <option value="status">Status</option>
-              </select>
-            </PageFormSection>
-            <PageFormSection>
-              <InputLabel
-                id="sortTables"
-                label="Sort data by"
-              />
-              <select
-                id="sortTables"
-                class="input-sortby"
-                @change="(event) => updateSortBy(event.target.value)"
-              >
-                <option value="name" selected>Name</option>
-                <option value="project">Project</option>
-                <option value="status">Status</option>
-                <option value="tags">Tags</option>
-                <option value="date.assigned">Date Assigned</option>
-                <option value="date.started">Date Started</option>
-                <option value="date.ended">Date Ended</option>
-                <option value="duration">Duration</option>
-              </select>
-              <div class="checkbox">
-                <label for="reverseSort">
-                  <input id="reverseSort" type="checkbox" @change="(event) => reverseSortData(event.target.checked)"/>
-                  Sort in descending order
-                </label>
-              </div>
-            </PageFormSection>
-            <PageFormSection class="form-buttons">
-              <p>Additional actions</p>
-              <ActionLink href="/menu/data/dataexplorer?entity=pm_todo&hideselect=true" class="btn-main-actions">
-                View Source Data
-              </ActionLink>
-              <ActionLink href="/plugin/data-row-edit/pm_todo" class="btn-main-actions">
-                Add New Task
-              </ActionLink>
-            </PageFormSection>
-          </div>
-        </PageForm>
+        <Accordion title="Settings">
+          <PageForm title="Customise Layout">
+            <div class="sort-by-form">
+              <PageFormSection>
+                <InputLabel
+                  id="arrangeTables"
+                  label="Arrange tables by"
+                />
+                <select
+                  id="arrangeTables"
+                  class="input-sortby"
+                  ref="arrangeLayoutBy"
+                  @change="(event) => updateView('arrangeLayoutBy', event.target.value)"
+                >
+                  <option value="all" selected>All</option>
+                  <option value="project">Project</option>
+                  <option value="status">Status</option>
+                </select>
+                <div class="checkbox">
+                  <label for="reverseSortLayout">
+                    <input 
+                      id="reverseSortLayout"
+                      type="checkbox"
+                      ref="reverseArrangeLayoutBy"
+                      @change="(event) => updateView('reverseArrangeLayoutBy', event.target.checked)"
+                    />
+                    Sort in descending order
+                  </label>
+                </div>
+              </PageFormSection>
+              <PageFormSection>
+                <InputLabel
+                  id="sortTables"
+                  label="Sort data by"
+                />
+                <select
+                  id="sortTables"
+                  class="input-sortby"
+                  ref="sortDataBy"
+                  @change="(event) => updateView('sortDataBy',event.target.value)"
+                >
+                  <option value="name" selected>Name</option>
+                  <option value="project">Project</option>
+                  <option value="status">Status</option>
+                  <option value="tags">Tags</option>
+                  <option value="date.assigned">Date Assigned</option>
+                  <option value="date.started">Date Started</option>
+                  <option value="date.ended">Date Ended</option>
+                  <option value="duration">Duration</option>
+                </select>
+                <div class="checkbox">
+                  <label for="reverseSortTables">
+                    <input
+                      id="reverseSortTables"
+                      type="checkbox"
+                      ref="reverseSortDataBy"
+                      @change="(event) => updateView('reverseSortDataBy',event.target.checked)"
+                    />
+                    Sort in descending order
+                  </label>
+                </div>
+              </PageFormSection>
+              <PageFormSection class="form-buttons">
+                <p>Additional actions</p>
+                <ActionLink href="/menu/data/dataexplorer?entity=pm_todo&hideselect=true" class="btn-main-actions">
+                  View Source Data
+                </ActionLink>
+                <ActionLink href="/plugin/data-row-edit/pm_todo" class="btn-main-actions">
+                  Add New Task
+                </ActionLink>
+                <ActionLink href="/plugin/data-row-edit/pm_info_projects" class="btn-main-actions">
+                  Add New Project
+                </ActionLink>
+              </PageFormSection>
+            </div>
+          </PageForm>
+        </Accordion>
       </PageSection>
       <PageSection width="large">
         <div class="page-section padding-v-2" v-for="dataset in Object.keys(datasets)" :key="dataset">
@@ -107,6 +130,7 @@
 <script>
 import HeaderImage from '@/assets/header.jpg'
 import {
+  Accordion,
   ActionLink,
   DataTable,
   DataValueHighlights,
@@ -122,6 +146,7 @@ import {
 
 import {
   fetchData,
+  flattenData,
   subsetData,
   reverseSortData,
   sortData,
@@ -129,6 +154,7 @@ import {
 
 export default {
   components: {
+    Accordion,
     ActionLink,
     DataTable,
     DataValueHighlights,
@@ -147,67 +173,58 @@ export default {
       loading: true,
       hasError: false,
       error: null,
-      rawdatasets: null,
-      datasets: {},
+      rawdata: null,
       tasksummary: {},
-      arrangeBy: 'all',
-      sortBy: 'name',
-      reverseSort: false,
+      arrangeLayoutBy: 'all',
+      reverseArrangeLayoutBy: false,
+      sortDataBy: 'name',
+      reverseSortDataBy: false,
+      config: ['arrangeLayoutBy','reverseArrangeLayoutBy','sortDataBy','reverseSortDataBy']
+    }
+  },
+  computed: {
+    arrangeByGroups () {
+      const arrangeByGroups = [...new Set(this.rawdata.map(row => row[this.arrangeLayoutBy]))].sort()
+      return this.reverseArrangeLayoutBy ? arrangeByGroups.reverse() : arrangeByGroups 
+    },
+    datasets () {
+      const data = {}
+      if (this.arrangeLayoutBy === 'all') {
+        data['all'] = this.reverseSortDataBy
+          ? reverseSortData(this.rawdata, this.sortDataBy)
+          : sortData(this.rawdata, this.sortDataBy)
+      } else {
+        for (let index = 0; index < this.arrangeByGroups.length; index++) {
+          const filteredData = subsetData(this.rawdata, this.arrangeLayoutBy, this.arrangeByGroups[index])
+          const sortedData = this.reverseSortDataBy
+            ? reverseSortData(filteredData, this.sortDataBy)
+            : sortData(filteredData, this.sortDataBy)
+          data[this.arrangeByGroups[index]] = sortedData
+        }
+      }
+      return data
     }
   },
   methods: {
-    flattenData(data) {
-      return data.map(row => {
-        const rowKeys = Object.keys(row)
-        const newrow = {}
-        rowKeys.map(key => {
-          if (row[key] instanceof Object) {
-            if (row[key] instanceof Array) {
-              const val = row[key].map(subrow => subrow.value || subrow.name)
-              newrow[key] = val.join(',')
-            } else {
-              newrow[key] = row[key].value
-            }
+    loadConfig () {
+      this.config.map(item => {
+        const savedValue = localStorage.getItem(item)
+        if (typeof savedValue !== 'undefined') {
+          if (item === 'reverseArrangeLayoutBy' || item === 'reverseSortDataBy') {
+            this.$refs[item].checked = savedValue
           } else {
-            newrow[key] = row[key]
+            this.$refs[item].value = savedValue
           }
-        })
-        return newrow
+          this[item] = savedValue
+        }
       })
     },
-    arrangeTables () {
-      this.datasets = {}
-      const groups = [...new Set(this.rawdatasets.map(row => row[this.arrangeBy]))]
-      for (let index = 0; index < groups.length; index++) {
-        const filteredData = subsetData(this.rawdatasets, this.arrangeBy, groups[index])
-        const sortedData = this.reverseSort
-          ? reverseSortData(filteredData, this.sortBy)
-          : sortData(filteredData, this.sortBy)
-        this.datasets[groups[index]] = sortedData
-      }
+    saveConfig () {
+      this.config.map(item => localStorage.setItem(item, this[item]))
     },
-    updateTables () {
-      if (this.arrangeBy === 'all') {
-        this.datasets = {
-          'all': this.reverseSort
-            ? reverseSortData(this.rawdatasets, this.sortBy)
-            : sortData(this.rawdatasets, this.sortBy)
-        }
-      } else {
-       this.arrangeTables() 
-      }
-    },
-    updateArrangeBy (value) {
-      this.arrangeBy = value
-      this.updateTables()
-    },
-    updateSortBy (value) {
-      this.sortBy = value
-      this.updateTables()
-    },
-    reverseSortData (value) {
-      this.reverseSort = value
-      this.updateTables()
+    updateView(property, value) {
+      this[property] = value
+      this.saveConfig()
     },
     setRowHtml (obj) {
       return `
@@ -225,11 +242,18 @@ export default {
     }
   },
   mounted () {
+    
+    setTimeout(() => {
+      this.$nextTick(() => {
+        this.loadConfig()
+      })
+    }, 150)
+    
     Promise.resolve(
       fetchData('/api/v2/pm_todo')
     ).then(response => {
-      this.rawdatasets = this.flattenData(response.items)
-      this.rawdatasets = this.rawdatasets.map(row => {
+      this.rawdata = flattenData(response.items)
+      this.rawdata = this.rawdata.map(row => {
         row.options = this.setRowHtml(row)
         if (row.dateTimeAssigned) {
           row.dateTimeAssigned = new Date(row.dateTimeAssigned)
@@ -252,7 +276,7 @@ export default {
       }) 
  
       const categories = ['not yet started', 'in progress', 'in review', 'completed', 'blocked']
-      const values = categories.map(category => this.rawdatasets.filter(row => row.status === category).length)
+      const values = categories.map(category => this.rawdata.filter(row => row.status === category).length)
       this.tasksummary = {
         'values': values,
         'labels': [
@@ -263,8 +287,6 @@ export default {
           'blocked',
         ]
       }
-
-      this.updateTables()
       
       this.loading = false
     }).catch(error => {
@@ -282,6 +304,7 @@ export default {
 <style lang="scss">
 
 #task-highlights {
+  background-color: $green-050;
   .data-highlight {
     background-color: $green-700;
     padding: 0.8em 1em;

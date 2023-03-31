@@ -4,22 +4,8 @@
   font-size: 14pt;
   
   .page-section {
-    &.background-gray-050 {
-      background-color: $gray-050;
-    }
-    
     .page-form {
-      padding: 0;
       box-shadow: none;
-      
-      .form-header {
-        .form-header-title {
-          font-size: 18pt;
-          text-transform: uppercase;
-          font-weight: bold;
-          letter-spacing: 0.08em;
-        }
-      }
       
       .input-label {
         font-size: 14pt;

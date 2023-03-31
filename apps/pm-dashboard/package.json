@@ -1,7 +1,7 @@
 {
   "name": "pm-dashboard",
   "description": "Project management dashboard vue application",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "scripts": {
     "copy-html:dev": "copyfiles -f ../rd-shared/templates/dev/index.html ./",
     "copy-html:prod": "copyfiles -f ../rd-shared/templates/build/index.html ./",
