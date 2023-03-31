@@ -52,6 +52,12 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    // If true, the accordion will be opened on render
+    isOpenByDefault: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data () {
@@ -63,6 +69,9 @@ export default {
     onclick () {
       this.visible = !this.visible
     }
+  },
+  mounted () {
+    this.visible = this.isOpenByDefault ? this.isOpenByDefault : this.visible
   }
 }
 </script>
