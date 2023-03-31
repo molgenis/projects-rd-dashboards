@@ -37,6 +37,32 @@ export function asDataObject (data, key, value) {
   return newDataObject
 }
 
+// flattenData
+// Flatten MOLGENIS API reponse
+//
+// @param data an array of objects with nested arrays/objects
+// @return an array of objects with no nested arrays or objects
+//
+export function flattenData (data) {
+  return data.map(row => {
+    const rowKeys = Object.keys(row)
+    const newrow = {}
+    rowKeys.map(key => {
+      if (row[key] instanceof Object) {
+        if (row[key] instanceof Array) {
+          const val = row[key].map(subrow => subrow.value || subrow.name)
+          newrow[key] = val.join(',')
+        } else {
+          newrow[key] = row[key].value
+        }
+      } else {
+        newrow[key] = row[key]
+      }
+    })
+    return newrow
+  })
+}
+
 // Init Search Object
 // Create object that will handle all loading messages (loading, error, successful)
 // when querying for results via the MOLGENIS API
