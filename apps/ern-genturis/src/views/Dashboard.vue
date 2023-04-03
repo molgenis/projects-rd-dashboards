@@ -1,10 +1,5 @@
 <template>
   <Page id="page-dashboard">
-    <div class="dashboard-main-message">
-      <MessageBox type="warning">
-        <p>The data displayed in the charts below was created for demonstration and testing purposes only. Actual data will be displayed at a later date.</p>
-      </MessageBox>
-    </div>
     <LoadingScreen v-if="loading"/>    
     <div class="page-section padding-h-2" v-else-if="!loading && loadingError">
       <MessageBox type="error">
@@ -295,21 +290,4 @@ export default {
 #ern-institutions-tooltip {
   font-family: $font-family;
 }
-
-.dashboard-main-message {
-  padding: 1em;
-
-  .message-box {
-    margin: 0;
-    .message-text {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      p {
-        margin: 0;
-      }
-    }
-  }
-}
-
 </style>
