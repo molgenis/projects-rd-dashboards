@@ -24,7 +24,12 @@
       <PageSection>
         <h2>View Tasks</h2>
         <p>View current and past tasks. You can view all tasks in one table or split them into separate tables by project or status. You may also sort tables.</p>
-        <Accordion title="Settings">
+        <Accordion
+          id="settings"
+          title="Settings"
+          :isOpenByDefault="accordionIsOpen"
+          @isOpen= "(event) => updateView('accordionIsOpen', event)"
+        >
           <PageForm title="Customise Layout">
             <div class="sort-by-form">
               <PageFormSection>
@@ -179,7 +184,14 @@ export default {
       reverseArrangeLayoutBy: false,
       sortDataBy: 'name',
       reverseSortDataBy: false,
-      config: ['arrangeLayoutBy','reverseArrangeLayoutBy','sortDataBy','reverseSortDataBy']
+      accordionIsOpen: true,
+      defaults: {
+        arrangeLayoutBy: 'all',
+        reverseArrangeLayoutBy: false,
+        sortDataBy: 'name',
+        reverseSortDataBy: false,
+        accordionIsOpen: true
+      }
     }
   },
   computed: {
@@ -207,20 +219,22 @@ export default {
   },
   methods: {
     loadConfig () {
-      this.config.map(item => {
-        const savedValue = localStorage.getItem(item)
-        if (typeof savedValue !== 'undefined') {
-          if (item === 'reverseArrangeLayoutBy' || item === 'reverseSortDataBy') {
-            this.$refs[item].checked = savedValue
-          } else {
-            this.$refs[item].value = savedValue
-          }
-          this[item] = savedValue
+      Object.keys(this.defaults).map(key => {
+        const savedValue = localStorage.getItem(key)
+        const value = savedValue ? savedValue : this.defaults[key]
+        if (key === 'reverseArrangeLayoutBy' || key === 'reverseSortDataBy') {
+          this.$refs[key].checked = value
+        }
+        if (key === 'accordionIsOpen') {
+          this[key] = JSON.parse(value)
+        } else {
+          this.$refs[key].value = value
+          this[key] = value
         }
       })
     },
     saveConfig () {
-      this.config.map(item => localStorage.setItem(item, this[item]))
+      Object.keys(this.defaults).map(key => localStorage.setItem(key, this[key]))
     },
     updateView(property, value) {
       this[property] = value
@@ -229,7 +243,7 @@ export default {
     setRowHtml (obj) {
       return `
         <div class="row-options">
-          <a href="menu/data/dataexplorer?entity=pm_todo&hideselect=true&filter=id==${obj.id}">
+          <a href="/menu/data/dataexplorer?entity=pm_todo&hideselect=true&filter=id==${obj.id}">
             <span class="visually-hidden">view</span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="heroicons magnifying-glass-circle"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.774 4.774zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </a> 
