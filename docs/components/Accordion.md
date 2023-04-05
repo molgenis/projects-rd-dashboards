@@ -1,6 +1,6 @@
 # Accordion
 
-Create a collapsible element for hiding and showing content. For example, the accordion component is a good option for structuring an FAQ page.
+Create a collapsible element for hiding and showing content. For example, the accordion component is a good option for structuring an FAQ page. Accordion state (i.e., open or closed) can be accessed using the following event `@isOpen`.
 
 ## Props
 
@@ -12,6 +12,16 @@ Create a collapsible element for hiding and showing content. For example, the ac
 |isOpenByDefault|If true, the accordion will be opened on render|`Boolean`|`false`|false|
 
 <!-- @vuese:Accordion:props:end -->
+
+
+## Events
+
+<!-- @vuese:Accordion:events:start -->
+|Event Name|Description|Parameters|
+|---|---|---|
+|isOpen|-|-|
+
+<!-- @vuese:Accordion:events:end -->
 
 
 ## Slots
