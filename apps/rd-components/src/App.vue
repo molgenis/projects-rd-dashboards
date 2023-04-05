@@ -44,7 +44,12 @@
     </PageSection>
     <PageSection id="viz-section" :verticalPadding="2">
       <h2>Interactive D3 Charts Example</h2>
-      <Accordion id="exampleText" title="Recruitment Overview" :isOpenByDefault="true">
+      <Accordion
+        id="exampleText"
+        title="Recruitment Overview"
+        :isOpenByDefault="true"
+        @isOpen="(event) => printAccordionState(event)"
+      >
         <p>Recuitment began in August 2022. Three centers are actively recruiting while the others are expected to start recruiting in late 2022. The first few months of recruitment were exceptional for all centers. The table below shows the total recruitment to date by center. Click a row to view recruitment numbers by research group.</p>
       </Accordion>
       <div class="interactive-table">  
@@ -233,6 +238,9 @@ export default {
     }
   },
   methods: {
+    printAccordionState (value) {
+      console.log(value)
+    },
     rowSelection (value) {
       const selection = value.data
       this.selectedCenter = this.recruitmentByCenter.filter(row => row.name === selection.name)

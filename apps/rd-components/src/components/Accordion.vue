@@ -40,7 +40,8 @@
 <script>
 // @displayName Accordion
 // Create a collapsible element for hiding and showing content. For example, the
-// accordion component is a good option for structuring an FAQ page.
+// accordion component is a good option for structuring an FAQ page. Accordion state
+// (i.e., open or closed) can be accessed using the following event `@isOpen`.
 export default {
   props: {
     // A unique identifier for the accordion
@@ -68,6 +69,7 @@ export default {
   methods: {
     onclick () {
       this.visible = !this.visible
+      this.$emit('isOpen', this.visible)
     }
   },
   mounted () {
