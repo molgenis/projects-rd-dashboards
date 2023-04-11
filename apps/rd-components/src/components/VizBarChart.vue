@@ -1,7 +1,73 @@
 <template>
   <div class="d3-viz d3-bar-chart">
     <h3 v-if="title" class="chart-title">{{ title }}</h3>
-    <svg :id="chartId" preserveAspectRatio="xMinYMin"></svg>
+    <p v-if="description" class="chart-description">{{ description }}</p>
+    <svg
+      :id="chartId"
+      :class="svgClassNames"
+      width="100%"
+      height="100%"
+      :viewBox="viewBox"
+      preserveAspectRatio="xMinYMin"
+    >
+      <g
+        class="chart-area"
+        :transform="`translate(${chartMargins.left}, ${chartMargins.top})`"
+      >
+        <g class="chart-axes">
+          <g class="chart-axis-x" :transform="`translate(0,${heightMarginAdjusted})`"></g>
+          <g class="chart-axis-y"></g>
+        </g>
+        <g class="chart-bars">
+          <g 
+            class="bar-group"
+            v-for="row in chartData"
+            :key="row[yvar]"
+            :data-column="row[yvar]"
+            :data-value="row[xvar]"
+          >
+            <rect
+              :data-value="`${row[yvar]}-${row[xvar]}`"
+              class="bar"
+              :y="yAxis(row[yvar])"
+              :height="yAxis.bandwidth()"
+              :fill="barFill"
+              @click="() => onClick(row)"
+              @mouseover="(event) => onMouseOver(event)"
+              @mouseleave="(event) => onMouseLeave(event)"
+            />
+            <text
+              class="label"
+              :x="xAxis(row[xvar])"
+              :y="yAxis(row[yvar])"
+              dx="1.1em"
+              :dy="(yAxis.bandwidth() / 1.65)"
+            > 
+              {{ row[xvar]}}
+            </text>
+          </g>
+        </g>
+      </g>
+      <g class="chart-labels">
+        <text 
+          :x="(chartWidth / 2)"
+          :y="chartHeight - (chartMargins.bottom / 4.5)"
+          :dx="(chartMargins.left - chartMargins.right) / 2"
+          class="chart-text chart-axis-title chart-axis-x"
+          v-if="xlabel"
+        >
+          {{ xlabel }}
+        </text>
+        <text
+          :x="-(chartHeight / 2.25)"
+          :y="(chartMargins.left / 5.1)"
+          class="chart-text chart-axis-title chart-axis-y"
+          v-if="ylabel"
+        >
+        {{ ylabel }}
+        </text>
+      </g>
+    </svg>
   </div>
 </template>
 
@@ -33,6 +99,9 @@ export default {
     },
     // A title that describes the chart
     title: String,
+    
+    // Additional information to display below the title
+    description: String,
 
     // Name of the column that contains the values to plot
     // along the x-axis
@@ -65,38 +134,18 @@ export default {
       required: true
     },
     
-    // set the width of the chart
-    chartWidth: {
-      type: Number,
-      // `675`
-      default: 675
-    },
-    
-    // set the height of the chart
-    chartHeight: {
-      type: Number,
-      // `425`
-      default: 425
-    },
-    
     // adjust the chart margins
     chartMargins: {
       type: Object,
-      // `{ top: 15, right: 0, bottom: 60, left: 110 }`
+      // `{ top: 15, right: 15, bottom: 60, left: 65 }`
       default () {
         return {
           top: 15,
           right: 15,
           bottom: 60,
-          left: 110
+          left: 65
         }
       }
-    },
-    
-    // If true, the drawing of the bars will be animated
-    chartAnimate: {
-      type: Boolean,
-      default: true
     },
     
     // Set the fill of all bars (hex code)
@@ -137,153 +186,209 @@ export default {
       // `0.5`
       default: 0.5,
       validator: (value) => validateNumRange(value)
+    },
+    // If `true`, click events will be enabled for all columns. When a column is
+    // clicked, the row-level data for that column will be emitted.
+    // To access the data, use the event `@columnClicked=>(value) => ...`
+    enableClicks: {
+      type: Boolean,
+      // `false`
+      default: false
+    },
+    
+    // If `true`, columns will be drawn over 500ms from the x-axis.
+    enableAnimation: {
+      type: Boolean,
+      default: true
+    },
+  },
+  data () {
+    return {
+      chartWidth: 0,
+      chartHeight: 0
     }
   },
   computed: {
+    svgClassNames () {
+      const css = ['chart']
+      if (this.title || this.description) {
+        css.push('chart-has-context')
+      }
+      if (this.enableAnimation) {
+        css.push('bar-animation-enabled')
+      }
+      if (this.enableClicks) {
+        css.push('bar-clicks-enabled')
+      }
+      return css.join(' ')
+    },
+    svg () {
+      return d3.select(`#${this.chartId}`)
+    },
+    chartArea () {
+      return this.svg.select('.chart-area')
+    },
     xlabel () {
-      return this.xAxisLabel ? this.xAxisLabel : this.xvar
+      return this.xAxisLabel ? this.xAxisLabel : false
     },
     ylabel () {
-      return this.yAxisLabel ? this.yAxisLabel : this.yvar
-    }
-  },
-  methods: {
-    renderChart () {
-      const widthMarginAdjusted = this.chartWidth - this.chartMargins.left - this.chartMargins.right
-      const heightMarginAdjusted = this.chartHeight - this.chartMargins.top - this.chartMargins.bottom
-      
-      const svg = d3.select(`#${this.chartId}`)
-      svg.selectAll('*').remove()
-      
-      svg.attr('width', this.chartWidth)
-        .attr('height', this.chartHeight)
-        .attr('viewbox', `0 0 ${this.chartWidth} ${this.chartHeight}`)
-        
-      const chartArea = svg.append('g')
-        .attr('transform', `translate(${this.chartMargins.left}, ${this.chartMargins.top})`)
-        
-      const yAxis = d3.scaleBand()
-        .range([0, heightMarginAdjusted])
+      return this.yAxisLabel ? this.yAxisLabel : false
+    },
+    widthMarginAdjusted () {
+      return this.chartWidth - this.chartMargins.left - this.chartMargins.right
+    },
+    heightMarginAdjusted () {
+      return this.chartHeight - this.chartMargins.top - this.chartMargins.bottom
+    },
+    viewBox () {
+      return `0 0 ${this.chartWidth} ${this.chartHeight}`
+    },
+    xAxisMax () {
+      return this.xMax ? this.xMax : d3.max(this.chartData, row => row[this.xvar])
+    },
+    xAxis () {
+      return d3.scaleLinear()
+        .domain([0, this.xAxisMax])
+        .range([0, this.widthMarginAdjusted])
+        .nice()
+    },
+    yAxis () {
+      return d3.scaleBand()
+        .range([0, this.heightMarginAdjusted])
         .domain(this.chartData.map(row => row[this.yvar]))
         .paddingInner(this.barPaddingInner)
         .paddingOuter(this.barPaddingOuter)
         .round(true)
-      
-      chartArea.append('g')
-        .attr('transform', `translate(0, 0)`)
-        .call(d3.axisLeft(yAxis))
-        .selectAll('text')
-        .style('text-anchor', 'end')
-        .style('font-size', '11pt')
-        
-      const xmax = this.xMax ? this.xMax : d3.max(this.chartData, row => row[this.xvar])
-      const xAxis = d3.scaleLinear()
-        .domain([0, xmax])
-        .range([0,widthMarginAdjusted])
-        .nice()
-      
-      let chartBottomAxis = d3.axisBottom(xAxis)
-      if (this.xTickValues) {
-        chartBottomAxis = chartBottomAxis.tickValues(this.xTickValues)
+    },
+    chartAxisX () {
+      const axis = d3.axisBottom(this.xAxis)
+      return this.xTickValues ? axis.tickValues(this.xTickValues) : axis
+    },
+    chartAxisY () {
+      return d3.axisLeft(this.yAxis)
+    },
+    chartBars () {
+      return this.chartArea.selectAll('rect.bar')
+    }
+  },
+  methods: {
+    setChartDimensions () {
+      const parentElem = this.$el.parentElement
+      const width = parentElem.offsetWidth * 0.65
+      this.chartWidth = width
+      this.chartHeight = parentElem.offsetHeight
+    },
+    renderAxes () {
+      this.chartArea.select('.chart-axis-x')
+        .call(this.chartAxisX)
+
+      this.chartArea.select('.chart-axis-y')
+        .call(this.chartAxisY)
+    },
+    onClick (row) {
+      if (this.enableColumnClicks) {
+        const data = JSON.stringify(row)
+        this.$emit('barClicked', data)
       }
-        
-      chartArea.append('g')
-        .attr('transform', `translate(0, ${heightMarginAdjusted})`)
-        .call(chartBottomAxis)
-        .selectAll('text')
-        .style('font-size', '11pt')
-
-      const chartColumns = chartArea.selectAll('bars')
-        .data(this.chartData)
-        .enter()
-        .append('rect')
-        .attr('class', 'chart-bar')
-        .attr('data-bar', row => row[this.yvar])
-        .attr('x', xAxis(0))
-        .attr('y', row => yAxis(row[this.yvar]))
-        .attr('fill', this.barFill)
-        .attr('height', yAxis.bandwidth())
-
-      if (this.chartAnimate) {
-        chartColumns.attr('width', 0)
+    },
+    onMouseOver (event) {
+      const column = event.target
+      const label = column.nextSibling
+      column.style.fill = this.columnHoverFill
+      label.style.opacity = 1
+    },
+    onMouseLeave (event) {
+      const column = event.target
+      const label = column.nextSibling
+      column.style.fill = this.columnFill
+      label.style.opacity = 0
+    },
+    drawBars () {
+      const bars = this.chartBars.data(this.chartData)
+      if (this.enableAnimation) {
+        bars.attr('width', 0)
+          .attr('x', this.xAxis(0))
           .transition()
           .delay(200)
           .duration(500)
-          .attr('x', row => xAxis(Math.min(0, row[this.xvar])))
-          .attr('width', row => Math.abs(xAxis(row[this.xvar]) - xAxis(0)))
-        } else {
-          chartColumns
-            .attr('x', row => xAxis(Math.min(0, row[this.xvar])))
-            .attr('width', row => Math.abs(xAxis(row[this.xvar]) - xAxis(0)))
-        }
-
-      chartArea.selectAll('bar-labels')
-        .data(this.chartData)
-        .enter()
-        .append('text')
-        .attr('data-bar', row => row[this.yvar])
-        .attr('class', 'chart-bar-labels')
-        .attr('x', row => xAxis(row[this.xvar]))
-        .attr('y', row => yAxis(row[this.yvar]))
-        .attr('dy', (yAxis.bandwidth() / 2) * 1.25)
-        .attr('dx', '3px')
-        .attr('text-anchor', 'start')
-        .text(row => row[this.xvar])
-        .style('opacity', '0')
-        
-      chartColumns.style('cursor', 'pointer')
-        .on('mouseover', (event) => {
-          const column = d3.select(event.target)
-          const targetLabel = column.attr('data-bar')
-          const label = d3.select(`text[data-bar="${targetLabel}"]`)
-          column.attr('fill', this.barHoverFill)
-          label.style('opacity', '1')
-        })
-        .on('mouseout', (event) => {
-          const column = d3.select(event.target)
-          const targetLabel = column.attr('data-bar')
-          const label = d3.select(`text[data-bar="${targetLabel}"]`)
-          column.attr('fill', this.barFill)
-          label.style('opacity', '0')
-        })
-
-      svg.append('text')
-        .attr('class', 'chart-text chart-axis-title chart-axis-x')
-        .attr('x', (this.chartWidth / 2) * 1.15)
-        .attr('y', this.chartHeight - (this.chartMargins.bottom / 4.5))
-        .attr('text-anchor', 'middle')
-        .style('font-size', '12pt')
-        .text(this.xlabel)
-      
-      svg.append('text')
-        .attr('class', 'chart-text chart-axis-title chart-axis-y')
-        .attr('transform', 'rotate(-90)')
-        .attr('transform-origin', 'top left')
-        .attr('x', -(this.chartHeight / 2.25))
-        .attr('y', this.chartMargins.left / 5.1)
-        .attr('text-anchor', 'middle')
-        .style('font-size', '12pt')
-        .text(this.ylabel)
+          .attr('x', row => this.xAxis(Math.min(0, row[this.xvar])))
+          .attr('width', row => Math.abs(this.xAxis(row[this.xvar]) - this.xAxis(0)))
+      } else {
+        bars
+          .attr('x', row => this.xAxis(Math.min(0, row[this.xvar])))
+          .attr('width', row => Math.abs(this.xAxis(row[this.xvar]) - this.xAxis(0)))
+      }
+    },
+    renderChart () {
+      this.setChartDimensions()
+      this.renderAxes()
+      this.drawBars()
     }
   },
   mounted () {
     this.renderChart()
+    window.addEventListener('resize', this.renderChart)
   },
   updated () {
     this.renderChart()
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.renderChart)
   }
 }
 </script>
 
 <style lang="scss">
-.d3-column-chart {
-  .chart-title {
+.d3-bar-chart {
+  h3.chart-title {
+    margin: 0;
+    text-align: left;
+  }
+  
+  p.chart-description {
+    text-align: left;
     margin: 0;
   }
 
-  svg {
+  .chart {
     display: block;
     margin: 0 auto;
+    
+    .chart-axes {
+      .tick {
+        font-size: 11pt;
+      }
+    }
+    
+    .chart-labels {
+      font-size: 12pt;
+      
+      .chart-axis-title {
+        text-anchor: middle;
+        &.chart-axis-y {
+          transform: rotate(-90deg);
+          transform-origin: top left;
+        }
+      }
+    }
+    
+    .bar-group {
+      .label {
+        text-anchor: middle;
+        font-size: 11pt;
+        opacity: 0;
+      }
+    }
+    
+    &.bar-clicks-enabled {
+      rect.bar {
+        cursor: pointer;
+      }
+    }
+    
+    &.chart-has-context {
+      margin-top: 12px;
+    }
   }
 }
 </style>

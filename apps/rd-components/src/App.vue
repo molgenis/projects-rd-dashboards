@@ -1,6 +1,36 @@
 <template>
   <LoadingScreen v-if="loading"/>
   <Page v-else>
+    <PageSection id="charts" width="medium">
+      <ColumnChart
+        chartId="centerRecruitment"
+        title="Center-level Recruitment by Group"
+        description="In addition to overall recruitment by center, we can further examine the total number of subjects recruited by subgroup."
+        :chartData="selectedCenter"
+        xvar="group"
+        yvar="total"
+        :yMax="300"
+        :yTickValues="Array(50).fill().map((_,index)=> (index * 50))"
+        :columnPaddingInner="0.5"
+        :columnPaddingOuter="0.5"
+        yAxisLabel="Subjects Recruited"
+      />
+      <BarChart
+        chartId="centerRecruitment2"
+        title="Center-level Recruitment by Group"
+        description="In addition to overall recruitment by center, we can further examine the total number of subjects recruited by subgroup."
+        :chartData="selectedCenter"
+        xvar="total"
+        yvar="group"
+        :xMax="300"
+        :yTickValues="Array(50).fill().map((_,index)=> (index * 50))"
+        :barPaddingInner="0.5"
+        :barPaddingOuter="0.5"
+        xAxisLabel="Subjects Recruited"
+      />
+    </PageSection>
+  </Page>
+  <Page v-if="false">
     <PageHeader
       title="My Cool Database"
       subtitle="Database for the storage of cool data"
@@ -295,6 +325,20 @@ export default {
 <style lang="scss">
 body {
   font-family: Helvetica, sans-serif;
+}
+
+#charts {
+  .page-section-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    align-items: flex-start;
+    max-width: 90%;
+    
+    .d3-viz {
+      flex-grow: 1;
+    }
+  }
 }
 
 #datahighlights {
