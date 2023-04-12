@@ -28,7 +28,8 @@
     "@heroicons/vue": "^2.0.12",
     "@vuese/cli": "^2.14.3",
     "d3": "^7.6.1",
-    "vue": "^3.2.37"
+    "vue": "^3.2.37",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.1.0",

@@ -1,12 +1,19 @@
+import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 
 import newDevProxy from '../dev-proxy.config.js'
-const devProxyConfig = newDevProxy('https://solve-rd.gcc.rug.nl/')
+const devProxyConfig = newDevProxy('https://david.gcc.rug.nl/')
 
 
 const shared = {
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '$shared': fileURLToPath(new URL('../rd-shared/', import.meta.url))
+    }
+  },
   css: {
     preprocessorOptions: {
       modules: {
@@ -23,7 +30,7 @@ const shared = {
         `
       }
     }
-  }
+  },
 }
 
 export default defineConfig(({ command }) => {
