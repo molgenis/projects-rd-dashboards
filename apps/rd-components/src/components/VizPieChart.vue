@@ -1,7 +1,24 @@
 <template>
-    <div class="d3-viz d3-pie-chart">
-      <svg :id="chartId" preserveAspectRatio="xMinYMin"></svg>
-    </div>
+  <div class="d3-viz d3-pie-chart">
+    <h3 v-if="title" class="chart-title">{{ title }}</h3>
+    <p v-if="description" class="chart-description">{{ description }}</p>
+    <svg
+      :id="chartId"
+      :class="svgClassNames"
+      width="100%"
+      height="100%"
+      :viewBox="viewbox"
+      preserveAspectRatio="xMinYMin"
+    >
+      <g 
+        class="chart-area"
+        :transform="`translate(${this.chartWidth / 2 }, ${this.chartHeight / 2})`"
+      >
+        <g class="pie-slices"></g>
+        <g class="pie-labels"></g>
+      </g>
+    </svg>
+  </div>
 </template>
 
 <script>
@@ -26,6 +43,12 @@ export default {
       required: true
     },
     
+    // A title that describes the chart
+    title: String,
+    
+    // Additional information to display below the title
+    description: String,
+    
     // An object containing 7 or fewer group-value pairs
     chartData: {
       type: Object,
@@ -45,7 +68,7 @@ export default {
     chartWidth: {
       type: Number,
       // `400`
-      default: 400
+      default: 600
     },
     
     // set all chart margins
@@ -61,13 +84,60 @@ export default {
       type: Object,
       default: null
     },
-    // If True (default), the chart will render with interactive elements
-    animate: {
+    
+    //
+    strokeColor: {
+      type: String,
+      default: '#3f454b'
+    },
+    
+    // If `true`, click events will be enabled for all bars. When a bar is
+    // clicked, the row-level data for that bar will be emitted.
+    // To access the data, use the event `@barClicked=>(value) => ...`
+    enableClicks: {
       type: Boolean,
+      // `false`
       default: true
-    }
+    },
+
   },
   computed: {
+    svg () {
+      return d3.select(`#${this.chartId}`)
+    },
+    svgClassNames () {
+      const css = ['chart']
+      if (this.title || this.description) {
+        css.push('chart-has-context')
+      }
+      if (this.enableClicks) {
+        css.push('slice-clicks-enabled')
+      }
+      return css.join(' ')
+    },
+    chartArea () {
+      return this.svg.select('g.chart-area')
+    },
+    viewbox () {
+      return `0 0 ${this.chartWidth} ${this.chartHeight}`
+    },
+    radius () {
+      return (Math.min(this.chartWidth, this.chartHeight) / 2) - this.chartMargins
+    },
+    pie () {
+      return d3.pie().sort(null).value(value => value[1])
+    },
+    pieChartData () {      
+      return this.pie(Object.entries(this.chartData))
+    },
+    arcGenerator () {
+      return d3.arc().innerRadius(0).outerRadius(this.radius * 0.7)
+    },
+    labelArcGenerator () {
+      return d3.arc()
+        .innerRadius(this.radius * 0.8)
+        .outerRadius(this.radius * 0.8)
+    },
     colors () {
       if (!this.chartColors) {
         const autoColors = {}
@@ -96,49 +166,52 @@ export default {
       const angle = value.startAngle + (value.endAngle - value.startAngle) / 2
       return angle < Math.PI ? '-1em' : '1em'
     },
-    renderChart () { 
-      const svg = d3.select(`#${this.chartId}`)
-      svg.selectAll('*').remove()
-      
-      const dataLayer = svg
-        .attr('width', this.chartWidth)
-        .attr('height', this.chartHeight)
-        .attr('viewbox', `0 0 ${this.chartWidth} ${this.chartHeight}`)
-        .append('g')
-        .attr('class', 'pie-chart-content')
-        .attr('transform', `translate(${this.chartWidth / 2}, ${this.chartHeight / 2})`)
-        
-      this.radius = Math.min(this.chartWidth, this.chartHeight) / 2 - this.chartMargins
+    setPieChartData () {
       const pie = d3.pie().sort(null).value(value => value[1])
-      const pieChartData = pie(Object.entries(this.chartData))
-      
-      this.arcGenerator = d3.arc()
-        .innerRadius(0)
-        .outerRadius(this.radius * 0.7)
-        
-      this.labelArcGenerator = d3.arc()
-        .innerRadius(this.radius * 0.8)
-        .outerRadius(this.radius * 0.8)
-
-      const slices = dataLayer.selectAll('slices')
-        .data(pieChartData)
+      this.pieChartData = pie(Object.entries(this.chartData))
+    },
+    onMouseOver (value) {
+      const selector = value.data[0]
+      const slice = this.svg.select(`path.slices[data-group="${selector}"]`)
+      const sliceLabel = this.svg.select(`tspan.data-label[data-group="${selector}"]`)
+      const sliceValue = this.svg.select(`tspan.data-value[data-group="${selector}"]`)
+      slice.attr('transition', '600').attr('transform', 'scale(1.2)')
+      sliceLabel.style('font-size', '13pt').style('font-weight', 'bold')
+      sliceValue.style('font-size', '13pt')
+    },
+    onMouseOut (value) {
+      const selector = value.data[0]
+      const slice = this.svg.select(`path.slices[data-group="${selector}"]`)
+      const sliceLabel = this.svg.select(`tspan.data-label[data-group="${selector}"]`)
+      const sliceValue = this.svg.select(`tspan.data-value[data-group="${selector}"]`)
+      slice.attr('transition', '600').attr('transform', 'scale(1)')
+      sliceLabel.style('font-size', '11pt').style('font-weight', 'normal')
+      sliceValue.style('font-size', '11pt')
+    },
+    onClick (value) {
+      const data = {}
+      data[value.data[0]] = value.data[1]
+      this.$emit('sliceClicked', data)
+    },
+    renderChart () {
+      const pieSlices = this.chartArea.select('.pie-slices') 
+      pieSlices.selectAll('*').remove()
+      const slices = pieSlices.selectAll('slices')
+        .data(this.pieChartData)
         .join('path')
         .attr('d', this.arcGenerator)
-        .attr('class', 'slices')
+        .attr('class', 'slice')
+        .attr('stroke', this.strokeColor)
         .attr('data-group', value => value.data[0])
         .attr('fill', value => this.colors[value.data[0]])
-        .attr('stroke', '#3f454b')
-        .style('stroke-width', '1px')
-        .style('opacity', 0.7)
-        .attr('cursor', 'pointer')
         
-      dataLayer.selectAll('slice-label-lines')
-        .data(pieChartData)
+      const pieLabels = this.chartArea.select('.pie-labels')
+      pieLabels.selectAll('*').remove()
+      pieLabels.selectAll('pie-label-lines')
+        .data(this.pieChartData)
         .join('polyline')
-        .attr('class', 'slice-label-lines')
-        .attr('stroke', '#3f454b')
-        .attr('fill', 'none')
-        .attr('stroke-width', '1px')
+        .attr('class', 'pie-label-line')
+        .attr('stroke', this.strokeColor)
         .attr('points', value => {
           const centroid = this.arcGenerator.centroid(value)
           const outerCircleCentroid = this.labelArcGenerator.centroid(value)
@@ -148,10 +221,10 @@ export default {
           return [centroid, outerCircleCentroid, labelPosition]
         })
 
-      const labels = dataLayer.selectAll('slice-labels')
-        .data(pieChartData)
+      const labels = pieLabels.selectAll('slice-labels')
+        .data(this.pieChartData)
         .join('text')
-        .attr('class', 'slice-labels')
+        .attr('class', 'pie-label-text')
         .attr('data-group', value => value.data[0])
         .attr('x', value => this.setLabelPosition(value)[0])
         .attr('y', value => this.setLabelPosition(value)[1])
@@ -171,25 +244,13 @@ export default {
         .attr('data-group', value => value.data[0])
         .text(value => `${value.data[1]}%`)
         
-      if (this.animate) {
-        slices.on('mouseover', (event, value) => {
-          const selector = value.data[0]
-          const slice = svg.select(`path.slices[data-group="${selector}"]`)
-          const sliceLabel = svg.select(`tspan.data-label[data-group="${selector}"]`)
-          const sliceValue = svg.select(`tspan.data-value[data-group="${selector}"]`)
-          slice.attr('transition', '600').attr('transform', 'scale(1.2)')
-          sliceLabel.style('font-size', '13pt').style('font-weight', 'bold')
-          sliceValue.style('font-size', '13pt')
-        })
-        .on('mouseout', (event, value) => {
-          const selector = value.data[0]
-          const slice = svg.select(`path.slices[data-group="${selector}"]`)
-          const sliceLabel = svg.select(`tspan.data-label[data-group="${selector}"]`)
-          const sliceValue = svg.select(`tspan.data-value[data-group="${selector}"]`)
-          slice.attr('transition', '600').attr('transform', 'scale(1)')
-          sliceLabel.style('font-size', '11pt').style('font-weight', 'normal')
-          sliceValue.style('font-size', '11pt')
-        })
+      if (this.enableClicks) {
+        slices.on('mouseover', (event, value) => this.onMouseOver(value))
+        slices.on('mouseout', (event, value) => this.onMouseOut(value))
+      }
+      
+      if (this.enableClicks) {
+        slices.on('click', (event, value) => this.onClick(value))
       }
     }
   },
@@ -204,9 +265,20 @@ export default {
 
 <style lang="scss">
 .d3-pie-chart {
-  svg {
+  .chart {
     display: block;
-    margin: 0 auto;
+    
+    .chart-area {
+      path.slice {
+        stroke-width: 1px;
+        opacity: 0.7;
+        cursor: pointer;
+      }
+      polyline.pie-label-line {
+        fill: none;
+        stroke-width: 1px;
+      }
+    }
   }
 }
 </style>
