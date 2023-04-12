@@ -134,6 +134,20 @@ export default {
       required: true
     },
     
+    // // set the width of the chart
+    // chartWidth: {
+    //   type: Number,
+    //   // `675`
+    //   default: 675
+    // },
+    
+    // set the height of the chart
+    chartHeight: {
+      type: Number,
+      // `425`
+      default: 425
+    },
+    
     // adjust the chart margins
     chartMargins: {
       type: Object,
@@ -187,16 +201,16 @@ export default {
       default: 0.5,
       validator: (value) => validateNumRange(value)
     },
-    // If `true`, click events will be enabled for all columns. When a column is
-    // clicked, the row-level data for that column will be emitted.
-    // To access the data, use the event `@columnClicked=>(value) => ...`
+    // If `true`, click events will be enabled for all bars. When a bar is
+    // clicked, the row-level data for that bar will be emitted.
+    // To access the data, use the event `@barClicked=>(value) => ...`
     enableClicks: {
       type: Boolean,
       // `false`
       default: false
     },
     
-    // If `true`, columns will be drawn over 500ms from the x-axis.
+    // If `true`, bars will be drawn over 500ms from the y-axis.
     enableAnimation: {
       type: Boolean,
       default: true
@@ -204,8 +218,7 @@ export default {
   },
   data () {
     return {
-      chartWidth: 0,
-      chartHeight: 0
+      chartWidth: 675,
     }
   },
   computed: {
@@ -273,10 +286,8 @@ export default {
   },
   methods: {
     setChartDimensions () {
-      const parentElem = this.$el.parentElement
-      const width = parentElem.offsetWidth * 0.65
-      this.chartWidth = width
-      this.chartHeight = parentElem.offsetHeight
+      const parent = this.$el.parentNode
+      this.chartWidth = parent.offsetWidth * 0.95
     },
     renderAxes () {
       this.chartArea.select('.chart-axis-x')
@@ -286,7 +297,7 @@ export default {
         .call(this.chartAxisY)
     },
     onClick (row) {
-      if (this.enableColumnClicks) {
+      if (this.enableClicks) {
         const data = JSON.stringify(row)
         this.$emit('barClicked', data)
       }
@@ -341,7 +352,7 @@ export default {
 <style lang="scss">
 .d3-bar-chart {
   h3.chart-title {
-    margin: 0;
+    margin: 0;    
     text-align: left;
   }
   
@@ -352,7 +363,7 @@ export default {
 
   .chart {
     display: block;
-    margin: 0 auto;
+    margin: 0;
     
     .chart-axes {
       .tick {

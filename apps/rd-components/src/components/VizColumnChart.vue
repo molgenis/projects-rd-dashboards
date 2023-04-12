@@ -129,6 +129,16 @@ export default {
       required: true
     },
     
+    // set the height of the chart. Width is determined by the
+    // dimensions of the parent container so that the chart is
+    // responsive. If you would like to specify the width of the
+    // chart, use CSS or adjusted the `chartHeight`.
+    chartHeight: {
+      type: Number,
+      // `425`
+      default: 425
+    },
+    
     // adjust the chart margins
     chartMargins: {
       type: Object,
@@ -199,8 +209,7 @@ export default {
   },
   data () {
     return {
-      chartWidth: 0,
-      chartHeight: 0
+      chartWidth: 675,
     }
   },
   computed: {
@@ -268,10 +277,8 @@ export default {
   },
   methods: {
     setChartDimensions () {
-      const parentElem = this.$el.parentElement
-      const width = parentElem.offsetWidth * 0.65
-      this.chartWidth = width
-      this.chartHeight = parentElem.offsetHeight
+      const parent = this.$el.parentNode
+      this.chartWidth = parent.offsetWidth * 0.95
     },
     renderAxes () {
       this.chartArea.select('.chart-axis-x')
@@ -281,7 +288,7 @@ export default {
         .call(this.chartAxisY)
     },
     onClick (row) {
-      if (this.enableColumnClicks) {
+      if (this.enableClicks) {
         const data = JSON.stringify(row)
         this.$emit('columnClicked', data)
       }
