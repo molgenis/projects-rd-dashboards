@@ -39,7 +39,7 @@ import PageSection from '@/components/PageSection.vue'
 import MessageBox from '@/components/MessageBox.vue'
 import ColumnChart from '@/components/VizColumnChart.vue'
 
-import { fetchData } from '$shared/js/utils.js' 
+import { fetchData, sortData } from '$shared/js/utils.js' 
 import * as d3 from 'd3'
 
 export default {
@@ -65,12 +65,12 @@ export default {
   },
   mounted () {
     Promise.resolve(
-      fetchData('/api/v2/rdcomponents_penguins')
+      fetchData('/api/v2/rdcomponents_penguins?num=500')
     ).then(response => {
       const data = response.items
       const summarised = d3.rollups(data, row => row.length, row => row.island)
         .map(item => new Object({'island': item[0], 'count': item[1]}))
-      this.data = summarised
+      this.data = sortData(summarised, 'island')
       this.loading = false
     }).catch(error => {
       const err = error.message

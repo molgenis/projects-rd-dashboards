@@ -63,7 +63,7 @@ export default {
   },
   mounted () {
     Promise.resolve(
-      fetchData('/api/v2/rdcomponents_penguins')
+      fetchData('/api/v2/rdcomponents_penguins?num=500')
     ).then(response => {
       const data = response.items
       const groups = [...new Set(data.map(row => row.island))]

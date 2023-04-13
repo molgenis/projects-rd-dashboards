@@ -39,7 +39,7 @@ import PageSection from '@/components/PageSection.vue'
 import MessageBox from '@/components/MessageBox.vue'
 import BarChart from '@/components/VizBarChart.vue'
 
-import { fetchData, reverseSortData } from '$shared/js/utils.js' 
+import { fetchData, sortData } from '$shared/js/utils.js' 
 import { rollups } from 'd3'
 const d3 = { rollups }
 
@@ -67,12 +67,12 @@ export default {
   },
   mounted () {
     Promise.resolve(
-      fetchData('/api/v2/rdcomponents_penguins')
+      fetchData('/api/v2/rdcomponents_penguins?num=500')
     ).then(response => {
       const data = response.items
       const summarised = d3.rollups(data, row => row.length, row => row.island)
         .map(item => new Object({'island': item[0], 'count': item[1]}))
-      this.data = reverseSortData(summarised, 'value')
+      this.data = sortData(summarised, 'value')
       this.loading = false
     }).catch(error => {
       const err = error.message

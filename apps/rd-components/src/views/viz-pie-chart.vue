@@ -1,8 +1,9 @@
 <template>
   <Page>
     <PageSection class="viz-section">
-      <h2>rd-components: Bar Chart example</h2>
-      <p>The <strong>BarChart</strong> component is used to display values for categorical data. Groups are plotted along the y-axis and values along the x-axis.</p>
+      <h2>PieChart Component</h2>
+      <p>The <strong>PieChart</strong> component is used to descriptives for categorical data. Input data must be an object with one or more key-value pairs. It is recommended to supply no more than 7 categories and to combine smaller groups into an "other" category. If you need to display more groups, it is strongly recommended to use the <strong>BarChart</strong> or <strong>ColumnChart</strong> components. Alternatively, the <strong>DataTable</strong> component is much better.</p>
+      <p>It is also possible to enable click events to enhance interactivity with other visualisation components. See the example below.</p>
       <MessageBox v-if="loading & !hasError">
         <p>Fetching data</p>
       </MessageBox>
@@ -12,12 +13,13 @@
       <PieChart
         v-else
         chartId="sexByPenguin"
-        :title="`Summary of sex of ${total} penguins`"
+        title="Summary of species"
         :description="`In total, ${total} penguins were observed across all stations.`"
         :chartData="data"
         :enableClicks="true"
         :chartHeight="200"
         @sliceClicked="value => updateSelection(value)"
+
       />
       <h3>Selected Item</h3>
       <p>Click a slice in the chart of above to display the row-level data</p>
@@ -35,8 +37,8 @@ import MessageBox from '@/components/MessageBox.vue'
 import PieChart from '@/components/VizPieChart.vue'
 
 import { fetchData } from '$shared/js/utils.js' 
-import { rollups, sum } from 'd3'
-const d3 = { rollups, sum }
+import { rollups, sum, format } from 'd3'
+const d3 = { rollups, sum, format }
 
 export default {
   components: {
@@ -62,16 +64,17 @@ export default {
   },
   mounted () {
     Promise.resolve(
-      fetchData('/api/v2/rdcomponents_penguins')
+      fetchData('/api/v2/rdcomponents_penguins?num=500')
     ).then(response => {
       const data = response.items
-      const grouped = d3.rollups(data, row => row.length, row => row.sex)
+      const format = d3.format('.2f')
+      const grouped = d3.rollups(data, row => row.length, row => row.species)
       const summarised = {} 
       grouped.map(array => {
         if (typeof array[0] === 'undefined') {
           summarised['unknown'] = array[1]
         } else {
-          summarised[array[0]] = array[1]
+          summarised[array[0]] = format((array[1] / data.length) * 100)
         }
       })
       this.data = summarised
