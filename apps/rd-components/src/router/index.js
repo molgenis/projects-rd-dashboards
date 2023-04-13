@@ -5,7 +5,7 @@ import HomePage from '../views/home-view.vue'
 import VizBarChart from '../views/viz-bar-chart.vue'
 import ColumnChart from '../views/viz-column-chart.vue'
 import PieChart from '../views/viz-pie-chart.vue'
-
+import ChartLegend from '../views/viz-chart-legend.vue'
 
 
 const initialState = window.__INITIAL_STATE__ || {}
@@ -39,6 +39,14 @@ const router = createRouter({
       component: PieChart,
       meta: {
         title: 'Pie Chart'
+      }
+    },
+    {
+      name: 'chart-legend',
+      path: '/chart-legend',
+      component: ChartLegend,
+      meta: {
+        title: 'Chart Legends'
       }
     }
   ],

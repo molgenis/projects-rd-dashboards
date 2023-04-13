@@ -55,13 +55,12 @@ body {
   margin: 0;
 }
 
-.app-page {
+.app-page, .navbar {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 13pt;
-  
+  font-size: 14pt;
 }
 .navbar {
-  background-color: $gray-050;
+  background-color: $green-700;
   box-sizing: content-box;
   padding: 1em;
   
@@ -69,6 +68,12 @@ body {
     padding: 0;
     margin: 0;
     list-style: none;
+    
+    li {
+      a {
+        color: $green-050;
+      }
+    }
   }
 }
 </style>

@@ -13,10 +13,10 @@
         v-else
         chartId="sexByPenguin"
         :title="`Summary of sex of ${total} penguins`"
+        :description="`In total, ${total} penguins were observed across all stations.`"
         :chartData="data"
         :enableClicks="true"
-        :chartWidth="600"
-        :chartHeight="175"
+        :chartHeight="200"
         @sliceClicked="value => updateSelection(value)"
       />
       <h3>Selected Item</h3>
