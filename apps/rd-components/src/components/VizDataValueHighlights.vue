@@ -1,9 +1,13 @@
 <template>
   <h3 :class="setTitleClassNames">{{ title }}</h3>
   <ul class="data-highlights">
-    <li v-for="(value, index) in values" key="value" class="data-highlight">
-      <data :value="value" class="data-value">
-        <span class="data-label">{{ labels[index] }}</span>
+    <li
+      class="data-highlight"
+      v-for="key in Object.keys(data)"
+      key="key" 
+    >
+      <data :value="data[key]" class="data-value">
+        <span class="data-label">{{ key }}</span>
       </data>
     </li>
   </ul>
@@ -32,15 +36,13 @@ export default {
       // `false`
       default: false
     },
-    // An array of values to display
-    values: {
-      type: Array,
-      required: true
-    },
-    // An array of labels that describe the values
-    labels: {
-      type: Array,
-      required: true
+    // An object containing one or more key-value pairs
+    data: {
+      type: Object,
+      required: true,
+      validator: (object) => {
+        return Object.keys(object).length <= 4
+      }
     }
   },
   computed: {
