@@ -1,0 +1,32 @@
+<template>
+  <svg 
+    class="item-marker"
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    preserveXminYmin="true"
+  >
+    <circle
+      cx="8"
+      cy="8"
+      r="8"
+      :fill="fill"
+      stroke-width="none"></circle>
+  </svg>
+  <span class="item-label">{{ label }}</span>
+</template>
+
+<script>
+export default {
+  props: {
+    label: {
+      type: String,
+      required: true
+    },
+    fill: {
+      type: String,
+      required: true
+    }
+  }
+}
+</script>
