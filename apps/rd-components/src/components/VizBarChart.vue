@@ -75,9 +75,7 @@
 import { select, selectAll, scaleBand, axisBottom, max, min, scaleLinear, axisLeft } from 'd3'
 const d3 = { select, selectAll, scaleBand, axisBottom, max, min, scaleLinear, axisLeft }
 
-const validateNumRange = function (value) {
-  return value >= 0 && value <= 1
-}
+import { validateNumRange } from '$shared/js/d3.js'
 
 // Create a bar chart (horizontal bars) that displays values along the
 // x-axis by groups (along the y-axis). This component is ideal if you
@@ -134,14 +132,10 @@ export default {
       required: true
     },
     
-    // // set the width of the chart
-    // chartWidth: {
-    //   type: Number,
-    //   // `675`
-    //   default: 675
-    // },
-    
-    // set the height of the chart
+    // set the height of the chart. Width is determined by the
+    // dimensions of the parent container so that the chart is
+    // responsive. If you would like to specify the width of the
+    // chart, use CSS or adjusted the `chartHeight`.
     chartHeight: {
       type: Number,
       // `425`

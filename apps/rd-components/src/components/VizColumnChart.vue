@@ -75,9 +75,7 @@
 import { select, selectAll, scaleBand, axisBottom, max, min, scaleLinear, axisLeft } from 'd3'
 const d3 = { select, selectAll, scaleBand, axisBottom, max, min, scaleLinear, axisLeft }
 
-const validateNumRange = function (value) {
-  return value >= 0 && value <= 1
-}
+import { validateNumRange } from '$shared/js/d3.js'
 
 // Create a column chart (vertical bars) where the height of a bar
 // is corresponds to a value of a categorical variable (along the x-axis). If
@@ -354,7 +352,7 @@ export default {
 
   .chart {
     display: block;
-    margin: 0 auto;
+    margin: 0;
     
     .chart-axes {
       .tick {
