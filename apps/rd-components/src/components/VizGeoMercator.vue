@@ -1,14 +1,66 @@
 <template>
-  <div class="d3-viz d3-geo-mercator" :style="this.mapColors.water ? `background-color: ${this.mapColors.water}` : ''">
-    <svg :id="chartId"></svg>
-    <div class="d3-viz-legend" v-if="legendLabels && legendColors">
-      <chartLegend :labels="legendLabels" :colors="legendColors"/>
+  <div class="d3-viz d3-geo-mercator">
+    <svg
+      class="chart"
+      :id="chartId"
+      width="100%"
+      :height="chartHeight"
+      :viewbox="viewbox"
+      preserveAspectRatio="xMinYMin"
+    >
+      <g class="background-layer">
+        <rect
+          width="100%"
+          height="100%"
+          x="0"
+          y="0"
+          :fill="mapColors.water"
+        />
+      </g>
+      <g class="geojson-layer">
+        <path
+          v-for="feature in geojson.features" 
+          :d="geoPath(feature)"
+          :fill="mapColors.land"
+          :stroke="mapColors.border"
+        />
+      </g>
+      <g class="data-layer">
+        <circle
+          v-for="row in chartData"
+          :id="row[rowId]"
+          class="marker"
+          :key="row[rowId]"
+          :cx="projection([row[longitude], row[latitude]])[0]"
+          :cy="projection([row[longitude], row[latitude]])[1]"
+          :data-row-id="row[rowId]"
+          :r="pointRadiusTransformed"
+          :fill="
+            groupColorMappings && groupingVariable
+            ? groupColorMappings[row[groupingVariable]]
+            : markerColor
+          "
+          @mouseover.native="showTooltip && onMouseOver($event)"
+          @mousemove.native="showTooltip && onMouseMove($event)"
+          @mouseleave.native="showTooltip && onMouseLeave($event)"
+        ></circle>
+      </g>
+    </svg>
+    <div class="d3-viz-legend" v-if="legendData">
+      <ChartLegend :data="legendData" />
     </div>
+    <div
+      :id="`${chartId}-tooltip`"
+      class="d3-viz-tooltip geo-mercator-tooltip"
+      v-if="showTooltip && tooltipData"
+      v-html="tooltipTemplate(tooltipData)"
+      :style="`left: ${tooltipPositionX}px; top: ${tooltipPositionY}px;`"
+    />
   </div>
 </template>
 
 <script>
-import chartLegend from './VizLegend.vue'
+import ChartLegend from '@/components/VizLegend.vue'
 import { select, selectAll, geoMercator, geoPath, json, zoom } from 'd3'
 const d3 = { select, selectAll, geoMercator, geoPath, json, zoom }
 
@@ -24,53 +76,62 @@ export default {
       type: String,
       required: true
     },
+
     // reference dataset for the base layer
     geojson: {
       type: Object,
       required: true
     },
+
     // the dataset containing all locations and coordinates
     chartData: {
       type: Array,
       required: true
     },
+
     // the column containing the identifiers of each location
     rowId: {
       type: String,
       required: true
     },
+
     // the name of the column containing the latitudes
     latitude: {
       type: String,
       required: true
     },
+    
     // the name of the column containing the longitude
     longitude: {
       type: String,
       required: true
     },
+
     // the name of the column containing grouping information (i.e., how locations 
     // are related, categorised, etc.)
     groupingVariable: {
       type: String
     },
+ 
     // if grouping variable is supplied, color mappings can also be added here.
     // Input must be an object that maps each unique group to a colour.
     groupColorMappings: {
       type: Object
     },
-    // set the width of a chart
-    chartWidth: {
-      type: Number,
-      // `500`
-      default: 500
+    
+    // Set the default fill of the map markers if no groupColorMappings are supplied
+    markerColor: {
+      type: String,
+      default: '#f6f6f6'
     },
+
     // set the height of the chart
     chartHeight: {
       type: Number,
       // `500`
       default: 500
     },
+
     // the point (lat, long) to the center map
     mapCenter: {
       type: Object,
@@ -82,18 +143,21 @@ export default {
         }
       }
     },
+
     // control the size of the chart
     chartSize: {
       type: Number,
       // `700`
-      default: 700
+      default: 400
     },
+
     // set the scale of the chart
     chartScale: {
       type: Number,
       // `1.1`
       default: 1.1
     },
+
     // set the radius of the points
     pointRadius: {
       type: Number,
@@ -101,26 +165,26 @@ export default {
       default: 6
     },
     
-    // set the labels in the chart legend
-    legendLabels: {
-      type: Array
+    // An object containing one or more key-value pairs where
+    // each key is a group and the value is a color. See the
+    // `<Legend/>` component for more information 
+    legendData: {
+      type: Object,
     },
-    // set the color of the labels in the chart legend
-    legendColors: {
-      type: Array
-    },
+
     // If true (default), a tool will be displayed when hovering over a point
     showTooltip: {
       type: Boolean,
       // `true`
       default: true
     },
+
     // A function that controls the HTML content in the tooltip. The name
     // of the point is always displayed. However, you may specify the
     // content in the body of the tooltip. The default text is:
     // `<row-id>: <latitude>, <longitude>`. To modify the content, pass define
     // a new function. Row-level data can be accessed by supplying `row` in the
-    // function. E.g., `(row) { return ...}`.
+    // function. E.g., `(row) => { return ...}`.
     tooltipTemplate: {
       type: Function,
       // `<p>${row[this.rowId]}: ${row[this.latitude]}, ${row[this.longitude]}</p>`
@@ -128,11 +192,13 @@ export default {
         return `<p>${row[this.rowId]}: ${row[this.latitude]}, ${row[this.longitude]}</p>`
       }
     },
+
     // If true (default), the map can be zoomed in and out
     enableZoom: {
       type: Boolean,
       default: true
     },
+
     // Set the colors of the land, borders, and water
     mapColors: {
       type: Object,
@@ -146,121 +212,88 @@ export default {
       }
     }
   },
-  components: { chartLegend },
+  components: { ChartLegend },
   data () {
     return {
-      svg: null,
-      tooltip: null,
-      pointRadiusScaler: 1
+      mapMarkers: null,
+      tooltipData: null,
+      chartWidth: 500,
+      pointRadiusScaler: 1,
     }
   },
   computed: {
-    pointRadiusTransformed () {
-      return this.pointRadius / (this.pointRadiusScaler * 0.8)
-    }
-  },
-  methods: {
-    initSvg () {
-      this.svg = d3.select(`#${this.$el.childNodes[0].id}`)
-        .attr('width', '100%')
-        .attr('height', this.chartHeight)
-        .attr('preserveAspectRatio', 'xMinYMin')
-        .attr('viewbox', `0 0 ${this.chartSize} ${this.chartSize / 2}`)
+    svg () {
+      return d3.select(`#${this.$el.childNodes[0].id}`)
     },
-    removeTooltip () {
-      d3.selectAll(`#${this.chartId}-tooltip`).remove()
+    geojsonLayer () {
+      return this.svg.select('g.geojson-layer')
     },
-    createTooltip () {
-      this.removeTooltip()
-      this.tooltip = d3.select('body')
-        .style('position', 'relative')
-        .append('div')
-        .style('position', 'absolute')
-        .attr('id', `${this.chartId}-tooltip`)
-        .attr('class', 'geo-mercator-tooltip')
-        .style('opacity', 0)
+    dataLayer () {
+      return this.svg.select('g.data-layer')
     },
-    onMouseOver (event, data) {
-      const pointId = data[this.rowId]
-      d3.select(`circle[data-row-id="${pointId}"]`)
-        .attr('r', this.pointRadiusTransformed)
-      this.tooltip.style('opacity', 1)
-    },
-    onMouseMove (event, data) {
-      this.tooltip
-        .html(this.tooltipTemplate(data))
-        .style('left', `${event.pageX + 8}px`)
-        .style('top', `${event.pageY - 55}px`)
-    },
-    onMouseLeave (event, data) {
-      const pointId = data[this.rowId]
-      d3.select(`circle[data-row-id="${pointId}"]`)
-        .attr('r', this.pointRadiusTransformed)
-      this.tooltip.style('opacity', 0)
-    },
-    renderChart () {
-      this.initSvg()
-      this.svg.selectAll("*").remove()
-
-      const mapLayer = this.svg.append('g').attr('class', 'geojson-layer')
-      const projection = d3.geoMercator()
+    projection () {
+      return d3.geoMercator()
         .center([this.mapCenter.latitude, this.mapCenter.longitude])
         .scale(this.chartWidth * this.chartScale)
         .translate([this.chartWidth / 2, this.chartHeight / 2])
-    
-      const path = d3.geoPath().projection(projection)
-      mapLayer.selectAll('path')
-        .data(this.geojson.features)
-        .enter()
-        .append('path')
-        .attr('fill', this.mapColors.land)
-        .attr('d', path)
-        .attr('stroke', this.mapColors.border)
-        
-      const dataLayer = this.svg.append('g').attr('class', 'data-layer')
-      const points = dataLayer.selectAll('circle')
-        .data(this.chartData)
-        .enter()
-        .append('circle')
-        .attr('cx', row => projection([row[this.longitude], row[this.latitude]])[0])
-        .attr('cy', row => projection([row[this.longitude], row[this.latitude]])[1])        
-        .attr('r', this.pointRadius)
-        .attr('data-row-id', row => row[this.rowId])
-        .style('cursor', 'pointer')
-        
-      if (this.groupingVariable && this.groupColorMappings) {
-        points.attr('fill', row => {
-          return this.groupColorMappings[row[this.groupingVariable]]
-        })
-      }
-      
-      if (this.showTooltip) {
-        this.createTooltip()
-        points.on('mouseover', (event, row) => this.onMouseOver(event, row))
-          .on('mousemove', (event, row) => this.onMouseMove(event, row))
-          .on('mouseleave', (event, row) => this.onMouseLeave(event, row))
-      }
-      
+    },
+    geoPath () {
+      return d3.geoPath().projection(this.projection)
+    },
+    viewbox () {
+      return `0 0 ${this.chartWidth} ${this.chartHeight}`
+    },
+    pointRadiusTransformed () {
+      return this.pointRadius / (this.pointRadiusScaler * 0.8)
+    },
+  },
+  methods: {
+    setChartDimensions () {
+      const parent = this.$el.parentNode
+      this.chartWidth = parent.offsetWidth
+    },
+    onMouseOver (event) {
+      const elem = event.target
+      elem.setAttribute('r', this.pointRadiusTransformed + (this.pointRadius * 0.8))
+    },
+    onMouseMove (event) {
+      const id = event.target.getAttribute('data-row-id')
+      const row = this.chartData.filter(row => row[this.rowId] == id)[0]
+      this.tooltipData = row
+      const coords = this.projection([row[this.longitude], row[this.latitude]])
+      this.tooltipPositionX = (coords[0] - (event.pageX / coords[0]) * this.pointRadiusTransformed)
+      this.tooltipPositionY = (coords[1] + (event.pageY / coords[1]) * this.pointRadiusTransformed)
+    },
+    onMouseLeave (event) {
+      const elem = event.target
+      this.tooltipData = null
+      elem.setAttribute('r', this.pointRadiusTransformed)
+    },
+    setupZoom () {
+      this.geojsonLayer.style('cursor', 'pointer')
+      const zoom = d3.zoom().on('zoom', event => {
+        this.pointRadiusScaler = event.transform.k
+        this.geojsonLayer.attr('transform', event.transform)
+        this.dataLayer.attr('transform', event.transform)
+      })
+      this.svg.call(zoom)
+    },
+    renderChart () {
+      this.setChartDimensions()
       if (this.enableZoom) {
-        mapLayer.style('cursor', 'pointer')
-        const zoom = d3.zoom().on('zoom', (event) => {
-          this.pointRadiusScaler = event.transform.k
-          mapLayer.attr('transform', event.transform)
-          dataLayer.attr('transform', event.transform)
-          points.attr('r', this.pointRadiusTransformed)
-        })
-        this.svg.call(zoom)
+        this.setupZoom()
       }
     }
   },
   mounted () {
     this.renderChart()
+    window.addEventListener('resize', this.renderChart)
   },
   updated () {
     this.renderChart()
   },
-  unmount () {
-    this.removeTooltip()
+  beforeUnmount () {
+    window.removeEventListener('resize', this.renderChart)
   }
 }
 </script>
@@ -270,9 +303,9 @@ export default {
   width: 100%;
   position: relative;
 
-  svg {
+  .chart {
     display: block;
-    margin: 0 auto;
+    margin: 0;
   }
   
   .d3-viz-legend {
@@ -286,28 +319,30 @@ export default {
     padding: 12px;
     box-shadow: 2px 4px 4px 2px hsla(0, 0%, 0%, 0.2)
   }
-}
-
-.geo-mercator-tooltip {
-  max-width: 325px;
-  z-index: 10;
-  background-color: $gray-000;
-  box-shadow: 0 0 4px 2px $gray-transparent-400;
-  border-radius: 3px;
-  padding: 8px 12px;
-
-  p {
-    font-size: 10pt;
-    padding: 0;
-    margin: 0;
-    
-    &.title {
-      font-size: 10pt;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      line-height: 1.2;
-      font-weight: bold;
+  
+  .geo-mercator-tooltip {
+    position: absolute;
+    max-width: 325px;
+    z-index: 2;
+    background-color: $gray-000;
+    box-shadow: 0 0 4px 2px $gray-transparent-400;
+    border-radius: 3px;
+    padding: 8px 12px;
+  
+    p {
+      font-size: 11pt;
+      padding: 0;
+      margin: 0;
+      
+      &.title {
+        font-size: 11pt;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        line-height: 1.2;
+        font-weight: bold;
+      }
     }
   }
 }
+
 </style>
