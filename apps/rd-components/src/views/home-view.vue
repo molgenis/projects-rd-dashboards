@@ -15,6 +15,9 @@
           <router-link :to="{name: 'data-highlights'}">Data Highlights</router-link>
         </li>
         <li>
+          <router-link :to="{name: 'geo-mercator'}">GeoMercator</router-link>
+        </li>
+        <li>
           <router-link :to="{name: 'pie-chart'}">Pie Chart</router-link>
         </li>
         <li>

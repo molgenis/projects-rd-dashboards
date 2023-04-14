@@ -7,6 +7,7 @@ import ColumnChart from '../views/viz-column-chart.vue'
 import PieChart from '../views/viz-pie-chart.vue'
 import ChartLegend from '../views/viz-chart-legend.vue'
 import DataHighlights from '../views/viz-data-highlights.vue'
+import GeoMercator from '../views/viz-geo-mercator.vue'
 
 
 const initialState = window.__INITIAL_STATE__ || {}
@@ -27,6 +28,14 @@ const router = createRouter({
       }
     },
     {
+      name: 'chart-legend',
+      path: '/chart-legend',
+      component: ChartLegend,
+      meta: {
+        title: 'Chart Legends'
+      }
+    },
+    {
       name: 'column-chart',
       path: '/column-chart',
       component: ColumnChart,
@@ -43,6 +52,14 @@ const router = createRouter({
       }
     },
     {
+      name: 'geo-mercator',
+      path: '/geo-mercator',
+      component: GeoMercator,
+      meta: {
+        title: 'Geomercator'
+      }
+    },
+    {
       name: 'pie-chart',
       path: '/pie-chart',
       component: PieChart,
@@ -50,14 +67,6 @@ const router = createRouter({
         title: 'Pie Chart'
       }
     },
-    {
-      name: 'chart-legend',
-      path: '/chart-legend',
-      component: ChartLegend,
-      meta: {
-        title: 'Chart Legends'
-      }
-    }
   ],
   scrollBehavior () {
     return {
