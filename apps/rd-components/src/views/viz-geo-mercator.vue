@@ -1,8 +1,21 @@
 <template>
   <Page>
-    <PageSection class="viz-section">
-      <h2>GeoMercator Component</h2>
-      <p>The <strong>GeoMercator</strong> component can be used to create a point location visualisation using a geomercator map from the D3 library where each point represents a unique location in the dataset. The map can be customised by adjusting the properties or using CSS.</p>
+    <PageHeader
+      title="RD-Components"
+      subtitle="Map Component"
+      :imageSrc="headerImage"
+      height="large"
+    />
+    <PageSection :verticalPadding="0">
+      <Breadcrumbs>
+        <li><router-link :to="{name: 'geo-mercator'}">Map</router-link></li>
+      </Breadcrumbs>
+    </PageSection>
+    <PageSection>
+      <h2>Map Example</h2>
+      <p>The map component can be used to create a point location visualisation using a geomercator map from the D3 library where each point represents a unique location in the dataset. The map can be customised by adjusting the properties or using CSS.</p>
+    </PageSection>
+    <PageSection class="bkg-light" :verticalPadding="3">
       <MessageBox v-if="loading & !hasError">
         <p>Fetching data</p>
       </MessageBox>
@@ -39,23 +52,29 @@
 
 <script>
 import Page from '@/components/Page.vue'
+import PageHeader from '@/components/PageHeader.vue'
 import PageSection from '@/components/PageSection.vue'
 import MessageBox from '@/components/MessageBox.vue'
 import GeoMercator from '@/components/VizGeoMercator.vue'
+import Breadcrumbs from '@/app-components/breadcrumbs.vue'
 
 import { fetchData } from '$shared/js/utils.js'
 import geojson from '$shared/data/world.geo.json'
-// import geojson from '$shared/data/world.50.geo.json'
+
+import headerImage from '@/assets/t-h-chia-unsplash.jpg'
 
 export default {
   components: {
     Page,
+    PageHeader,
     PageSection,
     MessageBox,
-    GeoMercator
+    GeoMercator,
+    Breadcrumbs,
   },
   data () {
     return {
+      headerImage: headerImage,
       loading: true,
       hasError: false,
       error: null,

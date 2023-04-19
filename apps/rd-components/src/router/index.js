@@ -76,7 +76,7 @@ const router = createRouter({
 })
 
 router.afterEach((to) => {
-  document.title = `${to.meta.title} | RD-Components` || 'RD-Components'
+  document.title = to.meta.title ? `${to.meta.title} | RD-Components` : 'RD-Components'
 })
 
 export default router

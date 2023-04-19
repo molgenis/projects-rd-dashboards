@@ -1,8 +1,21 @@
 <template>
   <Page>
+    <PageHeader
+      title="RD-Components"
+      subtitle="Bar Chart Example"
+      :imageSrc="headerImage"
+      height="large"
+    />
+    <PageSection :verticalPadding="0">
+      <Breadcrumbs>
+        <li><router-link :to="{name: 'bar-chart'}">Bar Chart</router-link></li>
+      </Breadcrumbs>
+    </PageSection>
     <PageSection class="viz-section">
-      <h2>rd-components: Bar Chart example</h2>
-      <p>The <strong>BarChart</strong> component is used to display values for categorical data. Groups are plotted along the y-axis and values along the x-axis.</p>
+      <h2>Bar Chart</h2>
+      <p>The <strong>BarChart</strong> component is used to display values for categorical data. Groups are plotted along the y-axis and values along the x-axis. If you would like to display values vertically, use the <router-link :to="{name: 'column-chart'}">Column Chart</router-link> component.</p>
+    </PageSection>
+    <PageSection class="bkg-light" :verticalPadding="2">
       <MessageBox v-if="loading & !hasError">
         <p>Fetching data</p>
       </MessageBox>
@@ -24,7 +37,6 @@
         :enableClicks="true"
         @barClicked="(value) => updateClicked(value)"
       />
-      <h3>Selected Item</h3>
       <p>Click a bar in the chart of above to display the row-level data</p>
       <output class="output">
         {{ clicked }}
@@ -35,9 +47,13 @@
 
 <script>
 import Page from '@/components/Page.vue'
+import PageHeader from '@/components/PageHeader.vue'
 import PageSection from '@/components/PageSection.vue'
 import MessageBox from '@/components/MessageBox.vue'
+import Breadcrumbs from '@/app-components/breadcrumbs.vue'
 import BarChart from '@/components/VizBarChart.vue'
+
+import headerImage from '@/assets/bulkan-evcimen.jpg'
 
 import { fetchData, sortData } from '$shared/js/utils.js' 
 import { rollups } from 'd3'
@@ -47,12 +63,15 @@ const d3 = { rollups }
 export default {
   components: {
     Page,
+    PageHeader,
     PageSection,
     MessageBox,
+    Breadcrumbs,
     BarChart,
   },
   data () {
     return {
+      headerImage: headerImage,
       loading: true,
       hasError: false,
       error: null,
@@ -84,14 +103,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.output {
-  display: block;
-  width: 100%;
-  box-sizing: content-box;
-  padding: 1em;
-  background-color: $gray-050;
-}
-
-</style>

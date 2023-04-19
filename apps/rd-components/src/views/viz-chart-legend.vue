@@ -1,8 +1,20 @@
 <template>
   <Page>
+    <PageHeader
+      title="RD-Components"
+      subtitle="Chart Legends"
+      :imageSrc="headerImage"
+      height="large"
+    />
+    <PageSection :verticalPadding="0">
+      <Breadcrumbs>
+        <li><router-link :to="{name: 'chart-legend'}">Chart Legend</router-link></li>
+      </Breadcrumbs>
+    </PageSection>
     <PageSection class="viz-section">
       <h2>rd-components: Chart legend example</h2>
       <p>The <strong>ChartLegend</strong> component is used to create legends for other visualisation components. The legend is rendered using an object containing one or more key-value pair. For example, in the box below, I assigned unique colors to the examples dataset using D3 scaleOrdinal and d3 color schemes.</p>
+      <p>Here's the example input data.</p>
       <output class="output">
         {{ data }}
       </output>
@@ -31,24 +43,31 @@
 
 <script>
 import Page from '@/components/Page.vue'
+import PageHeader from '@/components/PageHeader.vue'
 import PageSection from '@/components/PageSection.vue'
 import MessageBox from '@/components/MessageBox.vue'
 import ChartLegend from '@/components/VizLegend.vue'
+import Breadcrumbs from '@/app-components/breadcrumbs.vue'
 
 import { fetchData } from '$shared/js/utils.js'
 import { schemeGnBu } from 'd3-scale-chromatic'
 import { scaleOrdinal } from 'd3'
 const d3 = {schemeGnBu, scaleOrdinal}
 
+import headerImage from '@/assets/studio-media-unsplash.jpg'
+
 export default {
   components: {
     Page,
+    PageHeader,
     PageSection,
     MessageBox,
-    ChartLegend
+    ChartLegend,
+    Breadcrumbs,
   },
   data () {
     return {
+      headerImage: headerImage,
       loading: true,
       hasError: false,
       error: null,

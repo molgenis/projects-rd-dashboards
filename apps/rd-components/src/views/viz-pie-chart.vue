@@ -1,9 +1,22 @@
 <template>
   <Page>
+    <PageHeader
+      title="RD-Components"
+      subtitle="Pie Chart"
+      :imageSrc="headerImage"
+      height="large"
+    />
+    <PageSection :verticalPadding="0">
+      <Breadcrumbs>
+        <li><router-link :to="{name: 'pie-chart'}">Pie Chart</router-link></li>
+      </Breadcrumbs>
+    </PageSection>
     <PageSection class="viz-section">
       <h2>PieChart Component</h2>
       <p>The <strong>PieChart</strong> component is used to descriptives for categorical data. Input data must be an object with one or more key-value pairs. It is recommended to supply no more than 7 categories and to combine smaller groups into an "other" category. If you need to display more groups, it is strongly recommended to use the <strong>BarChart</strong> or <strong>ColumnChart</strong> components. Alternatively, the <strong>DataTable</strong> component is much better.</p>
       <p>It is also possible to enable click events to enhance interactivity with other visualisation components. See the example below.</p>
+    </PageSection>
+    <PageSection class="bkg-light" :verticalPadding="2">
       <MessageBox v-if="loading & !hasError">
         <p>Fetching data</p>
       </MessageBox>
@@ -14,7 +27,7 @@
         v-else
         chartId="sexByPenguin"
         title="Summary of species"
-        :description="`In total, ${total} penguins were observed across all stations.`"
+        :description="`In total, ${total} penguins were observed across all stations. The following chart shows the breakdown of observed penguins by species.`"
         :chartData="data"
         :enableClicks="true"
         :chartHeight="200"
@@ -32,23 +45,30 @@
 
 <script>
 import Page from '@/components/Page.vue'
+import PageHeader from '@/components/PageHeader.vue'
 import PageSection from '@/components/PageSection.vue'
 import MessageBox from '@/components/MessageBox.vue'
 import PieChart from '@/components/VizPieChart.vue'
+import Breadcrumbs from '@/app-components/breadcrumbs.vue'
 
 import { fetchData } from '$shared/js/utils.js' 
 import { rollups, sum, format } from 'd3'
 const d3 = { rollups, sum, format }
 
+import headerImage from '@/assets/sheri-silver-unsplash.jpg'
+
 export default {
   components: {
-    Page, 
+    Page,
+    PageHeader,
     PageSection,
     MessageBox,
-    PieChart
+    PieChart,
+    Breadcrumbs
   },
   data () {
     return {
+      headerImage: headerImage,
       loading: true,
       hasError: false,
       error: null,
