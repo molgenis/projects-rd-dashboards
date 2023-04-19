@@ -49,14 +49,14 @@
     <div class="d3-viz-legend" v-if="legendData">
       <ChartLegend :data="legendData" />
     </div>
-    <div
-      :id="`${chartId}-tooltip`"
-      class="d3-viz-tooltip geo-mercator-tooltip"
-      v-if="showTooltip && tooltipData"
-      v-html="tooltipTemplate(tooltipData)"
-      :style="`left: ${tooltipPositionX}px; top: ${tooltipPositionY}px;`"
-    />
   </div>
+  <div
+    :id="`${chartId}-tooltip`"
+    class="d3-viz-tooltip geo-mercator-tooltip"
+    v-if="showTooltip && tooltipData"
+    v-html="tooltipTemplate(tooltipData)"
+    :style="tooltipPosition"
+  />
 </template>
 
 <script>
@@ -155,7 +155,7 @@ export default {
     chartScale: {
       type: Number,
       // `1.1`
-      default: 1.1
+      default: 1.0
     },
 
     // set the radius of the points
@@ -217,13 +217,14 @@ export default {
     return {
       mapMarkers: null,
       tooltipData: null,
+      tooltipPosition: null,
       chartWidth: 500,
       pointRadiusScaler: 1,
     }
   },
   computed: {
     svg () {
-      return d3.select(`#${this.$el.childNodes[0].id}`)
+      return d3.select(`#${this.chartId}`)
     },
     geojsonLayer () {
       return this.svg.select('g.geojson-layer')
@@ -260,9 +261,10 @@ export default {
       const id = event.target.getAttribute('data-row-id')
       const row = this.chartData.filter(row => row[this.rowId] == id)[0]
       this.tooltipData = row
-      const coords = this.projection([row[this.longitude], row[this.latitude]])
-      this.tooltipPositionX = (coords[0] - (event.pageX / coords[0]) * this.pointRadiusTransformed)
-      this.tooltipPositionY = (coords[1] + (event.pageY / coords[1]) * this.pointRadiusTransformed)
+      this.tooltipPosition = `
+        top:${event.pageY + 16}px;
+        left:${event.pageX + 24}px;
+      `
     },
     onMouseLeave (event) {
       const elem = event.target
@@ -319,30 +321,29 @@ export default {
     padding: 12px;
     box-shadow: 2px 4px 4px 2px hsla(0, 0%, 0%, 0.2)
   }
-  
-  .geo-mercator-tooltip {
-    position: absolute;
-    max-width: 325px;
-    z-index: 2;
-    background-color: $gray-000;
-    box-shadow: 0 0 4px 2px $gray-transparent-400;
-    border-radius: 3px;
-    padding: 8px 12px;
-  
-    p {
+}
+.geo-mercator-tooltip {
+  position: absolute;
+  top: 0;
+  max-width: 300px;
+  z-index: 10;
+  background-color: $gray-000;
+  box-shadow: 0 0 4px 2px $gray-transparent-400;
+  border-radius: 3px;
+  padding: 8px 12px;
+
+  p {
+    font-size: 11pt;
+    padding: 0;
+    margin: 0;
+    
+    &.title {
       font-size: 11pt;
-      padding: 0;
-      margin: 0;
-      
-      &.title {
-        font-size: 11pt;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        line-height: 1.2;
-        font-weight: bold;
-      }
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+      font-weight: bold;
     }
   }
 }
-
 </style>
