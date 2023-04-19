@@ -9,8 +9,7 @@ Data highlights are used to display an interesting value for a given scenario (e
 |---|---|---|---|---|
 |title|one or two words that describes the value|`String`|`false`|-|
 |showTitle|If false, titles will be visually hidden|`Boolean`|`false`|`false`|
-|values|An array of values to display|`Array`|`true`|-|
-|labels|An array of labels that describe the values|`Array`|`true`|-|
+|data|An object containing one or more key-value pairs|`Object`|`true`|-|
 
 <!-- @vuese:DataHighlights:props:end -->
 
