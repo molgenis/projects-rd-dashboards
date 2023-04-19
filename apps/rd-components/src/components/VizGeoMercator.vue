@@ -34,7 +34,9 @@
           :cx="projection([row[longitude], row[latitude]])[0]"
           :cy="projection([row[longitude], row[latitude]])[1]"
           :data-row-id="row[rowId]"
-          :r="pointRadiusTransformed"
+          :stroke="markerStroke"
+          :stroke-width="strokeWidth"
+          :r="radiusScaled"
           :fill="
             groupColorMappings && groupingVariable
             ? groupColorMappings[row[groupingVariable]]
@@ -61,8 +63,8 @@
 
 <script>
 import ChartLegend from '@/components/VizLegend.vue'
-import { select, selectAll, geoMercator, geoPath, json, zoom } from 'd3'
-const d3 = { select, selectAll, geoMercator, geoPath, json, zoom }
+import { select, selectAll, geoMercator, geoNaturalEarth1, geoPath, json, zoom } from 'd3'
+const d3 = { select, selectAll, geoMercator, geoNaturalEarth1, geoPath, json, zoom }
 
 // Create a point location visualation using a geomercator map from the D3 library.
 // Each point represents a unique location in the dataset.
@@ -123,6 +125,12 @@ export default {
     markerColor: {
       type: String,
       default: '#f6f6f6'
+    },
+    
+    // Set color of the marker borders
+    markerStroke: {
+      type: String,
+      default: '#404040'
     },
 
     // set the height of the chart
@@ -198,6 +206,12 @@ export default {
       type: Boolean,
       default: true
     },
+    
+    // An array containing two values that determine the min and max zoom limits
+    // [minimum, maximum]
+    zoomLimits: {
+      type: Array,
+    },
 
     // Set the colors of the land, borders, and water
     mapColors: {
@@ -215,11 +229,12 @@ export default {
   components: { ChartLegend },
   data () {
     return {
+      strokeWidth: 1,
       mapMarkers: null,
       tooltipData: null,
       tooltipPosition: null,
       chartWidth: 500,
-      pointRadiusScaler: 1,
+      radiusScaler: 1,
     }
   },
   computed: {
@@ -233,7 +248,7 @@ export default {
       return this.svg.select('g.data-layer')
     },
     projection () {
-      return d3.geoMercator()
+      return d3.geoNaturalEarth1()
         .center([this.mapCenter.latitude, this.mapCenter.longitude])
         .scale(this.chartWidth * this.chartScale)
         .translate([this.chartWidth / 2, this.chartHeight / 2])
@@ -244,8 +259,8 @@ export default {
     viewbox () {
       return `0 0 ${this.chartWidth} ${this.chartHeight}`
     },
-    pointRadiusTransformed () {
-      return this.pointRadius / (this.pointRadiusScaler * 0.8)
+    radiusScaled () {
+      return this.pointRadius / this.radiusScaler
     },
   },
   methods: {
@@ -254,8 +269,8 @@ export default {
       this.chartWidth = parent.offsetWidth
     },
     onMouseOver (event) {
-      const elem = event.target
-      elem.setAttribute('r', this.pointRadiusTransformed + (this.pointRadius * 0.8))
+      const point = event.target
+      point.setAttribute('r', (this.radiusScaled * 1.85) )
     },
     onMouseMove (event) {
       const id = event.target.getAttribute('data-row-id')
@@ -269,16 +284,17 @@ export default {
     onMouseLeave (event) {
       const elem = event.target
       this.tooltipData = null
-      elem.setAttribute('r', this.pointRadiusTransformed)
+      elem.setAttribute('r', this.radiusScaled)
     },
     setupZoom () {
       this.geojsonLayer.style('cursor', 'pointer')
       const zoom = d3.zoom().on('zoom', event => {
-        this.pointRadiusScaler = event.transform.k
+        this.radiusScaler = event.transform.k
+        this.strokeWidth = 1 / event.transform.k
         this.geojsonLayer.attr('transform', event.transform)
         this.dataLayer.attr('transform', event.transform)
       })
-      this.svg.call(zoom)
+      this.svg.call(this.zoomLimits ? zoom.scaleExtent(this.zoomLimits) : zoom)
     },
     renderChart () {
       this.setChartDimensions()
