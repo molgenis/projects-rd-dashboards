@@ -83,6 +83,7 @@ export default {
     height: 6em;
     border-radius: 12px;
     background-color: transparent;
+    flex-grow: 1;
     
     a {
       color: $green-050;
