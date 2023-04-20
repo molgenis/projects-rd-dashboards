@@ -18,7 +18,7 @@
 // scenario (e.g., total of *x*, recruit to date, etc.). This component
 // is designed to give a quick look &mdash;or highlight of&mdash; variables of
 // interest. It is suggested to use this component at the top of a
-// dashboard and to display 3 to 4 values. It is not recommended to
+// dashboard and to display 3 to 5 values. It is not recommended to
 // display more than 4 or one value. Titles must be short and consise as
 // this element can be rather small. Limit to one or two words max.
 //
@@ -41,7 +41,7 @@ export default {
       type: Object,
       required: true,
       validator: (object) => {
-        return Object.keys(object).length <= 4
+        return Object.keys(object).length <= 5
       }
     }
   },
