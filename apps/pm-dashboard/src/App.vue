@@ -14,12 +14,7 @@
     </div>
     <div v-else-if="!hasError && !loading">
       <PageSection id="task-highlights" :verticalPadding="2" width="large">
-        <DataValueHighlights          
-          title="summary of tasks"
-          :showTitle="false"
-          :values="tasksummary.values"
-          :labels="tasksummary.labels"
-        />
+        <DataValueHighlights :data="tasksummary" />
       </PageSection>
       <PageSection>
         <h2>View Tasks</h2>
@@ -290,25 +285,17 @@ export default {
       }) 
  
       const categories = ['not yet started', 'in progress', 'in review', 'completed', 'blocked']
-      const values = categories.map(category => this.rawdata.filter(row => row.status === category).length)
-      this.tasksummary = {
-        'values': values,
-        'labels': [
-          'assigned',
-          'in progress',
-          'in review',
-          'completed',
-          'blocked',
-        ]
-      }
+      categories.forEach(category =>
+        this.tasksummary[category] = this.rawdata.filter(row => row.status === category).length
+      )
       
       this.loading = false
-    }).catch(error => {
-      this.loading = false
-      this.hasError = true
-      const err = JSON.parse(error.message)
-      this.error = `${err.message} (${err.status}): ${err.url}`
-      throw new Error(error)
+    // }).catch(error => {
+    //   this.loading = false
+    //   this.hasError = true
+    //   const err = JSON.parse(error.message)
+    //   this.error = `${err.message} (${err.status}): ${err.url}`
+    //   throw new Error(error)
     })
   }
 }
