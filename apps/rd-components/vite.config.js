@@ -104,40 +104,29 @@ export default defineConfig(({ command, mode }) => {
     // build library
     if (command === 'build' && mode === 'lib') {
       return {
-        plugins: [
-          vue(),
-          banner(bannerText),
-          generateFile([{
-            type: 'json',
-            output: 'config.json',
-            data: {
-              name: pkgjson.name,
-              label: pkgjson.name,
-              description: pkgjson.description,
-              version: pkgjson.version,
-              apiDependency: 'v2',
-              includeMenuAndFooter: true,
-              runtimeOptions: {}
-            }
-          }])
-        ],
-        ...shared,
-        base: `/plugin/app/${pkgjson.name}/`,
+        plugins: [vue()],
         build: {
+          lib: {
+            entry: path.resolve(__dirname, 'lib/main.js'),
+            name: 'rd-components',
+            fileName: 'rd-components'
+          },
           rollupOptions: {
+            external: 'vue',
             output: {
-              assetFileNames: (assetInfo) => {
-                const extension = assetInfo.name.split('.').pop()
-                if (/png|jpg|svg/.test(extension)) {
-                  return `img/[name].[hash][extname]`
-                }
-                return `${extension}/[name].[hash][extname]`
+              globals: {
+                vue: 'vue'
               },
-              chunkFileNames: 'js/[name].[hash].js',
-              entryFileNames: 'js/[name].[hash].js'
+              assetFileNames: (assetInfo) => {
+                if (assetInfo.name === 'style.css') {
+                  return 'rd-components.css'
+                }
+                return assetInfo.name
+              }
             }
           }
-        }
+        },
+        ...shared
       }
     }
   }
