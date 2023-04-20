@@ -12,7 +12,7 @@
     </PageSection>
     <PageSection class="bkg-light" :verticalPadding="2">
       <h2>Visualisation Components</h2>
-      <p>We have several D3 visualisation components available and more on the way.</p>
+      <p style="text-align: center;">We have several D3 visualisation components available and more on the way.</p>
       <div class="link-container">
         <LinkCard :imageSrc="BarChartImage">
           <router-link :to="{name: 'bar-chart'}">Bar Chart</router-link>
