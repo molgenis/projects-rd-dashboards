@@ -24,7 +24,7 @@ Create a column chart (vertical bars) where the height of a bar is corresponds t
 |columnPaddingInner|Adjust the amount of blank space inbetween columns between 0 and 1|`Number`|`false`|`0.2`|
 |columnPaddingOuter|Adjust the amount of blank space before the first column and after the last column. Value must be between 0 and 1|`Number`|`false`|`0.2`|
 |columnAlign|Along with `columnPaddingOuter`, specify how the columns are distributed x-axis. A value of 0 will position the columns closer to the y-axis.|`Number`|`false`|`0.5`|
-|enableClicks|If `true`, click events will be enabled for all columns. When a column is clicked, the row-level data for that column will be emitted. To access the data, use the event `@columnClicked=>(value) => ...`|`Boolean`|`false`|`false`|
+|enableClicks|If `true`, click events will be enabled for all columns. When a column is clicked, the row-level data for that column will be emitted. To access the data, use the event `@column-clicked = ...`|`Boolean`|`false`|`false`|
 |enableAnimation|If `true`, columns will be drawn over 500ms from the x-axis.|`Boolean`|`false`|true|
 
 <!-- @vuese:ColumnChart:props:end -->
@@ -35,7 +35,7 @@ Create a column chart (vertical bars) where the height of a bar is corresponds t
 <!-- @vuese:ColumnChart:events:start -->
 |Event Name|Description|Parameters|
 |---|---|---|
-|columnClicked|-|-|
+|column-clicked|-|-|
 
 <!-- @vuese:ColumnChart:events:end -->
 

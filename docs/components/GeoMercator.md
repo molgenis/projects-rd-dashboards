@@ -8,6 +8,8 @@ Create a point location visualation using a geomercator map from the D3 library.
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |chartId|a unique identifier for the map|`String`|`true`|-|
+|title|A title that describes the chart|`String`|`false`|-|
+|description|Additional information to display below the title|`String`|`false`|-|
 |geojson|reference dataset for the base layer|`Object`|`true`|-|
 |chartData|the dataset containing all locations and coordinates|`Array`|`true`|-|
 |rowId|the column containing the identifiers of each location|`String`|`true`|-|
@@ -25,10 +27,22 @@ Create a point location visualation using a geomercator map from the D3 library.
 |legendData|An object containing one or more key-value pairs where each key is a group and the value is a color. See the `<Legend/>` component for more information|`Object`|`false`|-|
 |showTooltip|If true (default), a tool will be displayed when hovering over a point|`Boolean`|`false`|`true`|
 |tooltipTemplate|A function that controls the HTML content in the tooltip. The name of the point is always displayed. However, you may specify the content in the body of the tooltip. The default text is: `<row-id>: <latitude>, <longitude>`. To modify the content, pass define a new function. Row-level data can be accessed by supplying `row` in the function. E.g., `(row) => { return ...}`.|`Function`|`false`|`<p>${row[this.rowId]}: ${row[this.latitude]}, ${row[this.longitude]}</p>`|
+|enableMarkerClicks|If `true`, click events will be enabled for all markers. When a marker is clicked, the row-level data for that bar will be emitted. To access the data, use the event `@marker-clicked = someFunction()`|`Boolean`|`false`|`false`|
+|enableLegendClicks|If `true`, click events will be enabled for the legend. When an item is clicked, all markers will be hidden until clicked again.|`Boolean`|`false`|false|
 |enableZoom|If true (default), the map can be zoomed in and out|`Boolean`|`false`|true|
 |zoomLimits|An array containing two values that determine the min and max zoom limits [minimum, maximum]|`Array`|`false`|-|
 |mapColors|Set the colors of the land, borders, and water|`Object`|`false`|`{land: '#4E5327', border: '#757D3B', water: '#6C85B5'}`|
 
 <!-- @vuese:GeoMercator:props:end -->
+
+
+## Events
+
+<!-- @vuese:GeoMercator:events:start -->
+|Event Name|Description|Parameters|
+|---|---|---|
+|marker-clicked|-|-|
+
+<!-- @vuese:GeoMercator:events:end -->
 
 

@@ -24,7 +24,7 @@ Create a bar chart (horizontal bars) that displays values along the x-axis by gr
 |barPaddingInner|Adjust the amount of blank space inbetween bar between 0 and 1|`Number`|`false`|`0.2`|
 |barPaddingOuter|Adjust the amount of blank space before the first bar and after the last bar. Value must be between 0 and 1.|`Number`|`false`|`0.2`|
 |barAlign|Along with `barPaddingOuter`, specify how the bars are distributed y-axis. A value of 0 will position the bars closer to the x-axis.|`Number`|`false`|`0.5`|
-|enableClicks|If `true`, click events will be enabled for all bars. When a bar is clicked, the row-level data for that bar will be emitted. To access the data, use the event `@barClicked=>(value) => ...`|`Boolean`|`false`|`false`|
+|enableClicks|If `true`, click events will be enabled for all bars. When a bar is clicked, the row-level data for that bar will be emitted. To access the data, use the event `@bar-clicked = ...`|`Boolean`|`false`|`false`|
 |enableAnimation|If `true`, bars will be drawn over 500ms from the y-axis.|`Boolean`|`false`|true|
 
 <!-- @vuese:BarChart:props:end -->
@@ -35,7 +35,7 @@ Create a bar chart (horizontal bars) that displays values along the x-axis by gr
 <!-- @vuese:BarChart:events:start -->
 |Event Name|Description|Parameters|
 |---|---|---|
-|barClicked|-|-|
+|bar-clicked|-|-|
 
 <!-- @vuese:BarChart:events:end -->
 

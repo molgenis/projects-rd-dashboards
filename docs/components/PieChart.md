@@ -17,7 +17,7 @@ Create a pie chart to visually display subelements of your data in relation to t
 |chartColors|An object containing one-to-one mappings of groups to colors. If colors are not defined, a default palette will be chosen for you.|`Object`|`false`|null|
 |strokeColor|Set the border color for the slices|`String`|`false`|`#3f454b`|
 |centerAlignChart|If true, the chart will be aligned to the center of the parent component. Otherwise, the chart will be left aligned.|`Boolean`|`false`|false|
-|enableClicks|If `true`, click events will be enabled for all bars. When a bar is clicked, the row-level data for that bar will be emitted. To access the data, use the event `@barClicked=>(value) => ...`|`Boolean`|`false`|`false`|
+|enableClicks|If `true`, click events will be enabled for all bars. When a bar is clicked, the row-level data for that bar will be emitted. To access the data, use the event `@slice-clicked=...`|`Boolean`|`false`|`false`|
 
 <!-- @vuese:PieChart:props:end -->
 
@@ -27,7 +27,7 @@ Create a pie chart to visually display subelements of your data in relation to t
 <!-- @vuese:PieChart:events:start -->
 |Event Name|Description|Parameters|
 |---|---|---|
-|sliceClicked|-|-|
+|slice-clicked|-|-|
 
 <!-- @vuese:PieChart:events:end -->
 

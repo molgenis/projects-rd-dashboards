@@ -19,7 +19,7 @@ Create a legend for a visualisation for use outside the chart element. This comp
 <!-- @vuese:ChartLegend:events:start -->
 |Event Name|Description|Parameters|
 |---|---|---|
-|itemClicked|-|-|
+|legend-item-clicked|-|-|
 
 <!-- @vuese:ChartLegend:events:end -->
 
