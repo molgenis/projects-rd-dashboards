@@ -1,55 +1,70 @@
 <template>
   <div class="d3-viz d3-geo-mercator">
-    <svg
-      class="chart"
-      :id="chartId"
-      width="100%"
-      :height="chartHeight"
-      :viewbox="viewbox"
-      preserveAspectRatio="xMinYMin"
-    >
-      <g class="background-layer">
-        <rect
-          width="100%"
-          height="100%"
-          x="0"
-          y="0"
-          :fill="mapColors.water"
+    <div class="chart-context" v-if="title || description">
+      <h3 v-if="title" class="chart-title">{{ title }}</h3>
+      <p v-if="description" class="chart-description">{{ description }}</p>
+    </div>
+    <div class="chart-container">
+      <svg
+        :class="svgClassNames"
+        :id="chartId"
+        width="100%"
+        :height="chartHeight"
+        :viewbox="viewbox"
+        preserveAspectRatio="xMinYMin"
+      >
+        <g class="background-layer">
+          <rect
+            width="100%"
+            height="100%"
+            x="0"
+            y="0"
+            :fill="mapColors.water"
+          />
+        </g>
+        <g class="geojson-layer">
+          <path
+            v-for="feature in geojson.features" 
+            :d="geoPath(feature)"
+            :fill="mapColors.land"
+            :stroke="mapColors.border"
+          />
+        </g>
+        <g class="data-layer">
+          <circle
+            v-for="row in chartData"
+            :id="row[rowId]"
+            class="marker"
+            :key="row[rowId]"
+            :cx="projection([row[longitude], row[latitude]])[0]"
+            :cy="projection([row[longitude], row[latitude]])[1]"
+            :data-row-id="row[rowId]"
+            :stroke="markerStroke"
+            :stroke-width="strokeWidth"
+            :r="radiusScaled"
+            :fill="
+              groupColorMappings && groupingVariable
+              ? groupColorMappings[row[groupingVariable]]
+              : markerColor
+            "
+            @click.native="enableMarkerClicks && onClick(row)"
+            @mouseover.native="showTooltip && onMouseOver($event)"
+            @mousemove.native="showTooltip && onMouseMove($event)"
+            @mouseleave.native="showTooltip && onMouseLeave($event)"
+            :style="enableLegendClicks && legendSelection.indexOf(row[groupingVariable])> -1 
+              ? 'opacity: 0; cursor: default;'
+              : 'opacity: 1; cursor: pointer;'
+            "
+          ></circle>
+        </g>
+      </svg>
+      <div class="d3-viz-legend" v-if="legendData">
+        <ChartLegend 
+          :data="legendData"
+          :enableClicks="enableLegendClicks"
+          @selection="setLegendClicked"
         />
-      </g>
-      <g class="geojson-layer">
-        <path
-          v-for="feature in geojson.features" 
-          :d="geoPath(feature)"
-          :fill="mapColors.land"
-          :stroke="mapColors.border"
-        />
-      </g>
-      <g class="data-layer">
-        <circle
-          v-for="row in chartData"
-          :id="row[rowId]"
-          class="marker"
-          :key="row[rowId]"
-          :cx="projection([row[longitude], row[latitude]])[0]"
-          :cy="projection([row[longitude], row[latitude]])[1]"
-          :data-row-id="row[rowId]"
-          :stroke="markerStroke"
-          :stroke-width="strokeWidth"
-          :r="radiusScaled"
-          :fill="
-            groupColorMappings && groupingVariable
-            ? groupColorMappings[row[groupingVariable]]
-            : markerColor
-          "
-          @mouseover.native="showTooltip && onMouseOver($event)"
-          @mousemove.native="showTooltip && onMouseMove($event)"
-          @mouseleave.native="showTooltip && onMouseLeave($event)"
-        ></circle>
-      </g>
-    </svg>
-    <div class="d3-viz-legend" v-if="legendData">
-      <ChartLegend :data="legendData" />
+      </div>
     </div>
   </div>
   <div
@@ -78,6 +93,12 @@ export default {
       type: String,
       required: true
     },
+    
+    // A title that describes the chart
+    title: String,
+    
+    // Additional information to display below the title
+    description: String,
 
     // reference dataset for the base layer
     geojson: {
@@ -200,6 +221,22 @@ export default {
         return `<p>${row[this.rowId]}: ${row[this.latitude]}, ${row[this.longitude]}</p>`
       }
     },
+    
+    // If `true`, click events will be enabled for all markers. When a marker is
+    // clicked, the row-level data for that bar will be emitted.
+    // To access the data, use the event `@markerClicked=>(value) => ...`
+    enableMarkerClicks: {
+      type: Boolean,
+      // `false`
+      default: false
+    },
+    
+    // If `true`, click events will be enabled for the legend. When an item
+    // is clicked, all markers will be hidden until clicked again.
+    enableLegendClicks: {
+      type: Boolean,
+      default: false
+    },
 
     // If true (default), the map can be zoomed in and out
     enableZoom: {
@@ -227,6 +264,7 @@ export default {
     }
   },
   components: { ChartLegend },
+  emits: ['markerClick'],
   data () {
     return {
       strokeWidth: 1,
@@ -235,11 +273,19 @@ export default {
       tooltipPosition: null,
       chartWidth: 500,
       radiusScaler: 1,
+      legendSelection: [],
     }
   },
   computed: {
     svg () {
       return d3.select(`#${this.chartId}`)
+    },
+    svgClassNames () {
+      const css = ['chart']
+      if (this.title || this.description) {
+        css.push('chart-has-context')
+      }
+      return css.join(' ')
     },
     geojsonLayer () {
       return this.svg.select('g.geojson-layer')
@@ -267,6 +313,9 @@ export default {
     setChartDimensions () {
       const parent = this.$el.parentNode
       this.chartWidth = parent.offsetWidth
+    },
+    onClick(data) {
+      this.$emit('markerClick', data)
     },
     onMouseOver (event) {
       const point = event.target
@@ -296,6 +345,9 @@ export default {
       })
       this.svg.call(this.zoomLimits ? zoom.scaleExtent(this.zoomLimits) : zoom)
     },
+    setLegendClicked (value) {
+      this.legendSelection = value
+    },
     renderChart () {
       this.setChartDimensions()
       if (this.enableZoom) {
@@ -319,25 +371,43 @@ export default {
 <style lang="scss">
 .d3-geo-mercator {
   width: 100%;
-  position: relative;
-
-  .chart {
-    display: block;
-    margin: 0;
+  
+  .chart-context {
+    margin-bottom: 1em;
+    
+    h3.chart-title {
+      margin: 0;    
+      text-align: left;
+    }
+    
+    p.chart-description {
+      text-align: left;
+      margin: 0;
+    }
   }
   
-  .d3-viz-legend {
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 11pt;
-    color: $gray-050;
-    border: 1px solid $gray-900;
-    background-color: $gray-transparent-700;
-    padding: 12px;
-    box-shadow: 2px 4px 4px 2px hsla(0, 0%, 0%, 0.2)
+  .chart-container {
+    position: relative;
+
+    .chart {
+      display: block;
+      margin: 0;
+    }
+    
+    .d3-viz-legend {
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-size: 11pt;
+      color: $gray-050;
+      border: 1px solid $gray-900;
+      background-color: $gray-transparent-700;
+      padding: 12px;
+      box-shadow: 2px 4px 4px 2px hsla(0, 0%, 0%, 0.2)
+    }
   }
 }
+
 .geo-mercator-tooltip {
   position: absolute;
   top: 0;
