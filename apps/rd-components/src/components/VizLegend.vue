@@ -87,7 +87,7 @@ export default {
       default: false
     },
   },
-  emits: ['selection'],
+  emits: ['legend-item-clicked'],
   data () {
     return {
       selection: []
@@ -97,7 +97,7 @@ export default {
     emitSelection (event) {
       const parent = event.target.parentNode      
       parent.classList.toggle('checkbox-clicked')
-      this.$emit('selection', this.selection)
+      this.$emit('legend-item-clicked', this.selection)
     }
   },
   computed: {

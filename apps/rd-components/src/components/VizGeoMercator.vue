@@ -62,7 +62,7 @@
         <ChartLegend 
           :data="legendData"
           :enableClicks="enableLegendClicks"
-          @selection="setLegendClicked"
+          @legend-item-clicked="setLegendClicked"
         />
       </div>
     </div>
@@ -224,7 +224,7 @@ export default {
     
     // If `true`, click events will be enabled for all markers. When a marker is
     // clicked, the row-level data for that bar will be emitted.
-    // To access the data, use the event `@markerClicked=>(value) => ...`
+    // To access the data, use the event `@marker-clicked = someFunction()`
     enableMarkerClicks: {
       type: Boolean,
       // `false`
@@ -264,7 +264,7 @@ export default {
     }
   },
   components: { ChartLegend },
-  emits: ['markerClick'],
+  emits: ['marker-clicked'],
   data () {
     return {
       strokeWidth: 1,
@@ -315,7 +315,7 @@ export default {
       this.chartWidth = parent.offsetWidth
     },
     onClick(data) {
-      this.$emit('markerClick', data)
+      this.$emit('marker-clicked', data)
     },
     onMouseOver (event) {
       const point = event.target

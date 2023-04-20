@@ -41,6 +41,8 @@ export default {
       default: true
     },
     // If true, row clicks will return the selected row (as an object)
+    // Row level data can be access using the following event
+    // `@row-clicked=...`
     enableRowClicks: {
       type: Boolean,
       default: true
@@ -51,7 +53,7 @@ export default {
       default: false
     }
   },
-  emits: ['row-selection'],
+  emits: ['row-clicked'],
   computed: {
     tableClassNames () {
       const base = 'd3-viz d3-table'
@@ -75,14 +77,8 @@ export default {
       }
       return css
     },
-    onClick (event, data) {
-      const clickedRow = event.target.closest('tr')
-      const selection = {
-        rowIndex: parseInt(clickedRow.getAttribute('data-row-index')),
-        data: data
-      }
-      // When a row is clicked, the data is returned
-      this.$emit('row-selection', selection)
+    onClick (data) {
+      this.$emit('row-clicked', data)
     },
     renderTable () {
       const table = d3.select(`#${this.tableId}`)
@@ -154,7 +150,7 @@ export default {
       })
       
       if (this.enableRowClicks) {
-        tableRows.on('click', (event, row) => this.onClick(event, row))
+        tableRows.on('click', (event, row) => this.onClick(row))
       }
     }
   },

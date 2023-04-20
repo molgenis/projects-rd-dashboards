@@ -32,7 +32,7 @@
               :y="yAxis(row[yvar])"
               :height="yAxis.bandwidth()"
               :fill="barFill"
-              @click="() => onClick(row)"
+              @click="onClick(row)"
               @mouseover="(event) => onMouseOver(event)"
               @mouseleave="(event) => onMouseLeave(event)"
             />
@@ -197,7 +197,7 @@ export default {
     },
     // If `true`, click events will be enabled for all bars. When a bar is
     // clicked, the row-level data for that bar will be emitted.
-    // To access the data, use the event `@barClicked=>(value) => ...`
+    // To access the data, use the event `@bar-clicked = ...`
     enableClicks: {
       type: Boolean,
       // `false`
@@ -210,7 +210,7 @@ export default {
       default: true
     },
   },
-  emits: ['barClicked'],
+  emits: ['bar-clicked'],
   data () {
     return {
       chartWidth: 675,
@@ -294,7 +294,7 @@ export default {
     onClick (row) {
       if (this.enableClicks) {
         const data = JSON.stringify(row)
-        this.$emit('barClicked', data)
+        this.$emit('bar-clicked', data)
       }
     },
     onMouseOver (event) {

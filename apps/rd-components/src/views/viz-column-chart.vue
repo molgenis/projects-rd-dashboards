@@ -35,7 +35,7 @@
         :barPaddingOuter="0.25"
         xAxisLabel="Number of Penguins"
         :enableClicks="true"
-        @columnClicked="(value) => updateClicked(value)"
+        @column-clicked="updateClicked"
       />
       <h3>Selected Item</h3>
       <p>Click a bar in the chart of above to display the row-level data</p>

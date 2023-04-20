@@ -108,7 +108,7 @@ export default {
     
     // If `true`, click events will be enabled for all bars. When a bar is
     // clicked, the row-level data for that bar will be emitted.
-    // To access the data, use the event `@barClicked=>(value) => ...`
+    // To access the data, use the event `@slice-clicked=...`
     enableClicks: {
       type: Boolean,
       // `false`
@@ -116,7 +116,7 @@ export default {
     },
 
   },
-  emits: ['sliceClicked'],
+  emits: ['slice-clicked'],
   data () {
     return {
       chartWidth: 300
@@ -217,7 +217,7 @@ export default {
     onClick (value) {
       const data = {}
       data[value.data[0]] = value.data[1]
-      this.$emit('sliceClicked', data)
+      this.$emit('slice-clicked', data)
     },
     drawSlices () {
       const pieSlices = this.chartArea.select('.pie-slices') 

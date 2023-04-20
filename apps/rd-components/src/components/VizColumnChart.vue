@@ -32,7 +32,7 @@
               :x="xAxis(row[xvar])"
               :width="xAxis.bandwidth()"
               :fill="columnFill"
-              @click="() => onClick(row)"
+              @click="onClick(row)"
               @mouseover="(event) => onMouseOver(event)"
               @mouseleave="(event) => onMouseLeave(event)"
               />
@@ -192,7 +192,7 @@ export default {
     },
     // If `true`, click events will be enabled for all columns. When a column is
     // clicked, the row-level data for that column will be emitted.
-    // To access the data, use the event `@columnClicked=>(value) => ...`
+    // To access the data, use the event `@column-clicked = ...`
     enableClicks: {
       type: Boolean,
       // `false`
@@ -205,7 +205,7 @@ export default {
       default: true
     },
   },
-  emits: ['columnClicked'],
+  emits: ['column-clicked'],
   data () {
     return {
       chartWidth: 675,
@@ -289,7 +289,7 @@ export default {
     onClick (row) {
       if (this.enableClicks) {
         const data = JSON.stringify(row)
-        this.$emit('columnClicked', data)
+        this.$emit('column-clicked', data)
       }
     },
     onMouseOver (event) {

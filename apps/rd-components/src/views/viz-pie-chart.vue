@@ -31,7 +31,7 @@
         :chartData="data"
         :enableClicks="true"
         :chartHeight="200"
-        @sliceClicked="value => updateSelection(value)"
+        @slice-clicked="updateSelection"
 
       />
       <h3>Selected Item</h3>

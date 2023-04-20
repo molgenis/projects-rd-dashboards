@@ -12,7 +12,7 @@
     </PageSection>
     <PageSection class="bkg-light" :verticalPadding="2">
       <h2>Visualisation Components</h2>
-      <p>We have several visualisation components available and more on the way. These components were built using the D3 framework. Data used in the visualisations comes from the <a href="https://github.com/allisonhorst/palmerpenguins/">Palmer Penguins dataset</a>. Data used in the maps was built using the <a href="https://ror.org">ROR.org</a> data repository.</p>
+      <p>We have several D3 visualisation components available and more on the way.</p>
       <div class="link-container">
         <LinkCard :imageSrc="BarChartImage">
           <router-link :to="{name: 'bar-chart'}">Bar Chart</router-link>
@@ -22,6 +22,9 @@
         </LinkCard>
         <LinkCard :imageSrc="HighlightsImage">
           <router-link :to="{name: 'data-highlights'}">Data Highlights</router-link>
+        </LinkCard>
+        <LinkCard :imageSrc="DatatableImage">
+          <router-link :to="{name: 'datatable'}">Data Table</router-link>
         </LinkCard>
         <LinkCard :imageSrc="MapImage">
           <router-link :to="{name: 'geo-mercator'}">GeoMercator</router-link>
@@ -33,6 +36,10 @@
           <router-link :to="{name: 'chart-legend'}">Legends</router-link>
         </LinkCard>
       </div>
+    </PageSection>
+    <PageSection>
+      <h2>About</h2>
+      <p>Data used in the visualisations comes from the <a href="https://github.com/allisonhorst/palmerpenguins/">Palmer Penguins dataset</a>. Data used in the maps was built using the <a href="https://ror.org">ROR.org</a> data repository.</p>
     </PageSection>
   </Page>
 </template>
@@ -50,6 +57,7 @@ import PieChartImage from '@/assets/sheri-silver-unsplash.jpg'
 import MapImage from '@/assets/t-h-chia-unsplash.jpg'
 import LegendImage from '@/assets/studio-media-unsplash.jpg'
 import HighlightsImage from '@/assets/ray-shrewsberry-unsplash.jpg'
+import DatatableImage from '@/assets/ashley-byrd-unsplash.jpg'
 
 export default {
   components: {
@@ -66,7 +74,8 @@ export default {
       ColumnChartImage: ColumnChartImage,
       MapImage: MapImage,
       LegendImage: LegendImage,
-      HighlightsImage: HighlightsImage
+      HighlightsImage: HighlightsImage,
+      DatatableImage: DatatableImage,
     }
   }
 }

@@ -30,7 +30,7 @@
           :data="data"
           :stackLegend="true"
           :enableClicks="true"
-          @selection="updateSelection"
+          @legend-item-clicked="updateSelection"
         />
       </div>
       <p>Click events are also enabled. This allows users to interact with the visualisation components by filtering the data. Click an item to view the "filtered" state.</p>

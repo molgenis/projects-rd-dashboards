@@ -49,7 +49,7 @@
         }"
         :enableLegendClicks="true"
         :enableMarkerClicks="true"
-        @markerClick="(value) => updateSelection(value)"
+        @marker-clicked="updateSelection"
         />
     </PageSection>
     <PageSection>
