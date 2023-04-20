@@ -30,10 +30,10 @@
           :data="data"
           :stackLegend="true"
           :enableClicks="true"
-          @itemClicked="(value) => updateSelection(value)"
+          @selection="updateSelection"
         />
       </div>
-      <p>Click events are also enabled. This allows users to interact with the visualisation components. Click a legend item to view the seletion.</p>
+      <p>Click events are also enabled. This allows users to interact with the visualisation components by filtering the data. Click an item to view the "filtered" state.</p>
       <output class="output">
         {{ clicked }}
       </output>
@@ -72,7 +72,7 @@ export default {
       hasError: false,
       error: null,
       data: [],
-      clicked: 'Null',
+      clicked: [],
     }
   },
   methods: {
