@@ -116,6 +116,7 @@ export default {
     },
 
   },
+  emits: ['sliceClicked'],
   data () {
     return {
       chartWidth: 300

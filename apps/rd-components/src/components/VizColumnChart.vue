@@ -205,6 +205,7 @@ export default {
       default: true
     },
   },
+  emits: ['columnClicked'],
   data () {
     return {
       chartWidth: 675,

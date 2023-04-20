@@ -210,6 +210,7 @@ export default {
       default: true
     },
   },
+  emits: ['barClicked'],
   data () {
     return {
       chartWidth: 675,
