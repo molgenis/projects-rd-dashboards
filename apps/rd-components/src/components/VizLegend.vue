@@ -5,22 +5,60 @@
       data-legend-item="item" v-for="key in Object.keys(data)"
       :key="key"
     >
-    <button
-      class="legend-item-button" 
-      v-if="enableClicks"
-      :data-group="key"
-      @click="onClick(key)"
-    >
-      <LegendItem :label="key" :fill="data[key]" />
-    </button>
-    <LegendItem :label="key" :fill="data[key]" v-else/>
+      <div class="checkbox-item" v-if="enableClicks">
+        <label :for="`cb-${key}`" class="item-label">
+          <svg 
+          class="item-marker"
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          preserveXminYmin="true"
+          >
+            <circle 
+              cx="8"
+              cy="8"
+              r="8"
+              :fill="data[key]"
+              stroke-width="none"
+            />
+          </svg>
+          <span>{{ key }}</span>
+        </label>
+        <input
+          :id="`cb-${key}`"
+          class="legend-checkbox visually-hidden"
+          type="checkbox"
+          :data-group="key"
+          :value="key"
+          v-model="selection"
+          @change="emitSelection"
+        >
+      </div>
+      <div class="text-item" v-else>
+        <svg 
+          class="item-marker"
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          preserveXminYmin="true"
+        >
+          <circle
+            cx="8"
+            cy="8"
+            r="8"
+            :fill="fill"
+            stroke-width="none"
+          />
+        </svg>
+        <span class="item-label">
+          {{ label }}
+        </span>
+      </div>
     </li>
   </ul>
 </template>
 
 <script>
-import LegendItem from '@/components/VizLegendItem.vue'
-
 // Create a legend for a visualisation for use outside the chart element. This
 // component may be useful if you have several charts that display the
 // same groups.
@@ -28,7 +66,6 @@ import LegendItem from '@/components/VizLegendItem.vue'
 // @group VISUALISATIONS
 export default {
   name: 'ChartLegend',
-  components: { LegendItem },
   props: {
     // One or more key-value pairs
     data: {
@@ -50,23 +87,29 @@ export default {
       default: false
     },
   },
+  emits: ['selection'],
+  data () {
+    return {
+      selection: []
+    }
+  },
+  methods: {
+    emitSelection (event) {
+      const parent = event.target.parentNode      
+      parent.classList.toggle('checkbox-clicked')
+      this.$emit('selection', this.selection)
+    }
+  },
   computed: {
     classNames () {
       const css = ['legend']
       if (!this.stackLegend) {
         css.push('legend-horizontal')
       }
-      
       if (this.enableClicks) {
         css.push('clicks-enabled')
       }
-      
       return css.join(' ')
-    }
-  },
-  methods: {
-    onClick (value) {
-      this.$emit('itemClicked', value)
     }
   }
 }
@@ -78,7 +121,8 @@ export default {
   padding: 0;
   margin: 0;
 
-  .legend-item, .legend-item-button {
+  .checkbox-item, .text-item {
+    position: relative;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -93,19 +137,8 @@ export default {
     
     .item-marker {
       width: 16px;
+      margin-right: 6px;
     }
-    .item-label {
-      flex-grow: 1;
-    }
-  }
-  
-  .legend-item-button {
-    background: none;
-    padding: 0;
-    color: inherit;
-    border: none;
-    font-size: inherit;
-    cursor: pointer;
   }
   
   &.legend-horizontal {
@@ -122,14 +155,16 @@ export default {
   }
   
   &.clicks-enabled {
-    .legend-item-button {
+    .checkbox-item {
       .item-label {
-        border-bottom: 1px solid transparent;
-        
+        cursor: pointer;
       }
-      &:hover {
+      &.checkbox-clicked {
+        opacity: 0.65;
         .item-label {
-          border-bottom-color: currentColor;
+          span {
+           text-decoration:line-through; 
+          }
         }
       }
     }
