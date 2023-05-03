@@ -1,7 +1,73 @@
 <template>
   <div class="d3-viz d3-column-chart">
     <h3 v-if="title" class="chart-title">{{ title }}</h3>
-    <svg :id="chartId" preserveAspectRatio="xMinYMin"></svg>
+    <p v-if="description" class="chart-description">{{ description }}</p>
+    <svg 
+      :id="chartId"
+      :class="svgClassNames"
+      width="100%"
+      height="100%"
+      :viewBox="viewBox"
+      preserveAspectRatio="xMinYMin"
+    >
+      <g
+        class="chart-area"
+        :transform="`translate(${chartMargins.left}, ${chartMargins.top})`"
+      >
+        <g class="chart-axes">
+          <g class="chart-axis-x" :transform="`translate(0,${heightMarginAdjusted})`"></g>
+          <g class="chart-axis-y"></g>
+        </g>
+        <g class="chart-columns">
+          <g 
+            class="column-group"
+            v-for="row in chartData"
+            :key="row[xvar]"
+            :data-column="row[xvar]"
+            :data-value="row[yvar]"
+          >
+            <rect
+              :data-value="`${row[xvar]}-${row[yvar]}`"
+              class="column"
+              :x="xAxis(row[xvar])"
+              :width="xAxis.bandwidth()"
+              :fill="columnFill"
+              @click="onClick(row)"
+              @mouseover="(event) => onMouseOver(event)"
+              @mouseleave="(event) => onMouseLeave(event)"
+              />
+              <text 
+                class="label"
+                :x="xAxis(row[xvar])"
+                :y="yAxis(row[yvar])"
+                :dx="xAxis.bandwidth() / 2"
+                dy="-3px"
+              >
+                {{ row[yvar] }}
+              </text>
+          </g>
+        </g>
+      </g>
+      <g class="chart-labels">
+        <text 
+          :x="(chartWidth / 2)"
+          :y="chartHeight - (chartMargins.bottom / 4.5)"
+          :dx="(chartMargins.left - chartMargins.right) / 2"
+          class="chart-text chart-axis-title chart-axis-x"
+          v-if="xlabel"
+        >
+          {{ xlabel }}
+        </text>
+        <text
+          :x="-(chartHeight / 2.25)"
+          :y="(chartMargins.left / 5.1)"
+          class="chart-text chart-axis-title chart-axis-y"
+          v-if="ylabel"
+        >
+        {{ ylabel }}
+        </text>
+      </g>
+    </svg>
   </div>
 </template>
 
@@ -9,9 +75,7 @@
 import { select, selectAll, scaleBand, axisBottom, max, min, scaleLinear, axisLeft } from 'd3'
 const d3 = { select, selectAll, scaleBand, axisBottom, max, min, scaleLinear, axisLeft }
 
-const validateNumRange = function (value) {
-  return value >= 0 && value <= 1
-}
+import { validateNumRange } from '$shared/js/d3.js'
 
 // Create a column chart (vertical bars) where the height of a bar
 // is corresponds to a value of a categorical variable (along the x-axis). If
@@ -28,6 +92,9 @@ export default {
     },
     // A title that describes the chart
     title: String,
+    
+    // Additional information to display below the title
+    description: String,
 
     // Name of the column that contains the groups to plot
     // along the x-axis
@@ -60,14 +127,10 @@ export default {
       required: true
     },
     
-    // set the width of the chart
-    chartWidth: {
-      type: Number,
-      // `675`
-      default: 675
-    },
-    
-    // set the height of the chart
+    // set the height of the chart. Width is determined by the
+    // dimensions of the parent container so that the chart is
+    // responsive. If you would like to specify the width of the
+    // chart, use CSS or adjusted the `chartHeight`.
     chartHeight: {
       type: Number,
       // `425`
@@ -77,21 +140,15 @@ export default {
     // adjust the chart margins
     chartMargins: {
       type: Object,
-      // `{ top: 15, right: 0, bottom: 60, left: 60 }`
+      // `{ top: 15, right: 15, bottom: 60, left: 60 }`
       default () {
         return {
           top: 15,
-          right: 0,
+          right: 15,
           bottom: 60,
           left: 60
         }
       }
-    },
-    
-    // If true, the drawing of the columns will be animated
-    chartAnimate: {
-      type: Boolean,
-      default: true
     },
     
     // Set the fill of all columns (hex code)
@@ -132,152 +189,208 @@ export default {
       // `0.5`
       default: 0.5,
       validator: (value) => validateNumRange(value)
+    },
+    // If `true`, click events will be enabled for all columns. When a column is
+    // clicked, the row-level data for that column will be emitted.
+    // To access the data, use the event `@column-clicked = ...`
+    enableClicks: {
+      type: Boolean,
+      // `false`
+      default: false
+    },
+    
+    // If `true`, columns will be drawn over 500ms from the x-axis.
+    enableAnimation: {
+      type: Boolean,
+      default: true
+    },
+  },
+  emits: ['column-clicked'],
+  data () {
+    return {
+      chartWidth: 675,
     }
   },
   computed: {
+    svgClassNames () {
+      const css = ['chart']
+      if (this.title || this.description) {
+        css.push('chart-has-context')
+      }
+      if (this.enableAnimation) {
+        css.push('column-animation-enabled')
+      }
+      if (this.enableClicks) {
+        css.push('column-clicks-enabled')
+      }
+      return css.join(' ')
+    },
+    svg () {
+      return d3.select(`#${this.chartId}`)
+    },
+    chartArea () {
+      return this.svg.select('.chart-area')
+    },
     xlabel () {
-      return this.xAxisLabel ? this.xAxisLabel : this.xvar
+      return this.xAxisLabel ? this.xAxisLabel : false
     },
     ylabel () {
-      return this.yAxisLabel ? this.yAxisLabel : this.yvar
-    }
-  },
-  methods: {
-    renderChart () {
-      const widthMarginAdjusted = this.chartWidth - this.chartMargins.left - this.chartMargins.right
-      const heightMarginAdjusted = this.chartHeight - this.chartMargins.top - this.chartMargins.bottom
-      
-      const svg = d3.select(`#${this.chartId}`)
-      svg.selectAll('*').remove()
-      
-      svg.attr('width', this.chartWidth)
-        .attr('height', this.chartHeight)
-        .attr('viewbox', `0 0 ${this.chartWidth} ${this.chartHeight}`)
-        
-      const chartArea = svg.append('g')
-        .attr('transform', `translate(${this.chartMargins.left}, ${this.chartMargins.top})`)
-        
-      const xAxis = d3.scaleBand()
-        .range([0, widthMarginAdjusted])
+      return this.yAxisLabel ? this.yAxisLabel : false
+    },
+    widthMarginAdjusted () {
+      return this.chartWidth - this.chartMargins.left - this.chartMargins.right
+    },
+    heightMarginAdjusted () {
+      return this.chartHeight - this.chartMargins.top - this.chartMargins.bottom
+    },
+    viewBox () {
+      return `0 0 ${this.chartWidth} ${this.chartHeight}`
+    },
+    yAxisMax () {
+      return this.yMax ? this.yMax : d3.max(this.chartData, row => row[this.yvar])
+    },
+    yAxis () {
+      return d3.scaleLinear()
+        .domain([0, this.yAxisMax])
+        .range([this.heightMarginAdjusted, 0])
+        .nice()
+    },
+    xAxis () {
+      return d3.scaleBand()
+        .range([0, this.widthMarginAdjusted])
         .domain(this.chartData.map(row => row[this.xvar]))
         .paddingInner(this.columnPaddingInner)
         .paddingOuter(this.columnPaddingOuter)
         .round(true)
-      
-      chartArea.append('g')
-        .attr('transform', `translate(0, ${heightMarginAdjusted})`)
-        .call(d3.axisBottom(xAxis))
-        .selectAll('text')
-        .style('text-anchor', 'middle')
-        .style('font-size', '11pt')
-        
-      const ymax = this.yMax ? this.yMax : d3.max(this.chartData, row => row[this.yvar])
-      const yAxis = d3.scaleLinear()
-        .domain([0, ymax])
-        .range([heightMarginAdjusted, 0])
-        .nice()
-      
-      let chartLeftAxis = d3.axisLeft(yAxis)
-      if (this.yTickValues) {
-        chartLeftAxis = chartLeftAxis.tickValues(this.yTickValues)
-      }
-        
-      chartArea.append('g')
-        .call(chartLeftAxis)
-        .selectAll('text')
-        .style('font-size', '11pt')
+    },
+    chartAxisX () {
+      return d3.axisBottom(this.xAxis)
+    },
+    chartAxisY () {
+      const axis = d3.axisLeft(this.yAxis)
+      return this.yTickValues ? axis.tickValues(this.yTickValues) : axis
+    },
+    chartColumns () {
+      return this.chartArea.selectAll('rect.column')
+    }
+  },
+  methods: {
+    setChartDimensions () {
+      const parent = this.$el.parentNode
+      this.chartWidth = parent.offsetWidth * 0.95
+    },
+    renderAxes () {
+      this.chartArea.select('.chart-axis-x')
+        .call(this.chartAxisX)
 
-      const chartColumns = chartArea.selectAll('columns')
-        .data(this.chartData)
-        .enter()
-        .append('rect')
-        .attr('class', 'chart-column')
-        .attr('data-column', row => row[this.xvar])
-        .attr('x', row => xAxis(row[this.xvar]))
-        .attr('y', yAxis(0))
-        .attr('fill', this.columnFill)
-        .attr('width', xAxis.bandwidth())
-        
-      if (this.chartAnimate) {
-        chartColumns.attr('height', 0)
+      this.chartArea.select('.chart-axis-y')
+        .call(this.chartAxisY)
+    },
+    onClick (row) {
+      if (this.enableClicks) {
+        const data = JSON.stringify(row)
+        this.$emit('column-clicked', data)
+      }
+    },
+    onMouseOver (event) {
+      const column = event.target
+      const label = column.nextSibling
+      column.style.fill = this.columnHoverFill
+      label.style.opacity = 1
+    },
+    onMouseLeave (event) {
+      const column = event.target
+      const label = column.nextSibling
+      column.style.fill = this.columnFill
+      label.style.opacity = 0
+    },
+    drawColumns () {
+      const columns = this.chartColumns.data(this.chartData)
+      if (this.enableAnimation) {
+        columns.attr('height', 0)
+          .attr('y', this.yAxis(0))
           .transition()
           .delay(200)
           .duration(500)
-          .attr('y', row => yAxis(Math.max(0, row[this.yvar])))
-          .attr('height', row => Math.abs(yAxis(row[this.yvar]) - yAxis(0)))
+          .attr('y', row => this.yAxis(Math.max(0, row[this.yvar])))
+          .attr('height', row => Math.abs(this.yAxis(row[this.yvar]) - this.yAxis(0)))
       } else {
-        chartColumns
-          .attr('y', row => yAxis(Math.max(0, row[this.yvar])))
-          .attr('height', row => Math.abs(yAxis(row[this.yvar]) - yAxis(0)))
+        columns.attr('y', row => this.yAxis(Math.max(0, row[this.yvar])))
+          .attr('height', row => Math.abs(this.yAxis(row[this.yvar]) - this.yAxis(0)))
       }
-      
-      chartArea.selectAll('column-labels')
-        .data(this.chartData)
-        .enter()
-        .append('text')
-        .attr('data-column', row => row[this.xvar])
-        .attr('class', 'chart-column-labels')
-        .attr('x', row => xAxis(row[this.xvar]))
-        .attr('y', row => yAxis(row[this.yvar]))
-        .attr('dx', xAxis.bandwidth() / 2)
-        .attr('dy', '-3px')
-        .attr('text-anchor', 'middle')
-        .text(row => row[this.yvar])
-        .style('opacity', '0')
-        
-      chartColumns.style('cursor', 'pointer')
-        .on('mouseover', (event) => {
-          const column = d3.select(event.target)
-          const targetLabel = column.attr('data-column')
-          const label = d3.select(`text[data-column="${targetLabel}"]`)
-          column.attr('fill', this.columnHoverFill)
-          label.style('opacity', '1')
-        })
-        .on('mouseout', (event) => {
-          const column = d3.select(event.target)
-          const targetLabel = column.attr('data-column')
-          const label = d3.select(`text[data-column="${targetLabel}"]`)
-          column.attr('fill', this.columnFill)
-          label.style('opacity', '0')
-        })
-      
-      svg.append('text')
-        .attr('class', 'chart-text chart-axis-title chart-axis-x')
-        .attr('x', (this.chartWidth / 2) + (this.chartMargins.left * -0.35))
-        .attr('y', this.chartHeight - (this.chartMargins.bottom / 4.5))
-        .attr('text-anchor', 'middle')
-        .style('font-size', '12pt')
-        .text(this.xlabel)
-      
-      svg.append('text')
-        .attr('class', 'chart-text chart-axis-title chart-axis-y')
-        .attr('transform', 'rotate(-90)')
-        .attr('transform-origin', 'top left')
-        .attr('x', -(this.chartHeight / 2.25))
-        .attr('y', this.chartMargins.left / 5.1)
-        .attr('text-anchor', 'middle')
-        .style('font-size', '12pt')
-        .text(this.ylabel)
+    },
+    renderChart () {
+      this.setChartDimensions()
+      this.renderAxes()
+      this.drawColumns()
     }
   },
   mounted () {
     this.renderChart()
+    window.addEventListener('resize', this.renderChart)
   },
   updated () {
     this.renderChart()
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.renderChart)
   }
 }
 </script>
 
 <style lang="scss">
 .d3-column-chart {
-  .chart-title {
+
+  h3.chart-title {
+    margin: 0;
+    text-align: left;
+  }
+  
+  p.chart-description {
+    text-align: left;
     margin: 0;
   }
 
-  svg {
+  .chart {
     display: block;
-    margin: 0 auto;
+    margin: 0;
+    
+    .chart-axes {
+      .tick {
+        font-size: 11pt;
+      }
+    }
+    
+    .chart-labels {
+      font-size: 12pt;
+
+      .chart-axis-title {
+        text-anchor: middle;
+        
+        &.chart-axis-y {
+          transform: rotate(-90deg);
+          transform-origin: top left;
+        }
+      }
+    }
+    
+    .column-group {
+      .label {
+        text-anchor: middle;
+        font-size: 11pt;
+        opacity: 0;
+      }
+    }
+    
+    &.column-clicks-enabled {
+      rect.column {
+        cursor: pointer;
+      }
+    }
+    
+    &.chart-has-context {
+      margin-top: 12px;
+    }
   }
 }
 </style>

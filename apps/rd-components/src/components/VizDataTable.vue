@@ -1,15 +1,47 @@
 <template>
   <table :id="tableId" :class="tableClassNames">
     <caption v-if="caption">{{ caption }}</caption>
+    <thead role="">
+      <tr>
+        <th 
+          v-for="column,index in columnOrder"
+          role="columnheader"
+          scope="col"
+          :data-column-index="index"
+          :data-column-name="column"
+          :key="column"
+          :class="numericColumns.includes(column) ? 'column-numeric': ''"
+        >
+          {{ column }}
+        </th>
+      </tr>
+    </thead>
+    <tbody role="presentation">
+      <tr 
+        v-for="row,rowindex in data"
+        :key="rowindex"
+        :data-row-index="rowindex"
+        @click="onClick(row)"
+      >
+        <td
+          v-for="column, colindex in columnOrder"
+          role="gridcell"
+          :data-column-index="colindex"
+          :data-cell-index="`${rowindex},${colindex}`"
+          :class="dataTypeToCssClass(column,row[column])"
+        >
+        <span class="cell-colname" aria-hidden="true">{{ column }}</span>
+        <span class="cell-value" v-if="renderHtml" v-html="row[column]"></span>
+        <span class="cell-value" v-else>{{ row[column] }}</span>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </template>
 
 <script>
-import { select, selectAll } from 'd3'
-const d3 = { select, selectAll }
-
 // @displayName Datatable
-// The datatable component is a D3 component that renders a dataset into a responsive, interactive table. By default, all tables are rendered with interactive features enabled (i.e., row highlighting and row clicks), but these can be disabled as needed. Column selection and order can be defined using the `columnOrder` property. This allows you to customise the layout of the table rather than processing the data beforehand.
+// The datatable component renders a dataset into a responsive, interactive table. By default, all tables are rendered with interactive features enabled (i.e., row highlighting and row clicks), but these can be disabled as needed. Column selection and order can be defined using the `columnOrder` property. This allows you to customise the layout of the table rather than processing the data beforehand.
 //
 // @group VISUALISATIONS
 export default {
@@ -41,6 +73,8 @@ export default {
       default: true
     },
     // If true, row clicks will return the selected row (as an object)
+    // Row level data can be access using the following event
+    // `@row-clicked=...`
     enableRowClicks: {
       type: Boolean,
       default: true
@@ -51,7 +85,7 @@ export default {
       default: false
     }
   },
-  emits: ['row-selection'],
+  emits: ['row-clicked'],
   computed: {
     tableClassNames () {
       const base = 'd3-viz d3-table'
@@ -59,15 +93,23 @@ export default {
       return [base, highlighting].join(' ')
     }
   },
+  data () {
+    return {
+      numericColumns: []
+    }
+  },
   methods: {
-    dataTypeToCssClass (cell) {
-      let css = `column-${cell.column} data-value`
-      const type = typeof cell.value
+    dataTypeToCssClass (column, value) {
+      let css = `column-${column} data-value`
+      const type = typeof value
       css += ` value-${type}`
       if (type === 'number') {
-        if (cell.value > 0) {
+        if (!this.numericColumns.includes(column)) {
+          this.numericColumns.push(column)
+        }
+        if (value > 0) {
           css += ' value-positive'
-        } else if (cell.value < 0) {
+        } else if (value < 0) {
           css += ' value-negative'
         } else {
           css += ' value-zero'
@@ -75,94 +117,9 @@ export default {
       }
       return css
     },
-    onClick (event, data) {
-      const clickedRow = event.target.closest('tr')
-      const selection = {
-        rowIndex: parseInt(clickedRow.getAttribute('data-row-index')),
-        data: data
-      }
-      // When a row is clicked, the data is returned
-      this.$emit('row-selection', selection)
-    },
-    renderTable () {
-      const table = d3.select(`#${this.tableId}`)
-      table.selectAll('*:not(caption)').remove()
-      
-      const tableHeader = table.append('thead')
-        .append('tr')
-        .selectAll('th')
-        .data(this.columnOrder)
-        .enter()
-        .append('th')
-        .attr('role', 'columnheader')
-        .attr('scope', 'col')
-        .attr('data-column-index', (column, index) => index)
-        .attr('data-column-name', column => column)
-        .text(column => column)
-
-      const tableBody = table.append('tbody')
-        .attr('role', 'presentation')
-
-      const tableRows = tableBody.selectAll('tr')
-        .data(this.data)
-        .enter()
-        .append('tr')
-        .attr('role', 'row')
-        .attr('data-row-index', (row, index) => index)
-
-      const tableCells = tableRows.selectAll('tr')
-        .data(row => {
-          return this.columnOrder.map(column => {
-            return { column: column, value: row[column] }
-          })
-        })
-        .enter()
-        .append('td')
-        .attr('role', 'gridcell')
-        .attr('data-value', cell => cell.value)
-      
-      tableCells.append('span')
-        .attr('class', 'cell-colname')
-        .attr('aria-hidden', 'true')
-        .text(cell => cell.column)
-      
-      if (this.renderHtml) {
-        tableCells.append('span')
-          .attr('class', 'cell-value')
-          .html(cell => cell.value)
-      } else {
-        tableCells.append('span')
-          .attr('class', 'cell-value')
-          .text(cell => cell.value)
-      }
-
-      const numericColumns = []
-      tableCells.attr('class', (cell) => {
-        const css = this.dataTypeToCssClass(cell)
-        if (css.includes('value-number')) {
-          if (!numericColumns.includes(cell.column)) {
-            numericColumns.push(cell.column)
-          }
-          return css
-        }
-      })
-      
-      tableHeader.attr('class', (column) => {
-        if (numericColumns.includes(column)) {
-          return 'column-numeric'
-        }
-      })
-      
-      if (this.enableRowClicks) {
-        tableRows.on('click', (event, row) => this.onClick(event, row))
-      }
+    onClick (data) {
+      this.$emit('row-clicked', data)
     }
-  },
-  mounted () {
-    this.renderTable()
-  },
-  updated () {
-    this.renderTable()
   }
 }
 </script>
@@ -216,7 +173,7 @@ export default {
     tr {
       th {
         @include columnHeader;
-        border-bottom: 1px solid $gray-900;
+        border-bottom: 2px solid $gray-900;
         color: $gray-900;
         
         &.column-numeric {
