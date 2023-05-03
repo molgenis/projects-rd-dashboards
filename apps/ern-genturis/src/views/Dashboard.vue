@@ -8,10 +8,7 @@
     </div>
     <div class="dashboard-container" v-else>
       <div id="viz-data-highlights" aria-labelledby="highlights-title" class="dashboard-box width-full" >
-        <DataValueHighlights
-          :values="enrollmentHighlights.values"
-          :labels="enrollmentHighlights.labels"
-        />
+        <DataValueHighlights :data="enrollmentHighlights" />
       </div>
       <div id="viz-geo-mercator" class="dashboard-box dashboard-viz" aria-labelledBy="viz-map-title">
         <h2 id="viz-map-title" class="chart-title">Status of data by healthcare provider</h2>
@@ -24,18 +21,17 @@
           :geojson="geojson"
           groupingVariable="hasSubmittedData"
           :groupColorMappings="{'true': '#E9724C', 'false': '#F0F0F0'}"
-          :chartWidth="350"
           :chartHeight="mapHeight"
           :chartSize="114"
           :mapCenter="{latitude: 0, longitude: 51}"
           :pointRadius="4"
-          :legendLabels="['Data Submitted', 'No Data']"
-          :legendColors="['#E9724C', '#f0f0f0']"
+          :legendData="{'Data Submitted': '#E9724C', 'No Data': '#f0f0f0'}"
           :tooltipTemplate="(row) => {
             return `
               <p class='title'>${row.projectName}</p>
               <p class='location'>${row.city}, ${row.country}</p>
             `}"
+          :zoomLimits="[0.3, 10]"
           />
       </div>
       <div id="viz-pie-chart" class="dashboard-viz" aria-labelledby="sex-at-birth-title">
@@ -43,8 +39,7 @@
         <PieChart
           chartId="sex-at-birth-chart"
           :chartData="sexAtBirth"
-          :chartHeight="190"
-          :chartWidth="400"
+          :chartHeight="150"
           :chartMargins="5"
         />
       </div>
@@ -135,10 +130,7 @@ export default {
 
       this.totalPatients = subsetData(data,'id', 'data-highlight-0')[0]['value']
       const dataHighlights = subsetData(data, 'component', 'data-highlights')
-      this.enrollmentHighlights = {
-        values: dataHighlights.map(row => row.value),
-        labels: dataHighlights.map(row => row.label)
-      }
+      dataHighlights.forEach(row => this.enrollmentHighlights[row.title] = row.value)
       
       const sexAtBirthData = subsetData(data, 'component', 'pie-sex-at-birth')
       this.sexAtBirth = asDataObject(sexAtBirthData, 'label', 'value')
@@ -192,6 +184,7 @@ export default {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
       "highlights highlights"
+      "map map"
       "table table"
       "pieChart columnChart";
   }
@@ -241,10 +234,31 @@ export default {
   
   #viz-geo-mercator {
     grid-area: map;
+    
+    .chart-container {
+      .d3-viz-legend {
+        .legend {
+          .legend-item:first-child {
+            margin-bottom: 6px;
+          }
+        }
+      }
+    }
   }
   
   #viz-pie-chart {
     grid-area: pieChart;
+    .chart {
+      .chart-area {
+        .pie-labels {
+          .pie-label-text {
+            .data-label, .data-value {
+              font-size: 9pt;
+            }
+          }
+        }
+      }
+    }
   }
   
   #viz-column-chart {
