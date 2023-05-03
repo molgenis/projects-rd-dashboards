@@ -46,12 +46,12 @@
             cx="8"
             cy="8"
             r="8"
-            :fill="fill"
+            :fill="data[key]"
             stroke-width="none"
           />
         </svg>
         <span class="item-label">
-          {{ label }}
+          {{ key }}
         </span>
       </div>
     </li>
