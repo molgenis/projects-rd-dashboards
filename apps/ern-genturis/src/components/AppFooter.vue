@@ -52,7 +52,7 @@
 import { PageFooter, PageFooterMeta, UnorderedList } from 'rd-components'
 import GenturisLogo from '@/assets/genturis-registry-logo-bg-white.png'
 import MolgenisLogo from '$shared/images/molgenis-logo-blue-white.png'
-import FundingLogo from '@/assets/en-funded-by-the-eu-neg.png'
+import FundingLogo from '@/assets/ern-funded-by-eu.svg'
 
 export default {
   data () {
@@ -130,6 +130,7 @@ export default {
 
 .funding-logo {
   width: 250px;
+  background-color: $gray-000;
 }
 
 </style>
