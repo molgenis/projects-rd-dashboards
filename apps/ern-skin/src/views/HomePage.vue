@@ -73,10 +73,6 @@ export default {
 </script>
 
 <style lang="scss">
-// #section-welcome {
-//   background-color: $gray-000;
-// }
-
 .project-diagrams {
   display: block;
   max-height: 425px;
