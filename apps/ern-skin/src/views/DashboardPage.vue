@@ -51,6 +51,9 @@
             <p class='title'>
               ${row.projectName}
             </p>
+            <p class='center-info'>
+              ${row.alternativeIdentifier}
+            </p>
             <p class='center-location'>
               <span class='location-city'>${row.city}</span>
               <span class='location-country'>${row.country}</span>
@@ -66,7 +69,7 @@
           tableId="enrolmentByGroup"
           caption=" Summary of patients enrolled by thematic disease group"
           :data="enrolmentByGroup"
-          :columnOrder="['thematic disease group', 'number of patients']"
+          :columnOrder="['thematic disease group', 'patients']"
         />
       </div>
       <div id="viz-age" class="dashboard-box dashboard-viz">
@@ -110,7 +113,6 @@ import {
 
 import {
   fetchData,
-  subsetData,
   asDataObject,
   renameKey,
   sortData
@@ -146,15 +148,15 @@ export default {
   },
   mounted() {
     Promise.all([
-      fetchData("/api/v2/ernstats_dataproviders"),
-      fetchData("/api/v2/ernstats_stats")
+      fetchData("/api/v2/stats_dataproviders"),
+      fetchData("/api/v2/stats_stats")
     ])
       .then(response => {
         const expertCenters = response[0].items;
         this.expertCenters = expertCenters;
 
         const data = response[1].items;
-        const ageData = subsetData(data, "component", "age");
+        const ageData = data.filter(row => row.component.name == "age");
         this.ageByGroup = ageData;
 
         const values = this.ageByGroup.map(row => row.value);
@@ -162,12 +164,14 @@ export default {
         this.ageMaxY = ymax;
         this.ageTicks = range(0, ymax, 2);
 
-        const enrolmentData = subsetData(data, "component", "enrolment");
+        const enrolmentData = data.filter(
+          row => row.component.name == "enrolment"
+        );
         this.enrolmentByGroup = sortData(enrolmentData, "valueOrder");
         renameKey(this.enrolmentByGroup, "label", "thematic disease group");
-        renameKey(this.enrolmentByGroup, "value", "number of patients");
+        renameKey(this.enrolmentByGroup, "value", "patients");
 
-        const sex = subsetData(data, "component", "sex");
+        const sex = data.filter(row => row.component.name == "sex");
         this.sexByGroup = asDataObject(sex, "label", "value");
       })
       .then(() => {
@@ -206,16 +210,6 @@ export default {
     padding: 1em;
     border-radius: 6px;
     box-shadow: $box-shadow;
-
-    .chart-title,
-    caption {
-      font-size: 13pt;      
-      text-align: center;
-    }
-    
-    caption {
-      margin-bottom: 16px;
-    }
   }
 
   @media screen and (min-width: 1182px) {
@@ -226,7 +220,7 @@ export default {
   }
 
   @media screen and (min-width: 1524px) {
-    max-width: 60vw;
+    max-width: 85vw;
   }
 
   #viz-map {
@@ -259,6 +253,20 @@ export default {
   }
 }
 
+.d3-viz {
+  &.d3-table caption,
+  .chart-title {
+    font-size: 13pt;
+    font-weight: bold;
+    line-height: 1.4;
+    padding: 8px 0;
+  }
+
+  &.d3-geo-mercator .chart-context {
+    margin-bottom: 0;
+  }
+}
+
 #ageByGroup {
   .chart-area {
     .chart-axes {
@@ -273,7 +281,6 @@ export default {
 
 .dashboard-main-message {
   padding: 0.4em 1em;
-
   .message-box {
     .message-text {
       display: flex;
@@ -287,11 +294,6 @@ export default {
 }
 
 #viz-enrolment {
-  caption {
-    margin-top: 16px;
-    font-weight: bold;
-  }
-
   thead {
     tr {
       th {
@@ -304,7 +306,7 @@ export default {
   tbody {
     tr {
       td {
-        font-size: 11pt;
+        font-size: 10pt;
       }
     }
   }

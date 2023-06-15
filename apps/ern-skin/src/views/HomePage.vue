@@ -50,7 +50,7 @@
 import { Page, PageHeader, PageSection } from 'rd-components'
 import ProjectAddress from '@/components/ProjectAddress.vue'
 
-import headerImage from '@/assets/app-header-background.png'
+import headerImage from '@/assets/app-header-background-2.jpg'
 import ernSkinDiagram from '@/assets/ern-skin-groups.png'
 import ernSkinErdri from '@/assets/ern-skin-erdri.png'
 
