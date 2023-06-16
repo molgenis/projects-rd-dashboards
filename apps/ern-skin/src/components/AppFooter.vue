@@ -27,6 +27,9 @@
               </router-link>
             </li>
             <li>
+              <img :src="FundingLogo" class="funding-logo" alt="funded by the European Union" />
+            </li>
+            <li>
               <a href="https://www.molgenis.org">
                 <span class="visually-hidden">visit the molgenis website to learn more</span>
                 <li><img :src="MolgenisLogo" class="molgenis-logo" alt="molgenis open source data platform"/></li>
@@ -43,12 +46,14 @@
 import { PageFooter, UnorderedList } from 'rd-components'
 import MolgenisLogo from '$shared/images/molgenis-logo-blue-text.png'
 import ProjectLogo from '@/assets/ern-skin-logo.png'
+import FundingLogo from '@/assets/ern-funded-by-eu.svg'
 
 export default {
   data () {
     return {
       MolgenisLogo: MolgenisLogo,
-      ProjectLogo: ProjectLogo
+      ProjectLogo: ProjectLogo,
+      FundingLogo: FundingLogo
     }
   },
   components: {
@@ -122,5 +127,10 @@ export default {
   .molgenis-citation {
     background-color: $gray-000;
   }
+}
+
+.funding-logo {
+  width: 250px;
+  background-color: $gray-000;
 }
 </style>
