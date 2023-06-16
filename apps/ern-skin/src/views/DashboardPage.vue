@@ -16,6 +16,9 @@
       </MessageBox>
     </div>
     <div class="dashboard-container" v-else>
+      <div id="viz-highlights">
+        <DataValueHighlights :data="highlightsData" />
+      </div>
       <div id="viz-map" class="dashboard-box dashboard-viz">
         <GeoMercator
           chartId="expert-centers-map"
@@ -108,7 +111,8 @@ import {
   GeoMercator,
   ColumnChart,
   DataTable,
-  PieChart
+  PieChart,
+  DataValueHighlights
 } from "rd-components";
 
 import {
@@ -132,13 +136,15 @@ export default {
     GeoMercator,
     ColumnChart,
     DataTable,
-    PieChart
+    PieChart,
+    DataValueHighlights
   },
   data() {
     return {
       headerImage: HeaderImage,
       loading: true,
       loadingError: null,
+      highlightsData: [],
       expertCenters: [],
       ageByGroup: [],
       enrolmentByGroup: [],
@@ -156,6 +162,10 @@ export default {
         this.expertCenters = expertCenters;
 
         const data = response[1].items;
+        
+        const highlights = data.filter(row => row.component.name == "highlights")
+        this.highlightsData = asDataObject(highlights, "label", "value")
+        
         const ageData = data.filter(row => row.component.name == "age");
         this.ageByGroup = ageData;
 
@@ -199,6 +209,7 @@ export default {
   margin: 0 auto;
   grid-template-columns: 1fr;
   grid-template-areas:
+    "highlights"
     "map"
     "table"
     "pieChart"
@@ -215,6 +226,7 @@ export default {
   @media screen and (min-width: 1182px) {
     grid-template-columns: 0.6fr 0.4fr;
     grid-template-areas:
+      "highlights highlights"
       "map table"
       "columnChart pieChart";
   }
@@ -223,6 +235,10 @@ export default {
     max-width: 85vw;
   }
 
+  #viz-highlights {
+    grid-area: highlights;
+  }
+  
   #viz-map {
     grid-area: map;
     padding: 6px;
