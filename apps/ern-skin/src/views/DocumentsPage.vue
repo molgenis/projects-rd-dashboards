@@ -2,7 +2,7 @@
   <Page id="page-documents">
     <PageHeader
       class="project-header"
-      title="ERN ITHACA"
+      title="ERN-Skin"
       subtitle="Download Documents"
       :imageSrc="headerImage"
     />

@@ -2,7 +2,7 @@
   <Page class="page-about-us">
     <PageHeader
       class="project-header"
-      title="ERN ITHACA"
+      title="ERN-Skin"
       subtitle="About Us"
       :imageSrc="headerImage"
     />
