@@ -1,6 +1,7 @@
 <template>
   <Page id="page-home">
     <PageHeader
+      id="mainHeader"
       class="project-header"
       title="ERN-Skin Registry"
       subtitle="Registry for Rare and Undiagnosed Skin Diseases"
@@ -40,7 +41,7 @@
     </PageSection>
     <PageSection id="section-contact" aria-labelledby="section-contact-title" :verticalPadding="2">
       <h2 id="section-contact-title">Contact</h2>
-      <p>If you want to know more, to participate, or to consult the ERN-Skin registry, thanks to send your query to the following email address: <a href="mailto:registry@ern-skin.eu">registry@ern-skin.eu</a> or at the following address.</p>
+      <p>If you want to know more, to participate, or to consult the ERN-Skin registry, thanks to send your query to the following email address: <a href="mailto:valerie.deprez@aphp.fr>">valerie.deprez@aphp.fr</a> or at the following address.</p>
       <ProjectAddress :centerText="true" />
     </PageSection>
   </Page>
@@ -50,7 +51,7 @@
 import { Page, PageHeader, PageSection } from 'rd-components'
 import ProjectAddress from '@/components/ProjectAddress.vue'
 
-import headerImage from '@/assets/app-header-background-2.jpg'
+import headerImage from '@/assets/app-header-background-alt.png'
 import ernSkinDiagram from '@/assets/ern-skin-groups.png'
 import ernSkinErdri from '@/assets/ern-skin-erdri.png'
 
@@ -140,4 +141,9 @@ export default {
     }
   }
 }
+
+#mainHeader {
+  background-position: 0 10%;
+}
+
 </style>
