@@ -22,7 +22,7 @@
       <div id="viz-map" class="dashboard-box dashboard-viz">
         <GeoMercator
           chartId="expert-centers-map"
-          title="Stats of data by healthcare provider"
+          title="Status of data by healthcare provider"
           :geojson="geojson"
           :chartData="expertCenters"
           :chartHeight="600"
@@ -162,10 +162,12 @@ export default {
         this.expertCenters = expertCenters;
 
         const data = response[1].items;
-        
-        const highlights = data.filter(row => row.component.name == "highlights")
-        this.highlightsData = asDataObject(highlights, "label", "value")
-        
+
+        const highlights = data.filter(
+          row => row.component.name == "highlights"
+        );
+        this.highlightsData = asDataObject(highlights, "label", "value");
+
         const ageData = data.filter(row => row.component.name == "age");
         this.ageByGroup = ageData;
 
@@ -237,8 +239,20 @@ export default {
 
   #viz-highlights {
     grid-area: highlights;
+    .data-highlights {
+      .data-highlight {
+        padding: 0.8em 1em;
+        .data-label {
+          margin-bottom: 2px;
+          font-size: 9pt;
+        }
+        .data-value::after {
+          font-size: 21pt;
+        }
+      }
+    }
   }
-  
+
   #viz-map {
     grid-area: map;
     padding: 6px;
