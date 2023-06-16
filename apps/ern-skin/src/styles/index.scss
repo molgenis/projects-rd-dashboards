@@ -30,7 +30,6 @@ $font-family: Helvetica, sans-serif;
     .background-image-filter {
       opacity: 0.5;
     }
-
   }
   
   .page-section {
@@ -44,5 +43,16 @@ $font-family: Helvetica, sans-serif;
       line-height: 1.5;
     }
   
+  }
+  
+  .message-box.page-warning {
+    .message-text {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      p {
+        margin: 0;
+      }
+    }
   }
 }
