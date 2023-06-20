@@ -1,20 +1,6 @@
 <template>
   <Page id="page-dashboard">
-    <div class="dashboard-main-message">
-      <MessageBox type="warning">
-        <p>
-          The data displayed in the charts below was created for demonstration
-          and testing purposes only. Actual data will be displayed at a later
-          date.
-        </p>
-      </MessageBox>
-    </div>
     <LoadingScreen v-if="loading" />
-    <div class="page-section padding-h-2" v-else-if="!loading && loadingError">
-      <MessageBox type="error">
-        <p>Unable to retrieve data {{ loadingError }}</p>
-      </MessageBox>
-    </div>
     <div class="dashboard-container" v-else>
       <div id="viz-highlights">
         <DataValueHighlights :data="highlightsData" />
@@ -36,12 +22,12 @@
           }"
           :pointRadius="6"
           :groupColorMappings="{
-            false: '#F1FAEE',
-            true: '#FFA69E'
+            'Not Submitted': '#F1FAEE',
+            Submitted: '#FFA69E'
           }"
           :legendData="{
             'Not Submitted': '#F1FAEE',
-            Submitted: '#FFA69E'
+            'Submitted': '#FFA69E'
           }"
           :mapColors="{
             land: '#709190',
@@ -65,6 +51,7 @@
             }
           "
           :zoomLimits="[0.3, 10]"
+          :enableLegendClicks="true"
         />
       </div>
       <div id="viz-enrolment" class="dashboard-box dashboard-viz">
@@ -79,8 +66,9 @@
         <ColumnChart
           chartId="ageByGroup"
           title="Number of patients by age category"
-          xvar="label"
+          xvar="category"
           yvar="value"
+          xAxisLineBreaker=";"
           :yMax="ageMaxY"
           :yTickValues="ageTicks"
           :chartData="ageByGroup"
@@ -106,7 +94,6 @@
 <script>
 import {
   Page,
-  MessageBox,
   LoadingScreen,
   GeoMercator,
   ColumnChart,
@@ -131,7 +118,6 @@ const range = (start, stop, step) =>
 export default {
   components: {
     Page,
-    MessageBox,
     LoadingScreen,
     GeoMercator,
     ColumnChart,
@@ -159,7 +145,9 @@ export default {
     ])
       .then(response => {
         const expertCenters = response[0].items;
-        this.expertCenters = expertCenters;
+        this.expertCenters = expertCenters.map(row => {
+          return {...row, 'hasSubmittedData': row.hasSubmittedData ? "Submitted" : "Not Submitted"}
+        });
 
         const data = response[1].items;
 
@@ -168,7 +156,12 @@ export default {
         );
         this.highlightsData = asDataObject(highlights, "label", "value");
 
-        const ageData = data.filter(row => row.component.name == "age");
+        const ageData = data
+          .filter(row => row.component.name == "age")
+          .map(row => {
+            return {...row, category: `${row.label};${row.description}`}
+          });
+
         this.ageByGroup = ageData;
 
         const values = this.ageByGroup.map(row => row.value);
@@ -304,21 +297,7 @@ export default {
         text {
           font-size: 10pt;
         }
-      }
-    }
-  }
-}
-
-.dashboard-main-message {
-  padding: 0.4em 1em;
-  .message-box {
-    .message-text {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      p {
-        margin: 0;
-      }
+      } 
     }
   }
 }
