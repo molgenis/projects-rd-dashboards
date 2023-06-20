@@ -26,8 +26,9 @@
                 <img :src="ProjectLogo" alt="ERN-Skin" class="ern-skin-logo" />
               </router-link>
             </li>
-            <li>
-              <img :src="FundingLogo" class="funding-logo" alt="funded by the European Union" />
+            <li class="eu-logos">
+              <img :src="ErnLogo" class="logo ern-logo" />
+              <img :src="FundingLogo" class="logo funding-logo" alt="funded by the European Union" />
             </li>
             <li>
               <a href="https://www.molgenis.org">
@@ -46,11 +47,13 @@
 import { PageFooter, UnorderedList } from 'rd-components'
 import MolgenisLogo from '$shared/images/molgenis-logo-blue-text.png'
 import ProjectLogo from '@/assets/ern-skin-logo.png'
-import FundingLogo from '@/assets/ern-funded-by-eu.svg'
+import ErnLogo from '@/assets/ern-logo.png'
+import FundingLogo from '@/assets/ern-skin-funding.png'
 
 export default {
   data () {
     return {
+      ErnLogo: ErnLogo,
       MolgenisLogo: MolgenisLogo,
       ProjectLogo: ProjectLogo,
       FundingLogo: FundingLogo
@@ -129,8 +132,27 @@ export default {
   }
 }
 
-.funding-logo {
-  width: 250px;
+
+.eu-logos {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
   background-color: $gray-000;
+  
+  .logo {
+    margin: 0;
+    padding: 0;
+    
+    &.ern-logo {
+      width: 200px;
+    }
+    
+    &.funding-logo {
+      width: 125px;
+    }
+  }
+  
 }
+
 </style>
