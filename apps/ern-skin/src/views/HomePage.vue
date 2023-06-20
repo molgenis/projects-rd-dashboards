@@ -1,8 +1,7 @@
 <template>
   <Page id="page-home">
     <PageHeader
-      id="mainHeader"
-      class="project-header"
+      class="project-header main-header"
       title="ERN-Skin Registry"
       subtitle="Registry for Rare and Undiagnosed Skin Diseases"
       :imageSrc="headerImage"
@@ -51,7 +50,7 @@
 import { Page, PageHeader, PageSection } from 'rd-components'
 import ProjectAddress from '@/components/ProjectAddress.vue'
 
-import headerImage from '@/assets/app-header-background-alt.png'
+import headerImage from '@/assets/app-header-background.png'
 import ernSkinDiagram from '@/assets/ern-skin-groups.png'
 import ernSkinErdri from '@/assets/ern-skin-erdri.png'
 
@@ -140,10 +139,6 @@ export default {
     
     }
   }
-}
-
-#mainHeader {
-  background-position: 0 10%;
 }
 
 </style>

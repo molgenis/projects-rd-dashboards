@@ -1,7 +1,7 @@
 <template>
   <Page id="page-documents">
     <PageHeader
-      class="project-header"
+      class="project-header main-header"
       title="ERN-Skin"
       subtitle="Download Documents"
       :imageSrc="headerImage"

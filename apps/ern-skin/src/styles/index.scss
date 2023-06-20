@@ -30,6 +30,10 @@ $font-family: Helvetica, sans-serif;
     .background-image-filter {
       opacity: 0.5;
     }
+    
+    &.main-header {
+      background-position: 0 0;
+    }
   }
   
   .page-section {
