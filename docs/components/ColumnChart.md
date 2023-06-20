@@ -10,13 +10,14 @@ Create a column chart (vertical bars) where the height of a bar is corresponds t
 |chartId|a unique ID for the chart|`String`|`true`|-|
 |title|A title that describes the chart|`String`|`false`|-|
 |description|Additional information to display below the title|`String`|`false`|-|
+|chartData|the dataset to plot|`Array`|`true`|-|
 |xvar|Name of the column that contains the groups to plot along the x-axis|`String`|`true`|-|
 |yvar|Name of the column that contains the values to plot along the y-axis|`String`|`true`|-|
 |yMax|Specify the max value of the y-axis. If left undefined, max value will be automatically calculated using `d3.max`|`Number`|`false`|-|
 |yTickValues|Specify the y-axis ticks|`Array`|`false`|-|
 |xAxisLabel|A label that describes the x-axis|`String`|`false`|-|
 |yAxisLabel|A label that describes the y-axis|`String`|`false`|-|
-|chartData|the dataset the plot|`Array`|`true`|-|
+|xAxisLineBreaker|If defined, x-axis labels will be split into multiple lines. Value must be a separator that indicates where the string should be split. Please be aware that you may need to adjust the chart margins and height depending on how many lines you wish to break.|`String`|`false`|null|
 |chartHeight|set the height of the chart. Width is determined by the dimensions of the parent container so that the chart is responsive. If you would like to specify the width of the chart, use CSS or adjusted the `chartHeight`.|`Number`|`false`|`425`|
 |chartMargins|adjust the chart margins|`Object`|`false`|`{ top: 15, right: 15, bottom: 60, left: 60 }`|
 |columnFill|Set the fill of all columns (hex code)|`String`|`false`|`#6C85B5`|
