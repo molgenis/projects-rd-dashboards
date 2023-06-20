@@ -28,12 +28,13 @@
         title="Palmer Penguins by Island"
         description="The following chart displays the number of penguins observed by location (island)."
         :chartData="data"
-        xvar="island"
+        xvar="label"
         yvar="count"
-        :chartMargins="{left: 110, top: 10, right: 40, bottom: 60}"
+        :chartMargins="{left: 110, top: 10, right: 40, bottom: 80}"
         :barPaddingInner="0.25"
         :barPaddingOuter="0.25"
         xAxisLabel="Number of Penguins"
+        xAxisLineBreaker=" "
         :enableClicks="true"
         @column-clicked="updateClicked"
       />
@@ -90,7 +91,7 @@ export default {
     ).then(response => {
       const data = response.items
       const summarised = d3.rollups(data, row => row.length, row => row.island)
-        .map(item => new Object({'island': item[0], 'count': item[1]}))
+        .map(item => new Object({'island': item[0], 'count': item[1], 'label': `${item[0]} Species`}))
       this.data = sortData(summarised, 'island')
       this.loading = false
     }).catch(error => {
