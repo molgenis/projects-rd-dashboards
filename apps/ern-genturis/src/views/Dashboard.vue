@@ -20,7 +20,10 @@
           latitude="latitude"
           :geojson="geojson"
           groupingVariable="hasSubmittedData"
-          :groupColorMappings="{'true': '#E9724C', 'false': '#F0F0F0'}"
+          :groupColorMappings="{
+            'Data Submitted': '#E9724C',
+            'No Data': '#F0F0F0'
+          }"
           :chartHeight="mapHeight"
           :chartSize="114"
           :mapCenter="{latitude: 0, longitude: 51}"
@@ -32,6 +35,7 @@
               <p class='location'>${row.city}, ${row.country}</p>
             `}"
           :zoomLimits="[0.3, 10]"
+          :enableLegendClicks="true"
           />
       </div>
       <div id="viz-pie-chart" class="dashboard-viz" aria-labelledby="sex-at-birth-title">
@@ -125,7 +129,7 @@ export default {
       const mapData = response[1].items
 
       this.institutionGeoData = mapData.map(row => ({
-        ...row, hasSubmittedData: row.hasSubmittedData ? row.hasSubmittedData : 'false'
+        ...row, hasSubmittedData: row.hasSubmittedData ? 'Data Submitted' : 'No Data'
       }))
 
       this.totalPatients = subsetData(data,'id', 'data-highlight-0')[0]['value']
