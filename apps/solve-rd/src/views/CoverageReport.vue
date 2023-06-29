@@ -22,7 +22,7 @@
               <option value="attribute" selected>Attribute</option>
               <option value="difference">Difference</option>
               <option value="observed">Observed</option>
-              <option value="percent">Percent</option>
+              <option value="percent">% Complete</option>
             </select>
           </div>
           <div class="option">
@@ -40,7 +40,7 @@
             'observed',
             'expected',
             'difference',
-            'percent'
+            '% complete'
           ]"
           caption="Subjects Table"
         />
@@ -79,7 +79,7 @@ onMounted(() => {
         return {
           ...row,
           difference: row.expected - row.observed,
-          percent: Math.ceil(row.percent * 100)
+          '% complete': (row.percent * 100).toFixed(2),
         };
       });
     })
@@ -114,6 +114,13 @@ watch([data, sortAttribute, reverseSort], updateDataset);
       width: 100%;
       margin-top: 8px;
     }
+  }
+}
+
+#subjects-table {
+  th[data-column-index="4"],
+  td[data-column-index="4"] {
+    text-align: right;
   }
 }
 </style>
