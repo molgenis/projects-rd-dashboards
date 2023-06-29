@@ -1,9 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 
-import HomePage from '../views/HomePage.vue'
-import GetStartedPage from '../views/GetStarted.vue'
-import PatientExplorerPage from '../views/PatientExplorer.vue'
-import ViewTablesPage from '../views/ViewTables.vue'
+import HomePage from '../views/HomePage.vue';
+import GetStartedPage from '../views/GetStarted.vue';
+import PatientExplorerPage from '../views/PatientExplorer.vue';
+import ViewTablesPage from '../views/ViewTables.vue';
+import CoverageReportPage from '../views/CoverageReport.vue';
+
 const initialState = window.__INITIAL_STATE__ || {}
 
 const router = createRouter({
@@ -40,6 +42,14 @@ const router = createRouter({
       component: ViewTablesPage,
       meta: {
         title: 'View Tables'
+      }
+    },
+    {
+      name: 'coverage',
+      path: '/reports/coverage',
+      component: CoverageReportPage,
+      meta: {
+        title: 'Coverage Report'
       }
     },
     {
