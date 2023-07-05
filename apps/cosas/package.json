@@ -1,7 +1,7 @@
 {
   "name": "gcc",
   "description": "Vue application for the genome diagnostics portal",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "scripts": {
     "copy-html:dev": "copyfiles -f ../rd-shared/templates/dev/index.html ./",
     "copy-html:prod": "copyfiles -f ../rd-shared/templates/build/index.html ./",

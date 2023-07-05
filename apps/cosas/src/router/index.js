@@ -7,6 +7,7 @@ import CosasDataFinder from '@/views/CosasDataFinder.vue'
 import CosasDashboard from '@/views/CosasDashboard.vue'
 import VariantLandingPage from '@/views/VariantLandingPage.vue'
 import VariantDataFinder from '@/views/VariantDataFinder.vue'
+import AboutDataPage from "@/views/AboutData.vue"
 
 const initialState = window.__INITIAL_STATE__ || {}
 
@@ -64,6 +65,14 @@ const router = createRouter({
       component: VariantDataFinder,
       meta: {
         title: 'Variant Data Finder'
+      }
+    },
+    {
+      path: '/data-sources',
+      name: 'data-sources',
+      component: AboutDataPage,
+      meta: {
+        title: 'Data Sources'
       }
     }
   ],
