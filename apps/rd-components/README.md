@@ -10,7 +10,7 @@ The `rd-ui-components` library is a collection of Vue components for use in buil
 cd rd-ui-components
 yarn build
 
-yarn workspace <child-workspace> add rd-ui-components@<version>
+yarn workspace <child-workspace> add rd-components@<version>
 ```
 
 Create a new yarn workspace in the `apps/` folder.

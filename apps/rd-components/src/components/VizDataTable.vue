@@ -10,7 +10,7 @@
           :data-column-index="index"
           :data-column-name="column"
           :key="column"
-          :class="numericColumns.includes(column) ? 'column-numeric': ''"
+          :class="numericColumns.includes(column) ? `column-header-${column} column-numeric`: `column-header-${column}`"
         >
           {{ column }}
         </th>
