@@ -21,15 +21,20 @@
         centralised location of patient metadata in the Genome Diagnostics
         group. These sources are described in the table below.
       </p>
-      <DataTable
-        tableId="dataSourcesOverview"
-        caption="Data sources and connection status"
-        :data="sources"
-        :columnOrder="['source', 'metadata', 'status']"
-        :enableRowHighlighting="false"
-      />
-      <p>The status indicators are described below.</p>
-      <VizLegend :data="legend" />
+      <MessageBox type="error" v-if="loadError">
+        <p>{{ loadError }}</p>
+      </MessageBox>
+      <div v-else>
+        <DataTable
+          tableId="dataSourcesOverview"
+          caption="Data sources and connection status"
+          :data="sources"
+          :columnOrder="['source', 'metadata', 'status']"
+          :enableRowHighlighting="false"
+        />
+        <p>The status indicators are described below.</p>
+        <VizLegend :data="legend" />
+      </div>
     </PageSection>
     <PageSection
       id="section-alissa"
@@ -117,22 +122,27 @@
         that run throughout the week. The following table shows when each job is
         run and when it is scheduled.
       </p>
-      <DataTable
-        tableId="jobsSchedule"
-        :data="jobs"
-        :columnOrder="[
-          'job',
-          'time',
-          'MON',
-          'TUE',
-          'WED',
-          'THU',
-          'FRI',
-          'SAT',
-          'SUN'
-        ]"
-        :renderHtml="true"
-      />
+      <MessageBox type="error" v-if="loadError">
+        <p>{{ loadError }}</p>
+      </MessageBox>
+      <div v-else>
+        <DataTable
+          tableId="jobsSchedule"
+          :data="jobs"
+          :columnOrder="[
+            'job',
+            'time',
+            'MON',
+            'TUE',
+            'WED',
+            'THU',
+            'FRI',
+            'SAT',
+            'SUN'
+          ]"
+          :renderHtml="true"
+        />
+      </div>
     </PageSection>
   </Page>
 </template>
@@ -145,7 +155,8 @@ import {
   PageHeader,
   PageSection,
   DataTable,
-  VizLegend
+  VizLegend,
+  MessageBox
 } from "rd-components";
 
 import pageHeaderImage from "@/assets/cosas-page-header.jpg";
@@ -153,6 +164,7 @@ import AlissaDataFlow from "@/assets/cosas-variant-db-alissa.png";
 
 let sources = ref([]);
 let jobs = ref([]);
+let loadError = ref(null);
 
 const legend = {
   "Live: source is connected and the data flow is online": "#629677",
@@ -222,7 +234,14 @@ onMounted(() => {
       };
     });
     jobs.value = sortData(schedule, "job");
-  });
+  }).catch(error => {
+    const e = JSON.parse(error.message)
+    if (e.status === 401) {
+      loadError.value = `Please sign in to view information (error: ${e.status})`
+    } else {
+      loadError.value = `Unable to retrieve information. (error: ${e.status})`
+    }
+  })
 });
 </script>
 

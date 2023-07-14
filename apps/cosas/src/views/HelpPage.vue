@@ -9,7 +9,7 @@
       titlePositionX="center"
       titlePositionY="center"
     />
-    <PageSection id="troubleshooting-searches">
+    <PageSection id="troubleshooting-searches" :verticalPadding="2">
       <h2>Troubleshooting</h2>
       <p>On this page, you can find information on how to resolve issues with the search and what error messages mean. In the event that something goes wrong while conducting a search, an error message will be displayed below the search button. The message will give you an error code, reason, and the URL that was used to search. This information is useful for diagnosing potential bugs or other issues. If you encounter any issues, take a look at the questions below.</p>
       <Accordion
@@ -34,36 +34,8 @@
   </Page>
 </template>
 
-<script>
+<script setup>
 import { Page, PageHeader, PageSection, Accordion } from 'rd-components'
 import pageHeaderImage from '@/assets/cosas-page-header.jpg'
 
-export default {
-  components: {
-    Page,
-    PageHeader,
-    PageSection,
-    Accordion
-  },
-  data () {
-    return {
-      pageHeaderImage: pageHeaderImage
-    }
-  }
-}
 </script>
-
-<!-- <style lang="scss">
-#troubleshooting-searches {
-  background-color: $gray-000;
-  .accordion {
-    background-color: $gray-000;
-    box-shadow: 0 0 4px 2px $gray-050;
-  
-  }
-  // h3 {
-  //   font-size: 15pt;
-  //   font-weight: bold;
-  // }
-}
-</style> -->

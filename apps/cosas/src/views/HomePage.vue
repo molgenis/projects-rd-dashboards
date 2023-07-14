@@ -9,11 +9,11 @@
       titlePositionX="left"
       titlePositionY="center"
     />
-    <PageSection id="page-home-welcome" aria-labelledby="page-home-welcome-title" :verticalPadding="2" :horizontalPadding="2">
+    <PageSection id="page-home-welcome" aria-labelledby="page-home-welcome-title" :verticalPadding="2">
       <h2 id="page-home-welcome-title">Welcome</h2>
       <p>Through the <strong>Genetica Diagnostics Portal</strong>! With this site, you can access a number of databases and systems available to members of the genetica department developed by the Molgenis team.</p>
     </PageSection>
-    <PageSection id="page-quicklinks" aria-labelledby="quicklinks-card-title" :verticalPadding="2" :horizontalPadding="2">
+    <PageSection id="page-quicklinks" aria-labelledby="quicklinks-card-title" :verticalPadding="2">
       <h2 id="quicklinks-card-title">Search</h2>
       <p>Sign in to any of the following databases using your UMCG credentials. If you have been given access to a system and it isn't in the list below, contact <a href="mailto:molgenis-support@umcg.nl">molgenis-support@umcg.nl</a></p>
       <div class="quicklinks">
@@ -25,7 +25,7 @@
         </InfoCard>
       </div>
     </PageSection>
-    <PageSection id="page-home-help" aria-labelledby="page-home-help-title" :verticalPadding="2" :horizontalPadding="2">
+    <PageSection id="page-home-help" aria-labelledby="page-home-help-title" :verticalPadding="2">
       <h2 id="page-home-help-title">Get help</h2>
       <p>If you are experiencing any issues with the database or related systems, please get in touch with the MOLGENIS support desk. In addition, we also have a list of <router-link :to="{ name: 'help' }">Frequently Asked Questions</router-link> where you may find additional information to your questions.</p>
       <ActionLink id="contactSupport" href="mailto:molgenis-support@umcg.nl">Contact Support</ActionLink>
@@ -33,24 +33,9 @@
   </Page>
 </template>
 
-<script>
+<script setup>
 import { Page, PageHeader, PageSection, InfoCard, ActionLink } from 'rd-components'
 import pageHeaderImage from '@/assets/cosas-page-header.jpg'
-
-export default {
-  components: {
-    Page,
-    PageHeader,
-    PageSection,
-    InfoCard,
-    ActionLink
-  },
-  data () {
-    return {
-      pageHeaderImage: pageHeaderImage
-    }
-  }
-}
 </script>
 
 <style lang="scss">
