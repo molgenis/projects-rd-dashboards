@@ -31,13 +31,13 @@
           <p><strong>Information</strong></p>
           <UnorderedList listType="none">
             <li>
-              <router-link :to="{ name: 'help' }"
-                >Frequently Asked Questions</router-link
+              <router-link :to="{ name: 'data-sources' }"
+                >Data Sources</router-link
               >
             </li>
             <li>
-              <router-link :to="{ name: 'data-sources' }"
-                >Data Sources</router-link
+              <router-link :to="{ name: 'help' }"
+                >Frequently Asked Questions</router-link
               >
             </li>
           </UnorderedList>
