@@ -16,6 +16,18 @@ $font-family: Helvetica,Arial,sans-serif;
         text-align: left;
       }
     }
+    
+    .message-box {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      
+      .message-text {
+        p {
+          margin: 0;
+        }
+      }
+    }
   }
   
   &.data-page {
