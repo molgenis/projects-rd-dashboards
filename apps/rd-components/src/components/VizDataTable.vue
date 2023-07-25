@@ -67,6 +67,13 @@ export default {
       type: String,
       default: null
     },
+    
+    // If true, 
+    enableAlternateRowColor: {
+      type: Boolean,
+      default: true
+    },
+    
     // If true, rows will be highlighted on mouse events
     enableRowHighlighting: {
       type: Boolean,
@@ -89,8 +96,9 @@ export default {
   computed: {
     tableClassNames () {
       const base = 'd3-viz d3-table'
+      const altRowColor = this.enableAlternateRowColor ? 'table-row-color-band' : ''
       const highlighting = this.enableRowHighlighting ? 'table-row-highlighting' : ''
-      return [base, highlighting].join(' ')
+      return [base, altRowColor, highlighting].join(' ')
     }
   },
   data () {
@@ -198,10 +206,6 @@ export default {
         }
       }
 
-      &:nth-child(even) {
-        background-color: $gray-050;
-      }
-
       &:last-child {
         td {
           border-bottom: 1px solid $gray-900;
@@ -209,6 +213,17 @@ export default {
       }
     }
   }
+  
+  &.table-row-color-band {
+    tbody {
+      tr {
+        &:nth-child(even) {
+            background-color: $gray-050;
+        }
+      }
+    }
+  }
+  
   &.table-row-highlighting {
     tbody {
       tr {

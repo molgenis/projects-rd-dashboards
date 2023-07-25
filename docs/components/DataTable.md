@@ -11,6 +11,7 @@ The datatable component renders a dataset into a responsive, interactive table. 
 |data|dataset to render (array of objects)|`Array`|`true`|-|
 |columnOrder|an array of column names that define the selection and order of columns|`Array`|`true`|-|
 |caption|optional text that describes the table|`String`|`false`|null|
+|enableAlternateRowColor|If true,|`Boolean`|`false`|true|
 |enableRowHighlighting|If true, rows will be highlighted on mouse events|`Boolean`|`false`|true|
 |enableRowClicks|If true, row clicks will return the selected row (as an object) Row level data can be access using the following event `@row-clicked=...`|`Boolean`|`false`|true|
 |renderHtml|If true, all values will be rendered as HTML. Otherwise, values will be rendered as text|`Boolean`|`false`|false|
