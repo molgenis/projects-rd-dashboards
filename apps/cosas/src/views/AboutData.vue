@@ -29,7 +29,7 @@
           tableId="dataSourcesOverview"
           caption="Data sources and connection status"
           :data="sources"
-          :columnOrder="['source', 'metadata', 'status']"
+          :columnOrder="['source', 'metadata','type','status']"
           :enableRowHighlighting="false"
         />
         <p>The status indicators are described below.</p>
@@ -120,7 +120,7 @@
         retrieving and importing a specific dataset (e.g., phenotypic data,
         variants, consent, etc.). There are a {{ jobs.length }} jobs in total
         that run throughout the week. The following table shows when each job is
-        run and when it is scheduled.
+        run and the status of the most recent run.
       </p>
       <MessageBox type="error" v-if="loadError">
         <p>{{ loadError }}</p>
@@ -132,6 +132,7 @@
           :columnOrder="[
             'job',
             'time',
+            'status',
             'MON',
             'TUE',
             'WED',
@@ -141,6 +142,7 @@
             'SUN'
           ]"
           :renderHtml="true"
+          :enableAlternateRowColor="false"
         />
       </div>
     </PageSection>
@@ -175,9 +177,7 @@ const legend = {
 onMounted(() => {
   Promise.all([
     fetchData("/api/v2/cosasreports_datasources"),
-    fetchData(
-      "/api/v2/sys_job_ScheduledJob?attrs=name,description,cronExpression"
-    )
+    fetchData("/api/v2/cosasreports_jobs")
   ]).then(response => {
     const datasources = response[0].items;
     sources.value = datasources;
@@ -191,7 +191,7 @@ onMounted(() => {
         month,
         dayOfWeek,
         year
-      ] = row.cronExpression.split(" ");
+      ] = row.cron.split(" ");
 
       // parse time into readable format
       const datetime = new Date().setHours(hours, minutes, seconds);
@@ -227,13 +227,22 @@ onMounted(() => {
         });
       }
 
+      const jobState = row.isStable ? 'live' : 'error'
+      const jobHtml = `
+        <div class="job-meta">
+          <span class="job-name">${row.name}</span>
+          <span class="job-description">${row.description}</span>
+        </div>`
+      
       return {
-        job: `<span class="job-name">${row.name}</span><span class="job-description">${row.description}</span>`,
+        name: row.name,
+        job: jobHtml,
+        status: `<span class="job-status job-status-${jobState}">${jobState}</span>`,
         time: time,
         ...days
       };
     });
-    jobs.value = sortData(schedule, "job");
+    jobs.value = sortData(schedule, "name");
   }).catch(error => {
     const e = JSON.parse(error.message)
     if (e.status === 401) {
@@ -301,7 +310,7 @@ onMounted(() => {
 
         &.value-negative {
           .cell-value {
-            @include statusBubble(#a40e4c, hsl(335, 84%, 55%));
+            @include statusBubble(#a40e4c, hsl(335, 84%, 85%));
           }
         }
       }
@@ -322,6 +331,7 @@ onMounted(() => {
   tbody {
     tr {
       td {
+        
         @mixin heatMapCell($color) {
           background-color: $color;
           color: transparent;
@@ -329,7 +339,7 @@ onMounted(() => {
         }
 
         &.value-positive {
-          @include heatMapCell(hsl(144, 21%, 75%));
+          @include heatMapCell(hsl(222, 80%, 90%));
         }
 
         &.value-zero {
@@ -344,6 +354,7 @@ onMounted(() => {
             color: $gray-700;
             letter-spacing: 1px;
           }
+          
           .job-description {
             display: block;
             font-size: 11pt;
@@ -351,6 +362,32 @@ onMounted(() => {
             color: $gray-500;
             line-height: 1.4;
           }
+        }
+        
+        &.column-status {
+          text-align: center;
+          .job-status {
+            font-size: 8pt;
+            padding: 4px 12px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            
+            &.job-status-live {
+              background-color: hsl(144, 21%, 88%);
+              color: hsl(144, 21%, 15%);
+            }
+            
+            &.job-status-error {
+              color: hsl(335, 84%, 30%);
+              background-color: hsl(335, 84%, 95%);
+            }
+          }
+        }
+        
+        &.column-status, &.column-job, &.column-time {
+          border-bottom: 1px dotted $gray-500;
         }
       }
     }
