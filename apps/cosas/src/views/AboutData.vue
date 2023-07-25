@@ -125,7 +125,7 @@
       <MessageBox type="error" v-if="loadError">
         <p>{{ loadError }}</p>
       </MessageBox>
-      <div v-else>
+      <div class="table-container" v-else>
         <DataTable
           tableId="jobsSchedule"
           :data="jobs"
@@ -320,11 +320,21 @@ onMounted(() => {
 
 #jobsSchedule {
   margin-bottom: 1em;
+  position: relative;
 
   thead {
+    
     tr {
-      th.column-numeric {
-        text-align: center;
+      th {
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+        background-color: $gray-000;
+        padding-top: 1.25em;
+        
+        &.column-numeric {
+          text-align: center;
+        }
       }
     }
   }
