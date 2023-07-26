@@ -2,6 +2,7 @@
   "private": true,
   "workspaces": [
     "cosas",
+    "ern-cranio",
     "ern-genturis",
     "ern-ithaca",
     "ern-skin",
