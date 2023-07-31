@@ -3,7 +3,7 @@
     <PageHeader
       title="FDHub"
       subtitle="Find and add new organisations"
-      imageSrc="orgs-page-header.jpg"
+      :imageSrc="headerImage"
       height="large"
     />
     <PageSection aria-labelledby="welcome-title" :verticalPadding="2">
@@ -37,7 +37,7 @@
           <legend>ROR Metadata</legend>
           <div>
             <label for="ror-id">Identifier</label>
-            <input id="ror-id" v-model="selection.iri" readonly />
+            <input id="ror-id" v-model="selection.uri" readonly />
           </div>
           <div>
             <label for="ror-code">Code</label>
@@ -45,65 +45,31 @@
           </div>
         </fieldset>
         <fieldset class="org-details">
-          <legend>Organisation Details</legend>
-          <div>
-            <label for="ror-name">
-              Name
-              <span>Organisation name as defined by ROR</span>
-            </label>
+          <legend>
+            Organisation Details
+            <span>Information stored in ROR</span>
+          </legend>
+          <div class="name">
+            <label for="ror-name">Name</label>
             <input id="ror-name" v-model="selection.name" readonly />
           </div>
-          <div>
-            <label for="ror-name-official">
-              Project Offical Name
-              <span>
-                Enter the official name specified by the relevant project
-              </span>
-            </label>
-            <input
-              id="ror-name-official"
-              v-model="selection.projectOfficialName"
-            />
-          </div>
-          <div>
-            <label for="ror-department">
-              Department
-              <span
-                >Enter a sub-institutional affiliation; e.g., Department of
-                Genetics</span
-              >
-            </label>
-            <input id="ror-department" v-model="selection.department" />
-          </div>
-          <div>
-            <label for="ror-alt-ids">
-              Alternative Identifiers
-              <span>Enter one or more alternative identifiers</span>
-            </label>
-            <input
-              id="ror-alt-ids"
-              v-model="selection.alternativeIdentifiers"
-            />
-          </div>
-          <div>
-            <label for="ror-name-alt">
-              Aliases
-              <span>Additional names stored in ROR</span>
-            </label>
+          <div class="aliases">
+            <label for="ror-name-alt">Aliases</label>
             <input id="ror-name-alt" v-model="selection.aliases" readonly />
           </div>
-        </fieldset>
-        <fieldset class="org-location">
-          <legend>Location</legend>
-          <div>
-            <label for="ror-country">Country</label>
-            <input
-              id="ror-country"
-              v-model="selection.country"
-              readonly
-            />
+          <div class="acronyms">
+            <label for="ror-acronyms">Acronyms</label>
+            <input id="ror-acronyms" v-model="selection.acronyms" readonly />
           </div>
-          <div>
+          <div class="city">
+            <label for="ror-city">City</label>
+            <input id="ror-city" v-model="selection.city" readonly />
+          </div>
+          <div class="country">
+            <label for="ror-country">Country</label>
+            <input id="ror-country" v-model="selection.country" readonly />
+          </div>
+          <div class="country-code">
             <label for="ror-country-code">Country Code</label>
             <input
               id="ror-country-code"
@@ -111,47 +77,73 @@
               readonly
             />
           </div>
-          <div>
-            <label for="ror-city">City</label>
-            <input
-              id="ror-city"
-              v-model="selection.city"
-              readonly
-            />
-          </div>
-          <div>
+          <div class="latitude">
             <label for="ror-lat">Latitude</label>
             <input id="ror-lat" v-model="selection.latitude" readonly />
           </div>
-          <div>
+          <div class="longitude">
             <label for="ror-lng">Longitude</label>
             <input id="ror-lng" v-model="selection.longitude" readonly />
           </div>
         </fieldset>
-        <fieldset class="org-extra">
-          <legend>Additional Information</legend>
-          <div>
-            <label for="ror-comment">
-              Comment
-              <span>
-                Enter any additional information or comments about this
-                organisation
-              </span>
+        <fieldset class="org-project">
+          <legend>
+            Link with project
+            <span>
+              If defined, create a new project and specify the identifier of the
+              organisation with in the project to link with ROR.
+            </span>
+          </legend>
+          <div class="org-project-name">
+            <label for="project-name">
+              Project name
+              <span>Name of the project. E.g. "Consortium for X"</span>
             </label>
-            <textarea id="ror-comment" />
+            <input id="project-name" v-model="projects.project" />
+          </div>
+          <div class="org-project-identifier">
+            <label for="project-identifier">
+              Organisation Identifier
+              <span>An code that identifies an organisation within the context of the project</span>
+            </label>
+            <input id="project-identifier" v-model="projects.identifier" />
+          </div>
+          <div class="org-project-org">
+            <label for="project-organisation">
+              Organisation Name
+              <span>Name of the organisation within the context of the project if different from ROR entry</span>
+            </label>
+            <input id="project-organisation" v-model="projects.name" />
+          </div>
+          <div class="org-project-code">
+            <label for="project-organisation">
+              Organisation
+              <span>ROR Code</span>
+            </label>
+            <input
+              id="project-identifier"
+              v-model="projects.organisation"
+              readonly
+            />
           </div>
         </fieldset>
         <div class="form-controls">
-          <button @click="storeOrganisations">Save</button>
+          <button @click="saveData" class="button-save">Save</button>
         </div>
-        <div class="message-box-container" v-if="loading || importError || wasImported">
+        <div
+          class="message-box-container"
+          v-if="loading || importError || wasImported"
+        >
           <MessageBox v-if="!importError && loading">
             Saving data...
           </MessageBox>
           <MessageBox type="error" v-else-if="importError && !loading">
             <p>Failed to save data: {{ importError }}</p>
           </MessageBox>
-          <MessageBox type="success" v-else-if="!importError && !loading && wasImported">
+          <MessageBox
+            type="success"
+            v-else-if="!importError && !loading && wasImported"
+          >
             <p>Imported data!</p>
           </MessageBox>
         </div>
@@ -178,9 +170,15 @@ import {
 import { fetchData } from "$shared/js/utils.js";
 import accessibleAutocomplete from "accessible-autocomplete";
 
+import headerImage from "../assets/orgs-page-header.jpg";
+
+
 // define main data elements
 let results = ref([]);
 let selection = ref({});
+let projects = ref({});
+let variations = ref({});
+
 let resultError = ref(false);
 let loading = ref(false);
 let importError = ref(false);
@@ -206,58 +204,84 @@ function searchRor(query, populateResults) {
 // filter ROR results and init extra columns
 function retrieveRorRecord(value) {
   let org = results.value.filter(row => row.name == value)[0];
+
+  // init organisations_organisations
   selection.value = {
     code: org.id.split("/").reverse()[0],
-    iri: org.id,
+    uri: org.id,
     name: org.name,
-    projectOfficialName: "",
     aliases: org.aliases.length ? org.aliases.join(", ") : "",
-    department: "",
-    alternativeIdentifiers: "",
+    acronyms: org.acronyms.length ? org.acronyms.join(", ") : "",
     country: org.country.country_name,
     countryCode: org.country.country_code,
     city: org.addresses[0].city,
     latitude: org.addresses[0].lat,
     longitude: org.addresses[0].lng,
-    comment: "",
+    comment: ""
+  };
+
+  // init organisations_projects
+  projects.value = {
+    name: selection.value.name,
+    identifier: "",
+    project: "",
+    organisation: selection.value.code
+  };
+  
+  // init variations
+  variations.value = {
+    name: "",
+    organisation: selection.value.code
   }
 }
 
-function importData(pkg_entity, data) {
-  loading.value = true;
-  importError.value = false;
-  wasImported.value = false;
-  
-  const url = `/api/v2/${pkg_entity}`
+// save data into an EMX1 entity
+async function importData(pkg_entity, data) {
+  const url = `/api/v2/${pkg_entity}`;
   const payload = JSON.stringify({ entities: data });
-  
-  fetch(url, {
+
+  const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: payload
   })
-  .then(response => {
-    if (!response.ok) {
-      return Promise.reject(response);
+  
+  if (!response.ok) {
+    return Promise.reject(response);
+  }  
+  return response.json();
+}
+
+function saveData() {
+  loading.value = true;
+  importError.value = false;
+  wasImported.value = false;
+  
+  Promise.resolve(
+    importData("organisations_organisations", [selection.value])
+  ).then(() => {
+    if (projects.value.project != "") {
+      importData("organisations_projects", [projects.value])
+      
+      if (projects.value.name !== selection.value.name) {
+        variations.value.name = projects.value.name
+        importData("organisations_namevariations", [variations.value])
+      }
     }
+  })
+  .then(() => {
     loading.value = false;
     importError.value = false;
     wasImported.value = true;
-    return response.json();
   })
   .catch(response => {
-    response.json().then((json) => {
-      importError.value = json.errors[0].message;
-    })
+    importError.value = `Something went wrong: ${response}`
     loading.value = false;
   })
 }
 
-function storeOrganisations() {
-  importData("organisations_organisations", [selection.value])
-}
 
-function initAutoComplete () {
+function initAutoComplete() {
   accessibleAutocomplete({
     element: document.querySelector("#orgsearch-container"),
     id: "orgsearch",
@@ -284,155 +308,141 @@ onMounted(() => initAutoComplete());
   box-shadow: none;
   background-color: $gray-050;
 
-  .form-sections {
-    input {
-      display: block;
-      width: 100%;
-      font-size: 12pt;
+  fieldset {
+    display: grid;
+    gap: 1em 1.5em;
+    margin-top: 1.25em;
+    border: none;
+    padding: 0;
+    box-sizing: content-box;
 
-      &:read-only {
-        background-color: $blue-050;
-        color: $gray-700;
+    legend {
+      font-size: 16pt;
+      margin-bottom: 0.4em;
+
+      span {
+        display: block;
+        font-size: 11pt;
+        margin-top: 0.4em;
+        color: $gray-600;
+      }
+    }
+    
+    div {
+      flex-grow: 1;
+      
+      label {
+        display: block;
+        margin-bottom: 0.2em;
+        font-size: 13pt;
+        
+        span {
+          display: block;
+          font-size: 11pt;
+          margin-top: 0.4em;
+          color: $gray-600;
+        }
+      }
+      
+      input {
+        display: block;
+        width: 100%;
+        font-size: 12pt;
+
+        &:read-only {
+          background-color: $blue-050;
+          color: $gray-700;
+        }
       }
     }
 
-    fieldset {
-      display: grid;
-      gap: 0.5em 1.5em;
-      margin-top: 1.25em;
-      border: none;
-      padding: 0;
+    &.ror-meta {
+      grid-template:
+        "Title Title"
+        "ID Code";
 
       legend {
-        font-size: 16pt;
-        margin-bottom: 0.4em;
+        grid-area: Title;
       }
 
-      div {
-        flex-grow: 1;
-        label {
-          display: block;
-          margin-bottom: 0.2em;
-          font-size: 13pt;
-
-          span {
-            display: block;
-            color: $gray-600;
-            font-size: 11pt;
-          }
-        }
-
-        textarea {
-          width: 100%;
-        }
+      &:nth-child(2) {
+        grid-area: ID;
       }
 
-      &.ror-meta {
-        grid-template:
-          "Title Title"
-          "ID Code";
+      &:nth-child(3) {
+        grid-area: Code;
+      }
+    }
 
-        legend {
-          grid-area: Title;
-        }
+    &.org-details {
+      grid-template:
+        "Title Title Title"
+        "Name Name Name"
+        "Aliases Aliases Acronyms"
+        "City Country CountryCode"
+        "Latitude Longitude EMPTY";
 
-        &:nth-child(2) {
-          grid-area: ID;
-        }
-
-        &:nth-child(3) {
-          grid-area: Code;
-        }
+      legend {
+        grid-area: Title;
       }
 
-      &.org-details {
-        grid-template:
-          "Title Title"
-          "RorName OfficialName"
-          "Department Department"
-          "Identifiers Aliases";
-
-        legend {
-          grid-area: Title;
-        }
-
-        :nth-child(2) {
-          grid-area: RorName;
-        }
-
-        :nth-child(3) {
-          grid-area: OfficialName;
-        }
-
-        :nth-child(4) {
-          grid-area: Department;
-        }
-
-        :nth-child(5) {
-          grid-area: Identifiers;
-        }
-
-        :nth-child(6) {
-          grid-area: Aliases;
-        }
+      .name {
+        grid-area: Name;
       }
 
-      &.org-location {
-        grid-template:
-          "Title Title Title"
-          "City Country CountryCode"
-          "Latitude Longitude EMPTY";
-
-        legend {
-          grid-area: Title;
-        }
-
-        :nth-child(2) {
-          grid-area: City;
-        }
-
-        :nth-child(3) {
-          grid-area: Country;
-        }
-
-        :nth-child(4) {
-          grid-area: CountryCode;
-        }
-
-        :nth-child(5) {
-          grid-area: Latitude;
-        }
-        :nth-child(6) {
-          grid-area: Longitude;
-        }
+      .aliases {
+        grid-area: Aliases;
       }
 
-      &.org-contact {
-        grid-template:
-          "Title Title"
-          "Email Email"
-          "FirstName LastName"
-          "Role EMPTY";
+      .acronyms {
+        grid-area: Acronyms;
+      }
 
-        legend {
-          grid-area: Title;
-        }
+      .city {
+        grid-area: City;
+      }
 
-        :nth-child(2) {
-          grid-area: Email;
-        }
+      .country {
+        grid-area: Country;
+      }
 
-        :nth-child(3) {
-          grid-area: FirstName;
-        }
+      .country-code {
+        grid-area: CountryCode;
+      }
 
-        :nth-child(4) {
-          grid-area: LastName;
-        }
+      .latitude {
+        grid-area: Latitude;
+      }
 
-        :nth-child(5) {
-          grid-area: Role;
-        }
+      .longitude {
+        grid-area: Longitude;
+      }
+    }
+
+    &.org-project {
+      grid-template:
+        "Title Title"
+        "Name Name"
+        "Organisation Organisation"
+        "ID Code";
+
+      legend {
+        grid-area: Title;
+      }
+      .org-project-name {
+        grid-area: Name;
+      }
+      
+      .org-project-org {
+        grid-area: Organisation;
+      }
+      
+      .org-project-identifier {
+        grid-area: ID;
+      }
+
+      .org-project-code {
+        grid-area: Code;
       }
     }
   }
@@ -444,6 +454,18 @@ onMounted(() => initAutoComplete());
 
     button {
       width: 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: none;
+      border: none;
+      padding: 6px 12px;
+      background-color: $molgenis-blue-050;
+      border: 1px solid $molgenis-blue-800;
+      color: $molgenis-blue-800;
+      border-radius: 6px;
+      font-size: 13pt;
+      cursor: pointer;
     }
   }
 }
@@ -455,5 +477,4 @@ onMounted(() => initAutoComplete());
   background-color: $gray-050;
   white-space: pre;
 }
-
 </style>
