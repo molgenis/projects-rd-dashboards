@@ -14,7 +14,10 @@
         <strong>Organistations</strong> ontology table. This allows you to
         standardise institution affiliations and save project specific metadata.
       </p>
-      <form class="page-form" id="organisationSearch">
+      <PageForm 
+        id="organisationSearch"
+        title="Find an organisation"
+      >
         <label for="orgsearch" class="input-label">
           <span>Search for an institution by name</span>
           <span class="input-description">
@@ -22,16 +25,16 @@
           </span>
         </label>
         <div id="orgsearch-container"></div>
-      </form>
-      <MessageBox v-if="resultError">
-        <p>Error retrieving records:</p>
-        <span>{{ error }}</span>
-      </MessageBox>
+        <MessageBox v-if="resultError">
+          <p>Error retrieving records:</p>
+          <span>{{ error }}</span>
+        </MessageBox>
+      </PageForm>
       <PageForm
         id="orgreview"
         title="Review Organisation"
         description="Review the information about the selected organisation and click confirm to add the record to the database."
-        v-else-if="!resultError && Object.hasOwn(selection, 'name')"
+        v-if="!resultError && Object.hasOwn(selection, 'name')"
       >
         <fieldset class="ror-meta">
           <legend>ROR Metadata</legend>
@@ -45,10 +48,7 @@
           </div>
         </fieldset>
         <fieldset class="org-details">
-          <legend>
-            Organisation Details
-            <span>Information stored in ROR</span>
-          </legend>
+          <legend>Organisation details in ROR</legend>
           <div class="name">
             <label for="ror-name">Name</label>
             <input id="ror-name" v-model="selection.name" readonly />
@@ -87,13 +87,7 @@
           </div>
         </fieldset>
         <fieldset class="org-project">
-          <legend>
-            Link with project
-            <span>
-              If defined, create a new project and specify the identifier of the
-              organisation with in the project to link with ROR.
-            </span>
-          </legend>
+          <legend>Link with project</legend>
           <div class="org-project-name">
             <label for="project-name">
               Project name
@@ -128,7 +122,10 @@
           </div>
         </fieldset>
         <div class="form-controls">
-          <button @click="saveData" class="button-save">Save</button>
+          <button @click="saveData" class="button-save">
+            Save
+            <PlusCircleIcon />
+          </button>
         </div>
         <div
           class="message-box-container"
@@ -148,12 +145,15 @@
           </MessageBox>
         </div>
       </PageForm>
-    </PageSection>
-    <PageSection v-if="!resultError && Object.hasOwn(selection, 'name')">
-      <h2>ROR API Response + Schema</h2>
-      <output class="json-output">
-        {{ selection }}
-      </output>
+      <Accordion
+        id="output"
+        title="API Resonse and Schema"
+        v-if="!resultError && Object.hasOwn(selection, 'name')"
+      >
+        <output class="json-output">
+          {{ selection }}
+        </output>
+      </Accordion>
     </PageSection>
   </Page>
 </template>
@@ -165,11 +165,13 @@ import {
   PageHeader,
   PageSection,
   MessageBox,
-  PageForm
+  PageForm,
+  Accordion
 } from "rd-components";
 import { fetchData } from "$shared/js/utils.js";
 import accessibleAutocomplete from "accessible-autocomplete";
 
+import { PlusCircleIcon } from "@heroicons/vue/24/outline";
 import headerImage from "../assets/orgs-page-header.jpg";
 
 
@@ -188,6 +190,11 @@ let wasImported = ref(false);
 function searchRor(query, populateResults) {
   resultError.value = false;
   selection.value = {};
+  results.value = {};
+  wasImported.value = false;
+  loading.value = false;
+  resultError.value = false;
+  
   const url = `https://api.ror.org/organizations?query=${encodeURI(query)}`;
   Promise.resolve(fetchData(url))
     .then(response => {
@@ -275,7 +282,9 @@ function saveData() {
     wasImported.value = true;
   })
   .catch(response => {
-    importError.value = `Something went wrong: ${response}`
+    response.json().then((json) => {
+      importError.value = json.errors[0].message;
+    })
     loading.value = false;
   })
 }
@@ -298,15 +307,26 @@ onMounted(() => initAutoComplete());
 <style lang="scss">
 @import "accessible-autocomplete";
 
+#orgmanager {
+  background-color: $gray-050;
+}
+
 #organisationSearch {
-  box-shadow: none;
-  padding: 0;
+  margin-top: 2em;
+  padding: 2em;
+  background-color: $gray-000;
+  
+  label {
+    span {
+      margin: 0.4em 0;
+    }
+  }
 }
 
 #orgreview {
   margin-top: 2em;
-  box-shadow: none;
-  background-color: $gray-050;
+  padding: 2em;
+  background-color: $gray-000;
 
   fieldset {
     display: grid;
@@ -317,7 +337,8 @@ onMounted(() => initAutoComplete());
     box-sizing: content-box;
 
     legend {
-      font-size: 16pt;
+      display: block;
+      font-size: 15pt;
       margin-bottom: 0.4em;
 
       span {
@@ -333,8 +354,8 @@ onMounted(() => initAutoComplete());
       
       label {
         display: block;
-        margin-bottom: 0.2em;
-        font-size: 13pt;
+        margin-bottom: 0.4em;
+        font-size: 12pt;
         
         span {
           display: block;
@@ -357,7 +378,7 @@ onMounted(() => initAutoComplete());
     }
 
     &.ror-meta {
-      grid-template:
+      grid-template-areas:
         "Title Title"
         "ID Code";
 
@@ -375,7 +396,7 @@ onMounted(() => initAutoComplete());
     }
 
     &.org-details {
-      grid-template:
+      grid-template-areas:
         "Title Title Title"
         "Name Name Name"
         "Aliases Aliases Acronyms"
@@ -420,7 +441,7 @@ onMounted(() => initAutoComplete());
     }
 
     &.org-project {
-      grid-template:
+      grid-template-areas:
         "Title Title"
         "Name Name"
         "Organisation Organisation"
@@ -448,9 +469,7 @@ onMounted(() => initAutoComplete());
   }
 
   .form-controls {
-    margin-top: 1em;
-    display: flex;
-    justify-content: flex-end;
+    margin-top: 1.5em;
 
     button {
       width: 150px;
@@ -459,14 +478,31 @@ onMounted(() => initAutoComplete());
       align-items: center;
       background: none;
       border: none;
-      padding: 6px 12px;
-      background-color: $molgenis-blue-050;
-      border: 1px solid $molgenis-blue-800;
-      color: $molgenis-blue-800;
+      padding: 12px;
+      color: $molgenis-blue-050;      
+      background-color: $molgenis-blue-800;
       border-radius: 6px;
       font-size: 13pt;
       cursor: pointer;
+      
+      svg {
+        $icon-size: 21px;
+        width: $icon-size;
+        height: $icon-size;
+        margin-left: 3px;
+        stroke-width: 2;
+      }
     }
+  }
+}
+
+#accordion-output {
+  background-color: $gray-000;
+  border: none;
+  box-shadow: $box-shadow;
+  
+  .accordion-heading {
+    background-color: $gray-000;
   }
 }
 
@@ -474,7 +510,6 @@ onMounted(() => initAutoComplete());
   display: block;
   box-sizing: content-box;
   padding: 1em;
-  background-color: $gray-050;
   white-space: pre;
 }
 </style>

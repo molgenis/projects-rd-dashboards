@@ -12,6 +12,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@heroicons/vue": "^2.0.18",
     "accessible-autocomplete": "^2.0.4",
     "rd-components": "0.1.0",
     "vue": "^3.2.45",

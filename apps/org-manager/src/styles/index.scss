@@ -2,4 +2,17 @@
 .page-footer {
   font-size: 14pt;
   font-family: Helvetica, sans-serif;
+  
+  .message-box {
+    .message-text {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+      p {
+        margin: 0;
+      }
+    }
+  }
+  
 }
