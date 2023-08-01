@@ -7,12 +7,12 @@
       height="large"
     />
     <PageSection aria-labelledby="welcome-title" :verticalPadding="2">
-      <h2 id="welcome-title">ERN ReCONNET registry Documents</h2>
+      <h2 id="welcome-title">Find Organisations</h2>
       <p>
         On this page, you can search for organisations in the
         <a href="https://ror.org/">ROR</a> registry and them to the
-        <strong>Organistations</strong> ontology table. This allows you to
-        standardise institution affiliations and save project specific metadata.
+        <strong>Organistations</strong> table. This allows you to
+        standardise institution names and save project specific affiliations.
       </p>
       <PageForm 
         id="organisationSearch"
@@ -122,7 +122,10 @@
           </div>
         </fieldset>
         <div class="form-controls">
-          <button @click="saveData" class="button-save">
+          <button @click="resetForm" class="button button-clear">
+            Reset
+          </button>
+          <button @click="saveData" class="button button-save">
             Save
             <PlusCircleIcon />
           </button>
@@ -148,10 +151,10 @@
       <Accordion
         id="output"
         title="API Resonse and Schema"
-        v-if="!resultError && Object.hasOwn(selection, 'name')"
+        v-if="!resultError && Object.hasOwn(apiResponse, 'name')"
       >
         <output class="json-output">
-          {{ selection }}
+          {{ apiResponse }}
         </output>
       </Accordion>
     </PageSection>
@@ -180,11 +183,26 @@ let results = ref([]);
 let selection = ref({});
 let projects = ref({});
 let variations = ref({});
+let apiResponse = ref({});
 
 let resultError = ref(false);
 let loading = ref(false);
 let importError = ref(false);
 let wasImported = ref(false);
+
+
+function resetForm() {
+  results.value = [];
+  selection.value = {};
+  projects.value = {};
+  variations.value = {};
+  apiResponse.value = {};
+  resultError.value = false;
+  loading.value = false;
+  importError.value = false;
+  wasImported.value = false;
+}
+
 
 // define handler for searching ROR
 function searchRor(query, populateResults) {
@@ -211,6 +229,7 @@ function searchRor(query, populateResults) {
 // filter ROR results and init extra columns
 function retrieveRorRecord(value) {
   let org = results.value.filter(row => row.name == value)[0];
+  apiResponse.value = org
 
   // init organisations_organisations
   selection.value = {
@@ -289,8 +308,7 @@ function saveData() {
   })
 }
 
-
-function initAutoComplete() {
+onMounted(() => {
   accessibleAutocomplete({
     element: document.querySelector("#orgsearch-container"),
     id: "orgsearch",
@@ -299,217 +317,5 @@ function initAutoComplete() {
     minLength: 3,
     onConfirm: retrieveRorRecord
   });
-}
-
-onMounted(() => initAutoComplete());
+});
 </script>
-
-<style lang="scss">
-@import "accessible-autocomplete";
-
-#orgmanager {
-  background-color: $gray-050;
-}
-
-#organisationSearch {
-  margin-top: 2em;
-  padding: 2em;
-  background-color: $gray-000;
-  
-  label {
-    span {
-      margin: 0.4em 0;
-    }
-  }
-}
-
-#orgreview {
-  margin-top: 2em;
-  padding: 2em;
-  background-color: $gray-000;
-
-  fieldset {
-    display: grid;
-    gap: 1em 1.5em;
-    margin-top: 1.25em;
-    border: none;
-    padding: 0;
-    box-sizing: content-box;
-
-    legend {
-      display: block;
-      font-size: 15pt;
-      margin-bottom: 0.4em;
-
-      span {
-        display: block;
-        font-size: 11pt;
-        margin-top: 0.4em;
-        color: $gray-600;
-      }
-    }
-    
-    div {
-      flex-grow: 1;
-      
-      label {
-        display: block;
-        margin-bottom: 0.4em;
-        font-size: 12pt;
-        
-        span {
-          display: block;
-          font-size: 11pt;
-          margin-top: 0.4em;
-          color: $gray-600;
-        }
-      }
-      
-      input {
-        display: block;
-        width: 100%;
-        font-size: 12pt;
-
-        &:read-only {
-          background-color: $blue-050;
-          color: $gray-700;
-        }
-      }
-    }
-
-    &.ror-meta {
-      grid-template-areas:
-        "Title Title"
-        "ID Code";
-
-      legend {
-        grid-area: Title;
-      }
-
-      &:nth-child(2) {
-        grid-area: ID;
-      }
-
-      &:nth-child(3) {
-        grid-area: Code;
-      }
-    }
-
-    &.org-details {
-      grid-template-areas:
-        "Title Title Title"
-        "Name Name Name"
-        "Aliases Aliases Acronyms"
-        "City Country CountryCode"
-        "Latitude Longitude EMPTY";
-
-      legend {
-        grid-area: Title;
-      }
-
-      .name {
-        grid-area: Name;
-      }
-
-      .aliases {
-        grid-area: Aliases;
-      }
-
-      .acronyms {
-        grid-area: Acronyms;
-      }
-
-      .city {
-        grid-area: City;
-      }
-
-      .country {
-        grid-area: Country;
-      }
-
-      .country-code {
-        grid-area: CountryCode;
-      }
-
-      .latitude {
-        grid-area: Latitude;
-      }
-
-      .longitude {
-        grid-area: Longitude;
-      }
-    }
-
-    &.org-project {
-      grid-template-areas:
-        "Title Title"
-        "Name Name"
-        "Organisation Organisation"
-        "ID Code";
-
-      legend {
-        grid-area: Title;
-      }
-      .org-project-name {
-        grid-area: Name;
-      }
-      
-      .org-project-org {
-        grid-area: Organisation;
-      }
-      
-      .org-project-identifier {
-        grid-area: ID;
-      }
-
-      .org-project-code {
-        grid-area: Code;
-      }
-    }
-  }
-
-  .form-controls {
-    margin-top: 1.5em;
-
-    button {
-      width: 150px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: none;
-      border: none;
-      padding: 12px;
-      color: $molgenis-blue-050;      
-      background-color: $molgenis-blue-800;
-      border-radius: 6px;
-      font-size: 13pt;
-      cursor: pointer;
-      
-      svg {
-        $icon-size: 21px;
-        width: $icon-size;
-        height: $icon-size;
-        margin-left: 3px;
-        stroke-width: 2;
-      }
-    }
-  }
-}
-
-#accordion-output {
-  background-color: $gray-000;
-  border: none;
-  box-shadow: $box-shadow;
-  
-  .accordion-heading {
-    background-color: $gray-000;
-  }
-}
-
-.json-output {
-  display: block;
-  box-sizing: content-box;
-  padding: 1em;
-  white-space: pre;
-}
-</style>

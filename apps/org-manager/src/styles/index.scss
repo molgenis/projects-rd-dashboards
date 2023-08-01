@@ -15,4 +15,233 @@
     }
   }
   
+  .button {
+    width: 175px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 13pt;
+    cursor: pointer;
+    border: 1px solid transparent;
+    
+    svg {
+      $icon-size: 22px;
+      width: $icon-size;
+      height: $icon-size;
+      margin-left: 3px;
+      stroke-width: 2;
+    }
+  }
+  
+}
+
+@import "accessible-autocomplete";
+
+#orgmanager {
+  background-color: $gray-050;
+}
+
+#organisationSearch {
+  margin-top: 2em;
+  padding: 2em;
+  background-color: $gray-000;
+  
+  label {
+    span {
+      margin: 0.4em 0;
+    }
+  }
+}
+
+#orgreview {
+  margin-top: 2em;
+  padding: 2em;
+  background-color: $gray-000;
+
+  fieldset {
+    display: grid;
+    gap: 1em 1.5em;
+    margin-top: 1.25em;
+    border: none;
+    padding: 0;
+    box-sizing: content-box;
+
+    legend {
+      display: block;
+      font-size: 15pt;
+      margin-bottom: 0.4em;
+
+      span {
+        display: block;
+        font-size: 11pt;
+        margin-top: 0.4em;
+        color: $gray-600;
+      }
+    }
+    
+    div {
+      flex-grow: 1;
+      
+      label {
+        display: block;
+        margin-bottom: 0.4em;
+        font-size: 12pt;
+        
+        span {
+          display: block;
+          font-size: 11pt;
+          margin-top: 0.4em;
+          color: $gray-600;
+        }
+      }
+      
+      input {
+        display: block;
+        width: 100%;
+        font-size: 12pt;
+
+        &:read-only {
+          background-color: $blue-050;
+          color: $gray-700;
+        }
+      }
+    }
+
+    &.ror-meta {
+      grid-template-areas:
+        "Title Title"
+        "ID Code";
+
+      legend {
+        grid-area: Title;
+      }
+
+      &:nth-child(2) {
+        grid-area: ID;
+      }
+
+      &:nth-child(3) {
+        grid-area: Code;
+      }
+    }
+
+    &.org-details {
+      grid-template-areas:
+        "Title Title Title"
+        "Name Name Name"
+        "Aliases Aliases Acronyms"
+        "City Country CountryCode"
+        "Latitude Longitude EMPTY";
+
+      legend {
+        grid-area: Title;
+      }
+
+      .name {
+        grid-area: Name;
+      }
+
+      .aliases {
+        grid-area: Aliases;
+      }
+
+      .acronyms {
+        grid-area: Acronyms;
+      }
+
+      .city {
+        grid-area: City;
+      }
+
+      .country {
+        grid-area: Country;
+      }
+
+      .country-code {
+        grid-area: CountryCode;
+      }
+
+      .latitude {
+        grid-area: Latitude;
+      }
+
+      .longitude {
+        grid-area: Longitude;
+      }
+    }
+
+    &.org-project {
+      grid-template-areas:
+        "Title Title"
+        "Name Name"
+        "Organisation Organisation"
+        "ID Code";
+
+      legend {
+        grid-area: Title;
+      }
+      .org-project-name {
+        grid-area: Name;
+      }
+      
+      .org-project-org {
+        grid-area: Organisation;
+      }
+      
+      .org-project-identifier {
+        grid-area: ID;
+      }
+
+      .org-project-code {
+        grid-area: Code;
+      }
+    }
+  }
+
+  .form-controls {
+    margin-top: 1.5em;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1em;
+
+    .button-save {
+      color: $molgenis-blue-050;      
+      background-color: $molgenis-blue-800;
+    }
+    
+    .button-clear {
+      color: $molgenis-blue-800;
+      background-color: $molgenis-blue-050;
+      border-color: $molgenis-blue-800;
+    }
+  }
+}
+
+#accordion-output {
+  background-color: $gray-000;
+  border: none;
+  box-shadow: $box-shadow;
+  
+  .accordion-heading {
+    background-color: $gray-000;
+  }
+  
+  .accordion-content {
+    padding: 0;
+    
+    .json-output {
+      display: block;
+      box-sizing: content-box;
+      padding: 1.25em;
+      white-space: pre;
+      background-color: $gray-800;
+      color: $gray-050;
+      line-height: 1.3;
+      font-size: 12pt;
+    }
+  }  
 }
