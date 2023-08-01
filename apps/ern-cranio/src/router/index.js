@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
 import HomePage from '@/views/home-page.vue'
 import AboutPage from '@/views/about-page.vue'
 import DashboardPage from '@/views/dashboard-page.vue'
+
 const initialState = window.__INITIAL_STATE__ || {}
 
 const router = createRouter({
@@ -21,7 +23,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/',
+      path: '/dashboard',
       name: 'dashboard',
       component: DashboardPage,
       meta: {
@@ -29,16 +31,14 @@ const router = createRouter({
       }
     },
   ],
-  scrollBehavior () {
-    return {
-      top: 0
-    }
+  scrollBehavior(to, from, savedPosition) {
+    return savedPosition || { top: 0 }
   }
 })
 
 // set window title using meta property
 router.afterEach((to) => {
-  document.title = `${to.meta.title} | ERN CRANIO` || 'ERN CRANIO'
-})
+  document.title = to.meta.title ? `${to.meta.title} | ERN CRANIO` : 'ERN CRANIO';
+});
 
-export default router
+export default router;

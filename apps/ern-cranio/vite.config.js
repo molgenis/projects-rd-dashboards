@@ -6,7 +6,7 @@ import generateFile from 'vite-plugin-generate-file'
 import pkgjson from './package.json'
 
 import newDevProxy from '../dev-proxy.config.js'
-const devProxyConfig = newDevProxy('https://david.gcc.rug.nl/')
+const devProxyConfig = newDevProxy('https://cranio.molgeniscloud.org/')
 
 const now = new Date()
 const buildDate = now.toUTCString()
@@ -30,10 +30,10 @@ const shared = {
     preprocessorOptions: {
       scss: {
         additionalData: `
-        @import "../../rd-components/src/styles/palettes.scss";
-        @import "../../rd-components/src/styles/variables.scss";
-        @import "../../rd-shared/styles/mixins.scss";
-        @import "./src/styles/index.scss";
+          @import "../../rd-components/src/styles/palettes.scss";
+          @import "../../rd-components/src/styles/variables.scss";
+          @import "../../rd-shared/styles/mixins.scss";
+          @import "./src/styles/index.scss";
         `
       }
     }
