@@ -40,7 +40,7 @@
     </PageSection>
     <PageSection id="section-contact" aria-labelledby="section-contact-title" :verticalPadding="2">
       <h2 id="section-contact-title">Contact</h2>
-      <p>If you want to know more, to participate, or to consult the ERN-Skin registry, thanks to send your query to the following email address: <a href="mailto:valerie.deprez@aphp.fr>">valerie.deprez@aphp.fr</a> or at the following address.</p>
+      <p>If you want to know more, to participate, or to consult the ERN-Skin registry, thanks to send your query to the following email address: <a href="mailto:skin-registry@ern-skin.eu>">skin-registry@ern-skin.eu</a> or at the following address.</p>
       <ProjectAddress :centerText="true" />
     </PageSection>
   </Page>
