@@ -20,6 +20,9 @@
         <LinkCard :imageSrc="ColumnChartImage">
           <router-link :to="{name: 'column-chart'}">Column Chart</router-link>
         </LinkCard>
+        <LinkCard :imageSrc="ColumnChartImage">
+          <router-link :to="{name: 'grouped-column-chart'}">Grouped Column Chart</router-link>
+        </LinkCard>
         <LinkCard :imageSrc="HighlightsImage">
           <router-link :to="{name: 'data-highlights'}">Data Highlights</router-link>
         </LinkCard>
