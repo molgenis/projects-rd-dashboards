@@ -60,7 +60,9 @@
   </Page>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from "vue";
+
 import Page from '@/components/Page.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import PageSection from '@/components/PageSection.vue'
@@ -73,50 +75,35 @@ import geojson from '$shared/data/world.geo.json'
 
 import headerImage from '@/assets/map-header.jpg'
 
-export default {
-  components: {
-    Page,
-    PageHeader,
-    PageSection,
-    MessageBox,
-    GeoMercator,
-    Breadcrumbs,
-  },
-  data () {
-    return {
-      headerImage: headerImage,
-      loading: true,
-      hasError: false,
-      error: null,
-      data: {},
-      geojson: geojson,
-      mapColorGroups: {
-        'Education': '#F4D58D',
-        'Facility': '#FC7573',
-        'Healthcare': '#B6C2D9',
-      },
-      location: null
-    }
-  },
-  methods: {
-    updateSelection (data) {
-      this.location = data
-    }
-  },
-  mounted () {
-    Promise.resolve(
-      fetchData('/api/v2/rdcomponents_institutions?num=5000&q=lat!=""')
-    ).then(response => {
-      const data = response.items
-      data.forEach(row => delete row['_href'])
-      this.data = data
-      this.loading = false
-    }).catch(error => {
-      this.loading = false
-      this.hasError = true
-      this.error = error
-      throw new Error(error)
-    })
-  }
+let loading = ref(true);
+let hasError = ref(false);
+let error = ref(null);
+let data = ref({});
+let location = ref(null);
+
+const mapColorGroups = {
+  Education: '#F4D58D',
+  Facility: '#FC7573',
+  Healthcare: '#B6C2D9',
 }
+
+  
+function updateSelection (data) {
+  location.value = data
+}
+
+onMounted(() => {
+  Promise.resolve(
+    fetchData('/api/v2/rdcomponents_institutions?num=5000&q=lat!=""')
+  ).then(response => {
+    data.value = response.items
+    loading.value = false
+  }).catch(error => {
+    const err = error.message
+    loading.value = false
+    hasError.value = true
+    error.value = err
+    throw new Error(error)
+  })
+})
 </script>

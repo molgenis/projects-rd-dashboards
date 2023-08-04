@@ -47,7 +47,9 @@
   </Page>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from "vue";
+
 import Page from '@/components/Page.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import PageSection from '@/components/PageSection.vue'
@@ -61,48 +63,34 @@ import { fetchData, sortData } from '$shared/js/utils.js'
 import { rollups } from 'd3'
 const d3 = { rollups }
 
-export default {
-  components: {
-    Page,
-    PageHeader,
-    PageSection,
-    MessageBox,
-    ColumnChart,
-    Breadcrumbs,
-  },
-  data () {
-    return {
-      headerImage: headerImage,
-      loading: true,
-      hasError: false,
-      error: null,
-      data: [],
-      clicked: {},
-    }
-  },
-  methods: {
-    updateClicked (data) {
-      this.clicked = data
-    }
-  },
-  mounted () {
-    Promise.resolve(
-      fetchData('/api/v2/rdcomponents_penguins?num=500')
-    ).then(response => {
-      const data = response.items
-      const summarised = d3.rollups(data, row => row.length, row => row.island)
-        .map(item => new Object({'island': item[0], 'count': item[1], 'label': `${item[0]} Species`}))
-      this.data = sortData(summarised, 'island')
-      this.loading = false
-    }).catch(error => {
-      const err = error.message
-      this.loading = false
-      this.hasError = true
-      this.error = err
-      throw new Error(error)
-    })
-  }
+let loading = ref(true);
+let hasError = ref(false);
+let error = ref(null);
+let data = ref([]);
+let clicked = ref({});
+
+function updateClicked(data) {
+  clicked.value = data;
 }
+
+onMounted (() => {
+  Promise.resolve(
+    fetchData('/api/v2/rdcomponents_penguins?num=500')
+  ).then(response => {
+    const rawdata = response.items
+    const summarised = d3.rollups(rawdata, row => row.length, row => row.island)
+      .map(item => new Object({'island': item[0], 'count': item[1], 'label': `${item[0]} Species`}))
+    data.value = sortData(summarised, 'island')
+    loading.value = false
+  }).catch(error => {
+    const err = error.message
+    loading.value = false
+    hasError.value = true
+    error.value = err
+    throw new Error(error)
+  })
+})
+
 </script>
 
 <style lang="scss">

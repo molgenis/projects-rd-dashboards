@@ -30,7 +30,7 @@
           :data="data"
           :stackLegend="true"
           :enableClicks="true"
-          @legend-item-clicked="updateSelection"
+          @legend-item-clicked="updateClicked"
         />
       </div>
       <p>Click events are also enabled. This allows users to interact with the visualisation components by filtering the data. Click an item to view the "filtered" state.</p>
@@ -41,7 +41,9 @@
   </Page>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from "vue";
+
 import Page from '@/components/Page.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import PageSection from '@/components/PageSection.vue'
@@ -56,46 +58,36 @@ const d3 = {schemeGnBu, scaleOrdinal}
 
 import headerImage from '@/assets/legend-header.jpg'
 
-export default {
-  components: {
-    Page,
-    PageHeader,
-    PageSection,
-    MessageBox,
-    ChartLegend,
-    Breadcrumbs,
-  },
-  data () {
-    return {
-      headerImage: headerImage,
-      loading: true,
-      hasError: false,
-      error: null,
-      data: [],
-      clicked: [],
-    }
-  },
-  methods: {
-    updateSelection (value) {
-      this.clicked = value
-    }
-  },
-  mounted () {
-    Promise.resolve(
-      fetchData('/api/v2/rdcomponents_penguins?num=500')
-    ).then(response => {
-      const data = response.items
-      const groups = [...new Set(data.map(row => row.island))]
-      const palette = d3.scaleOrdinal(d3.schemeGnBu[groups.length])
-      const colors = {}
-      groups.forEach((key,index) => colors[key] = palette(index))
-      this.data = colors
-      this.loading = false
-    }).catch(error => {
-      throw new Error(error)
-    })
-  }
+let loading = ref(true);
+let hasError = ref(false);
+let error = ref(null);
+let data = ref([]);
+let clicked = ref({});
+
+function updateClicked(data) {
+  clicked.value = data;
 }
+
+onMounted(() => {
+  Promise.resolve(
+    fetchData('/api/v2/rdcomponents_penguins?num=500')
+  ).then(response => {
+    const rawdata = response.items
+    const groups = [...new Set(rawdata.map(row => row.island))]
+    const palette = d3.scaleOrdinal(d3.schemeGnBu[groups.length])
+    const colors = {}
+    groups.forEach((key,index) => colors[key] = palette(index))
+    data.value = colors
+    loading.value = false
+  }).catch(error => {
+    const err = error.message
+    loading.value = false
+    hasError.value = true
+    error.value = err
+    throw new Error(error)
+  })
+})
+
 
 </script>
 

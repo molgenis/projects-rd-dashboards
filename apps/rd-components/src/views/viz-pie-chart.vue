@@ -43,7 +43,9 @@
   </Page>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from "vue";
+
 import Page from '@/components/Page.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import PageSection from '@/components/PageSection.vue'
@@ -57,56 +59,41 @@ const d3 = { rollups, sum, format }
 
 import headerImage from '@/assets/pie-chart-header.jpg'
 
-export default {
-  components: {
-    Page,
-    PageHeader,
-    PageSection,
-    MessageBox,
-    PieChart,
-    Breadcrumbs
-  },
-  data () {
-    return {
-      headerImage: headerImage,
-      loading: true,
-      hasError: false,
-      error: null,
-      data: [],
-      total: 0,
-      clicked: {},
-    }
-  },
-  methods: {
-    updateSelection (value) {
-      this.clicked = value
-    }
-  },
-  mounted () {
-    Promise.resolve(
-      fetchData('/api/v2/rdcomponents_penguins?num=500')
-    ).then(response => {
-      const data = response.items
-      const format = d3.format('.2f')
-      const grouped = d3.rollups(data, row => row.length, row => row.species)
-      const summarised = {} 
-      grouped.map(array => {
-        if (typeof array[0] === 'undefined') {
-          summarised['unknown'] = array[1]
-        } else {
-          summarised[array[0]] = format((array[1] / data.length) * 100)
-        }
-      })
-      this.data = summarised
-      this.total = d3.sum(grouped, item => item[1])
-      this.loading = false
-    }).catch(error => {
-      const err = error.message
-      this.loading = false
-      this.hasError = true
-      this.error = err
-      throw new Error(error)
-    })
-  }
+let loading = ref(true);
+let hasError = ref(false);
+let error = ref(null);
+let data = ref([]);
+let clicked = ref({});
+let total = ref(0);
+
+function updateSelection(value) {
+  clicked.value = value
 }
+  
+onMounted(() => {
+  Promise.resolve(
+    fetchData('/api/v2/rdcomponents_penguins?num=500')
+  ).then(response => {
+    const rawdata = response.items
+    const format = d3.format('.2f')
+    const grouped = d3.rollups(rawdata, row => row.length, row => row.species)
+    const summarised = {} 
+    grouped.map(array => {
+      if (typeof array[0] === 'undefined') {
+        summarised['unknown'] = array[1]
+      } else {
+        summarised[array[0]] = format((array[1] / rawdata.length) * 100)
+      }
+    })
+    data.value = summarised
+    total.value = d3.sum(grouped, item => item[1])
+    loading.value = false
+  }).catch(error => {
+    const err = error.message
+    loading.value = false
+    hasError.value = true
+    error.value = err
+    throw new Error(error)
+  })
+})
 </script>
