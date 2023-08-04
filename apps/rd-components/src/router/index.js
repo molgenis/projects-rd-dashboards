@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/home-view.vue'
 import VizBarChart from '../views/viz-bar-chart.vue'
 import ColumnChart from '../views/viz-column-chart.vue'
+import GaugeChart from "../views/viz-gauge-chart.vue"
 import GroupedColumnChart from '../views/viz-grouped-column-chart.vue'
 import PieChart from '../views/viz-pie-chart.vue'
 import ChartLegend from '../views/viz-chart-legend.vue'
@@ -41,6 +42,14 @@ const router = createRouter({
       component: ColumnChart,
       meta: {
         title: 'Column Chart'
+      }
+    },
+    {
+      name: 'gauge-chart',
+      path: '/gauge-chart',
+      component: GaugeChart,
+      meta: {
+        title: 'Gauge Chart'
       }
     },
     {

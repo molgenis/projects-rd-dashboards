@@ -20,6 +20,9 @@
         <LinkCard :imageSrc="ColumnChartImage">
           <router-link :to="{name: 'column-chart'}">Column Chart</router-link>
         </LinkCard>
+        <LinkCard>
+          <router-link :to="{name: 'gauge-chart'}">Gauge Chart</router-link>
+        </LinkCard>
         <LinkCard :imageSrc="GroupedColumnChartImage">
           <router-link :to="{name: 'grouped-column-chart'}">Grouped Column Chart</router-link>
         </LinkCard>
