@@ -334,19 +334,18 @@ export default {
       label.style.opacity = 0
     },
     drawColumns () {
-      const columns = this.chartColumns.data(this.chartData)
+      let columns = this.chartColumns.data(this.chartData)
       if (this.enableAnimation) {
-        columns.attr('height', 0)
+        columns = columns.attr('height', 0)
           .attr('y', this.yAxis(0))
           .transition()
           .delay(200)
           .duration(500)
-          .attr('y', row => this.yAxis(Math.max(0, row[this.yvar])))
-          .attr('height', row => Math.abs(this.yAxis(row[this.yvar]) - this.yAxis(0)))
-      } else {
-        columns.attr('y', row => this.yAxis(Math.max(0, row[this.yvar])))
-          .attr('height', row => Math.abs(this.yAxis(row[this.yvar]) - this.yAxis(0)))
-      }
+        }
+        
+      columns
+        .attr('y', row => this.yAxis(Math.max(0, row[this.yvar])))
+        .attr('height', row => Math.abs(this.yAxis(row[this.yvar]) - this.yAxis(0)))
     },
     renderChart () {
       this.setChartDimensions()

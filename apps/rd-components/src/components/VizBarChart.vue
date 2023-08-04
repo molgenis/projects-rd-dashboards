@@ -310,20 +310,17 @@ export default {
       label.style.opacity = 0
     },
     drawBars () {
-      const bars = this.chartBars.data(this.chartData)
+      let bars = this.chartBars.data(this.chartData)
       if (this.enableAnimation) {
-        bars.attr('width', 0)
+        bars = bars.attr('width', 0)
           .attr('x', this.xAxis(0))
           .transition()
           .delay(200)
           .duration(500)
-          .attr('x', row => this.xAxis(Math.min(0, row[this.xvar])))
-          .attr('width', row => Math.abs(this.xAxis(row[this.xvar]) - this.xAxis(0)))
-      } else {
-        bars
-          .attr('x', row => this.xAxis(Math.min(0, row[this.xvar])))
-          .attr('width', row => Math.abs(this.xAxis(row[this.xvar]) - this.xAxis(0)))
       }
+      bars
+        .attr('x', row => this.xAxis(Math.min(0, row[this.xvar])))
+        .attr('width', row => Math.abs(this.xAxis(row[this.xvar]) - this.xAxis(0)))
     },
     renderChart () {
       this.setChartDimensions()
