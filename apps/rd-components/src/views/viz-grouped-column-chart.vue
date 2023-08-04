@@ -36,10 +36,11 @@
         }"
         xvar="species"
         yvar="count"
-        :chartMargins="{left: 110, top: 10, right: 40, bottom: 80}"
+        :chartMargins="{left: 60, top: 10, right: 40, bottom: 80}"
         :barPaddingInner="0.25"
         :barPaddingOuter="0.25"
-        xAxisLabel="Number of Penguins"
+        yAxisLabel="Number of Penguins"
+        xAxisLabel="Species by island"
         :enableClicks="true"
         @column-clicked="updateClicked"
       />
@@ -62,7 +63,7 @@ import Breadcrumbs from '@/app-components/breadcrumbs.vue';
 import MessageBox from '@/components/MessageBox.vue';
 import GroupedColumnChart from '@/components/VizGroupedColumnChart.vue';
 
-import headerImage from '@/assets/adrien-delforge-unsplash.jpg';
+import headerImage from '@/assets/grouped-column-chart-header.jpg';
 
 import { fetchData, sortData } from '$shared/js/utils.js';
 import { rollups, rollup } from 'd3';

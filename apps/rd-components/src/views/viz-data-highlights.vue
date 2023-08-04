@@ -36,7 +36,7 @@ import PageSection from '@/components/PageSection.vue'
 import MessageBox from '@/components/MessageBox.vue'
 import DataHighlights from '@/components/VizDataValueHighlights.vue'
 import Breadcrumbs from '@/app-components/breadcrumbs.vue'
-import headerImage from '@/assets/ray-shrewsberry-unsplash.jpg'
+import headerImage from '@/assets/highlights-header.jpg'
 
 import { fetchData } from '$shared/js/utils.js'
 import { mean, format } from 'd3'

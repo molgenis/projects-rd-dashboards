@@ -55,7 +55,7 @@ import Breadcrumbs from '@/app-components/breadcrumbs.vue'
 import MessageBox from '@/components/MessageBox.vue'
 import ColumnChart from '@/components/VizColumnChart.vue'
 
-import headerImage from '@/assets/adrien-delforge-unsplash.jpg'
+import headerImage from '@/assets/column-chart-header.jpg'
 
 import { fetchData, sortData } from '$shared/js/utils.js' 
 import { rollups } from 'd3'

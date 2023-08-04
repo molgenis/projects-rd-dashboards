@@ -52,7 +52,7 @@ import MessageBox from '@/components/MessageBox.vue'
 import Breadcrumbs from '@/app-components/breadcrumbs.vue'
 import Datatable from '@/components/VizDataTable.vue'
 
-import headerImage from '@/assets/ashley-byrd-unsplash.jpg'
+import headerImage from '@/assets/table-header.jpg'
 
 import { fetchData, sortData } from '$shared/js/utils.js'
 import { mean, format, rollup, rollups } from 'd3'

@@ -20,7 +20,7 @@
         <LinkCard :imageSrc="ColumnChartImage">
           <router-link :to="{name: 'column-chart'}">Column Chart</router-link>
         </LinkCard>
-        <LinkCard :imageSrc="ColumnChartImage">
+        <LinkCard :imageSrc="GroupedColumnChartImage">
           <router-link :to="{name: 'grouped-column-chart'}">Grouped Column Chart</router-link>
         </LinkCard>
         <LinkCard :imageSrc="HighlightsImage">
@@ -47,41 +47,22 @@
   </Page>
 </template>
 
-<script>
+<script setup>
 import Page from '@/components/Page.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import PageSection from '@/components/PageSection.vue'
 import LinkCard from '@/components/LinkCard.vue'
 
-import headerImage from '@/assets/joeyy-lee-unsplash.jpg'
-import BarChartImage from '@/assets/bulkan-evcimen.jpg'
-import ColumnChartImage from '@/assets/adrien-delforge-unsplash.jpg'
-import PieChartImage from '@/assets/sheri-silver-unsplash.jpg'
-import MapImage from '@/assets/t-h-chia-unsplash.jpg'
-import LegendImage from '@/assets/studio-media-unsplash.jpg'
-import HighlightsImage from '@/assets/ray-shrewsberry-unsplash.jpg'
-import DatatableImage from '@/assets/ashley-byrd-unsplash.jpg'
+import headerImage from '@/assets/header-image.jpg'
+import BarChartImage from '@/assets/bar-chart-header.jpg'
+import ColumnChartImage from '@/assets/column-chart-header.jpg'
+import GroupedColumnChartImage from '@/assets/grouped-column-chart-header.jpg'
+import PieChartImage from '@/assets/pie-chart-header.jpg'
+import MapImage from '@/assets/map-header.jpg'
+import LegendImage from '@/assets/legend-header.jpg'
+import HighlightsImage from '@/assets/highlights-header.jpg'
+import DatatableImage from '@/assets/table-header.jpg'
 
-export default {
-  components: {
-    Page,
-    PageHeader,
-    PageSection,
-    LinkCard,
-  },
-  data () {
-    return {
-      headerImage: headerImage,
-      BarChartImage: BarChartImage,
-      PieChartImage: PieChartImage,
-      ColumnChartImage: ColumnChartImage,
-      MapImage: MapImage,
-      LegendImage: LegendImage,
-      HighlightsImage: HighlightsImage,
-      DatatableImage: DatatableImage,
-    }
-  }
-}
 </script>
 
 <style lang="scss">

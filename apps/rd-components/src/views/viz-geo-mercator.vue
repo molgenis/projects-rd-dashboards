@@ -71,7 +71,7 @@ import Breadcrumbs from '@/app-components/breadcrumbs.vue'
 import { fetchData } from '$shared/js/utils.js'
 import geojson from '$shared/data/world.geo.json'
 
-import headerImage from '@/assets/t-h-chia-unsplash.jpg'
+import headerImage from '@/assets/map-header.jpg'
 
 export default {
   components: {

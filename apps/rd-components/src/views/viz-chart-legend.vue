@@ -54,7 +54,7 @@ import { schemeGnBu } from 'd3-scale-chromatic'
 import { scaleOrdinal } from 'd3'
 const d3 = {schemeGnBu, scaleOrdinal}
 
-import headerImage from '@/assets/studio-media-unsplash.jpg'
+import headerImage from '@/assets/legend-header.jpg'
 
 export default {
   components: {

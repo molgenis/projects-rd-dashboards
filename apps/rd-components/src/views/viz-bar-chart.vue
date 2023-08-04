@@ -53,7 +53,7 @@ import MessageBox from '@/components/MessageBox.vue'
 import Breadcrumbs from '@/app-components/breadcrumbs.vue'
 import BarChart from '@/components/VizBarChart.vue'
 
-import headerImage from '@/assets/bulkan-evcimen.jpg'
+import headerImage from '@/assets/bar-chart-header.jpg'
 
 import { fetchData, sortData } from '$shared/js/utils.js' 
 import { rollups } from 'd3'

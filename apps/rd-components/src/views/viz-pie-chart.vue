@@ -55,7 +55,7 @@ import { fetchData } from '$shared/js/utils.js'
 import { rollups, sum, format } from 'd3'
 const d3 = { rollups, sum, format }
 
-import headerImage from '@/assets/sheri-silver-unsplash.jpg'
+import headerImage from '@/assets/pie-chart-header.jpg'
 
 export default {
   components: {
