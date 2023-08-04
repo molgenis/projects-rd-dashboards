@@ -13,27 +13,38 @@
     </PageSection>
     <PageSection class="viz-section">
       <h2>PieChart Component</h2>
-      <p>The <strong>PieChart</strong> component is used to descriptives for categorical data. Input data must be an object with one or more key-value pairs. It is recommended to supply no more than 7 categories and to combine smaller groups into an "other" category. If you need to display more groups, it is strongly recommended to use the <strong>BarChart</strong> or <strong>ColumnChart</strong> components. Alternatively, the <strong>DataTable</strong> component is much better.</p>
+      <p>The <strong>PieChart</strong> component is used to descriptives for categorical data. Input data must be an object with one or more key-value pairs. It is recommended to supply no more than 7 categories (ideally 5 or less) and smaller groups should be combined into an "other" category. If you need to display more groups, it is strongly recommended to use the <strong>BarChart</strong> or <strong>ColumnChart</strong> components. Alternatively, the <strong>DataTable</strong> component is much better.</p>
+      <p>It is also possible to render display the pie chart as a donut chart. Use the property <code>asDonutChart</code> to do so.</p>
       <p>It is also possible to enable click events to enhance interactivity with other visualisation components. See the example below.</p>
     </PageSection>
     <PageSection class="bkg-light" :verticalPadding="2">
+      <h2>Summary of species</h2>
+      <p>In total, {{ total }} penguins were observed across all stations. The following chart shows the breakdown of observed penguins by species.</p>
       <MessageBox v-if="loading & !hasError">
         <p>Fetching data</p>
       </MessageBox>
       <MessageBox v-else-if="!loading && hasError" type="error">
         <p>{{ error }}</p>
       </MessageBox>
-      <PieChart
-        v-else
-        chartId="sexByPenguin"
-        title="Summary of species"
-        :description="`In total, ${total} penguins were observed across all stations. The following chart shows the breakdown of observed penguins by species.`"
-        :chartData="data"
-        :enableClicks="true"
-        :chartHeight="200"
-        @slice-clicked="updateSelection"
-
-      />
+      <div v-else class="pie-chart-flex">
+        <PieChart
+          chartId="sexByPenguin"
+          :chartData="data"
+          :enableClicks="true"
+          :chartHeight="300"
+          :chartScale="0.5"
+          @slice-clicked="updateSelection" 
+        />
+        <PieChart
+          chartId="sexByPenguin2"
+          :chartData="data"
+          :enableClicks="true"
+          :chartHeight="300"
+          :chartScale="0.5"
+          @slice-clicked="updateSelection"
+          :asDonutChart="true"
+        />
+      </div>
       <h3>Selected Item</h3>
       <p>Click a slice in the chart of above to display the row-level data</p>
       <output class="output">
@@ -97,3 +108,15 @@ onMounted(() => {
   })
 })
 </script>
+
+<style lang="scss">
+.pie-chart-flex {
+  display: flex;
+  justify-self: center;
+  align-items: stretch;
+  
+  .d3-viz {
+    flex-grow: 1;
+  }
+}
+</style>

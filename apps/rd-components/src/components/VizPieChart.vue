@@ -99,6 +99,13 @@ export default {
       default: '#3f454b'
     },
     
+    // If `true`, the pie chart will be rendered as a donut chart 
+    // (i.e., with the center cut out).
+    asDonutChart: {
+      type: Boolean,
+      default: false
+    },
+    
     // If true, the chart will be aligned to the center of the parent
     // component. Otherwise, the chart will be left aligned.
     centerAlignChart: {
@@ -151,18 +158,24 @@ export default {
       return (Math.min(this.chartWidth, this.chartHeight) / 2) - this.chartMargins
     },
     pie () {
-      return d3.pie().sort(null).value(value => value[1])
+      const pie = d3.pie().sort(null).value(value => value[1]);
+      return this.asDonutChart
+        ? pie.padAngle(1 / this.radius)
+        : pie
     },
     pieChartData () {      
       return this.pie(Object.entries(this.chartData))
     },
     arcGenerator () {
-      return d3.arc().innerRadius(0).outerRadius(this.radius * 0.7)
+      const arc = d3.arc().outerRadius(this.radius * 0.7)
+      return this.asDonutChart
+        ? arc.innerRadius(this.radius * 0.4)
+        : arc.innerRadius(0);
     },
     labelArcGenerator () {
-      return d3.arc()
-        .innerRadius(this.radius * 0.8)
-        .outerRadius(this.radius * 0.8)
+      return this.asDonutChart
+        ? d3.arc().innerRadius(this.radius - 1).outerRadius(this.radius - 1)
+        :  d3.arc().innerRadius(this.radius * 0.8).outerRadius(this.radius * 0.8)
     },
     colors () {
       if (!this.chartColors) {
@@ -183,41 +196,37 @@ export default {
       this.chartWidth = parent.offsetWidth * this.chartScale
     },
     setLabelPosition (value) {
-      const position = this.labelArcGenerator.centroid(value)
-        const angle = value.startAngle + (value.endAngle - value.startAngle) / 2
-        position[0] = this.radius * 0.99 * (angle < Math.PI ? 1 : -1)
-        return position
+      const position = this.labelArcGenerator.centroid(value);
+      const angle = value.startAngle + (value.endAngle - value.startAngle) / 2;
+      position[0] = this.radius * 0.99 * (angle < Math.PI ? 1 : -1);
+      return position;
     },
     setTextAnchor (value) {
-      const angle = value.startAngle + (value.endAngle - value.startAngle) / 2
-      return angle < Math.PI ? 'start' : 'end'
+      const angle = value.startAngle + (value.endAngle - value.startAngle) / 2;
+      return angle < Math.PI ? 'start' : 'end';
     },
     setOffsetX (value) {
-      const angle = value.startAngle + (value.endAngle - value.startAngle) / 2
-      return angle < Math.PI ? '-1em' : '1em'
-    },
-    setPieChartData () {
-      const pie = d3.pie().sort(null).value(value => value[1])
-      this.pieChartData = pie(Object.entries(this.chartData))
+      const angle = value.startAngle + (value.endAngle - value.startAngle) / 2;
+      return angle < Math.PI ? '-1.1em' : '1.1em';
     },
     onMouseOver (value) {
-      const selector = value.data[0]
-      const slice = this.chartArea.select(`.slice[data-group="${selector}"]`)
-      const text = this.chartArea.select(`.pie-label-text[data-group="${selector}"]`)
-      slice.node().classList.add('slice-focused')
-      text.node().classList.add('text-focused')
+      const selector = value.data[0];
+      const slice = this.chartArea.select(`.slice[data-group="${selector}"]`);
+      const text = this.chartArea.select(`.pie-label-text[data-group="${selector}"]`);
+      slice.node().classList.add('slice-focused');
+      text.node().classList.add('text-focused');
     },
     onMouseOut (value) {
-      const selector = value.data[0]
-      const slice = this.chartArea.select(`path.slice[data-group="${selector}"]`)
-      const text = this.chartArea.select(`text.pie-label-text[data-group="${selector}"]`)
-      slice.node().classList.remove('slice-focused')
-      text.node().classList.remove('text-focused')
+      const selector = value.data[0];
+      const slice = this.chartArea.select(`path.slice[data-group="${selector}"]`);
+      const text = this.chartArea.select(`text.pie-label-text[data-group="${selector}"]`);
+      slice.node().classList.remove('slice-focused');
+      text.node().classList.remove('text-focused');
     },
     onClick (value) {
-      const data = {}
-      data[value.data[0]] = value.data[1]
-      this.$emit('slice-clicked', data)
+      const data = {};
+      data[value.data[0]] = value.data[1];
+      this.$emit('slice-clicked', data);
     },
     drawSlices () {
       const pieSlices = this.chartArea.select('.pie-slices') 
