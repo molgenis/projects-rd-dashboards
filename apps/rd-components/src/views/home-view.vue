@@ -20,7 +20,7 @@
         <LinkCard :imageSrc="ColumnChartImage">
           <router-link :to="{name: 'column-chart'}">Column Chart</router-link>
         </LinkCard>
-        <LinkCard>
+        <LinkCard :imageSrc="GaugeChartHeader">
           <router-link :to="{name: 'gauge-chart'}">Gauge Chart</router-link>
         </LinkCard>
         <LinkCard :imageSrc="GroupedColumnChartImage">
@@ -59,6 +59,7 @@ import LinkCard from '@/components/LinkCard.vue'
 import headerImage from '@/assets/header-image.jpg'
 import BarChartImage from '@/assets/bar-chart-header.jpg'
 import ColumnChartImage from '@/assets/column-chart-header.jpg'
+import GaugeChartHeader from "@/assets/gauge-chart-header.jpg"
 import GroupedColumnChartImage from '@/assets/grouped-column-chart-header.jpg'
 import PieChartImage from '@/assets/pie-chart-header.jpg'
 import MapImage from '@/assets/map-header.jpg'
