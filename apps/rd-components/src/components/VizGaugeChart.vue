@@ -13,9 +13,10 @@
       <g 
         class="chart-area"
         :transform="`translate(${ (chartWidth / 2 ) }, ${chartHeight / 2})`"
-        >
+      >
         <g class="gauge-base-layer"></g>
-        <g class="gauge-metric-layer"></g>
+        <g class="gauge-value-layer"></g>
+        <g class="gauge-text-layer"></g>
       </g>
     </svg>
   </div>
@@ -43,12 +44,27 @@ export default {
     // Additional information to display below the title
     description: String,
     
-    //
+    // A decimal between 0 and 1
     value: {
       type: Number,
-      required: true
+      required: true,
+      validator: (value) => validateNumRange(value)
     },
     
+    // Set the color of the foreground layer (i.e., value)
+    valueFill: {
+      type: String,
+      // `#3f454b`
+      default: '#2ca25f'
+    },
+    
+    // Set the color of the background layer 
+    baseFill: {
+      type: String,
+      default: '#b2e2e2'
+    },
+    
+    // ["#edf8fb","#b2e2e2","#66c2a4","#2ca25f","#006d2c"]
     // set the height of the chart. Width is determined by the
     // dimensions of the parent container so that the chart is
     // responsive. If you would like to specify the width of the
@@ -74,8 +90,17 @@ export default {
       validator: (value) => validateNumRange(value)
     },
     
+    // If `true`, click events will be enabled for all bars. When a bar is
+    // clicked, the row-level data for that bar will be emitted.
+    // To access the data, use the event `@slice-clicked=...`
+    enableClicks: {
+      type: Boolean,
+      // `false`
+      default: true
+    },
+    
   },
-  
+  emits: ['arc-clicked'],
   data () {
     return {
       chartWidth: 300
@@ -103,36 +128,71 @@ export default {
       return (Math.min(this.chartWidth, this.chartHeight) / 2) - this.chartMargins
     },
     pie () {
-      return d3.pie().sort(null).value(value => value[0]);
+      return d3.pie().sort(null).value(value => value[1]);
     },
-    gaugeChartData () {
-      return this.pie([this.value])
+    baseArc () {
+      return d3.arc()
+        .outerRadius(this.radius * 0.7)
+        .innerRadius(this.radius * 0.4);
     },
-    arcGenerator () {
-      return d3.arc().outerRadius(this.radius * 0.7)
-    }
+    valueArc () {
+      return d3.arc()
+        .outerRadius(this.radius * 0.71)
+        .innerRadius(this.radius * 0.39)
+        .cornerRadius(12)
+    },
+    gaugeData () {
+      return this.pie(Object.entries({value: this.value, default: 1 - this.value}));
+    },
   },
   methods: {
     setChartDimensions () {
       const parent = this.$el.parentNode
       this.chartWidth = parent.offsetWidth * this.chartScale
     },
-    drawSlices () {
-      const slice = this.chartArea.select('.gauge-metric-layer') 
-      slice.selectAll('*').remove()
-      console.log(this.gaugeChartData)
-      // slice.selectAll('slices')
-      //   .data(this.pieChartData)
-      //   .join('path')
-      //   .attr('d', this.arcGenerator)
-      //   .attr('class', 'slice')
-      //   // .attr('stroke', this.strokeColor)
-      //   .attr('data-group', value => value.data[0])
-        // .attr('fill', value => 'blue')
+    onClick (value) {
+      const data = {}
+      data[value.data[0]] = value.data[1];
+      this.$emit("arc-clicked", data);
+    },
+    drawArcLayers () {
+      const baseLayer = this.chartArea.select('.gauge-base-layer') 
+      baseLayer.selectAll('*').remove();
+      baseLayer.selectAll("base")
+        .data(this.gaugeData)
+        .join("path")
+        .attr("d", this.baseArc)
+        .attr("class", "arc-base")
+        .attr("fill", this.baseFill);
+        
+      const valueLayer = this.chartArea.select('.gauge-value-layer')
+      valueLayer.selectAll("*").remove();
+      const values = valueLayer.selectAll("value")
+        .data(this.gaugeData)
+        .join("path")
+        .attr("d", this.valueArc)
+        .attr("class", value => value.data[0] === "value" ? "arc-value" : "arc-default")
+        .attr("fill", value => value.data[0] === "default" ? "none" : this.valueFill)
+        .attr("stroke", value => value.data[0] === "default" ? "none" : this.valueFill);
+      
+        
+      const textLayer = this.chartArea.select(".gauge-text-layer")
+      textLayer.selectAll("*").remove();
+      textLayer.selectAll("text")
+        .data(this.gaugeData)
+        .join("text")
+        .attr("dy", "0.35em")
+        .attr("dx", "0.15em")
+        .text(value => value.data[0] === "value" ? `${Math.round(value.value * 100)}%` : null);
+        
+        
+      if (this.enableClicks) {
+        values.on("click", (event,value) => this.onClick(value));
+      }
     },
     renderChart () {
       this.setChartDimensions()
-      this.drawSlices()
+      this.drawArcLayers()
     }
   },
   mounted () {
@@ -149,5 +209,34 @@ export default {
 </script>
 
 <style lang="scss">
-
+.d3-gauge {
+  h3.chart-title {
+    margin: 0;
+    text-align: left;
+  }
+  
+  p.chart-description {
+    text-align: left;
+    margin: 0;
+  }
+  
+  .chart {
+    display: block;
+    margin: 0;
+    
+    .chart-area {
+      
+      .gauge-value-layer {
+        .arc-value {
+          cursor: pointer;
+        }
+      }
+      
+      .gauge-text-layer {
+        font-size: 24pt;
+        text-anchor: middle;
+      }
+    }
+  }
+}
 </style>
