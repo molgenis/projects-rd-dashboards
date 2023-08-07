@@ -243,9 +243,6 @@ export default {
       if (this.enableClicks) {
         slices.on('mouseover', (event, value) => this.onMouseOver(value))
         slices.on('mouseout', (event, value) => this.onMouseOut(value))
-      }
-      
-      if (this.enableClicks) {
         slices.on('click', (event, value) => this.onClick(value))
       }
     },
@@ -330,9 +327,9 @@ export default {
         stroke-width: 1px;
         opacity: 0.7;
         cursor: pointer;
+        transition: all 250ms ease-in-out;
         
         &.slice-focused {
-          transition: 250ms;
           transform: scale(1.2);
         }
       }
