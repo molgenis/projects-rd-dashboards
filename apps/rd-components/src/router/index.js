@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
 import HomePage from '../views/home-view.vue'
+import DemoDashboard from "../views/demo-dashboard.vue"
 import VizBarChart from '../views/viz-bar-chart.vue'
 import ColumnChart from '../views/viz-column-chart.vue'
 import GaugeChart from "../views/viz-gauge-chart.vue"
@@ -19,6 +21,14 @@ const router = createRouter({
       name: 'home',
       path: '/',
       component: HomePage
+    },
+    {
+      name: 'demo',
+      path: '/demo',
+      component: DemoDashboard,
+      meta: {
+        title: 'Demo'
+      }
     },
     {
       name: 'bar-chart',
