@@ -54,17 +54,17 @@ export default {
     // Set the color of the foreground layer (i.e., value)
     valueFill: {
       type: String,
-      // `#3f454b`
-      default: '#2ca25f'
+      // `#1c9099`
+      default: '#01665e'
     },
     
     // Set the color of the background layer 
     baseFill: {
       type: String,
-      default: '#b2e2e2'
+      // default: '#c7eae5'
+      default: '#c7eae5'
     },
-    
-    // ["#edf8fb","#b2e2e2","#66c2a4","#2ca25f","#006d2c"]
+
     // set the height of the chart. Width is determined by the
     // dimensions of the parent container so that the chart is
     // responsive. If you would like to specify the width of the
@@ -72,14 +72,14 @@ export default {
     chartHeight: {
       type: Number,
       // `300`
-      default: 400
+      default: 300
     },
     
     // set all chart margins
     chartMargins: {
       type: Number,
-      // `20`
-      default: 20
+      // `10`
+      default: 10
     },
     
     // set chart scale
@@ -116,6 +116,11 @@ export default {
       if (this.title || this.description) {
         css.push('chart-has-context')
       }
+      
+      if (this.enableClicks) {
+        css.push('arc-clicks-enabled')
+      }
+      
       return css.join(' ')
     },
     chartArea () {
@@ -137,9 +142,8 @@ export default {
     },
     valueArc () {
       return d3.arc()
-        .outerRadius(this.radius * 0.71)
-        .innerRadius(this.radius * 0.39)
-        .cornerRadius(12)
+        .outerRadius(this.radius * 0.7)
+        .innerRadius(this.radius * 0.4);
     },
     gaugeData () {
       return this.pie(Object.entries({value: this.value, default: 1 - this.value}));
@@ -162,7 +166,7 @@ export default {
         .data(this.gaugeData)
         .join("path")
         .attr("d", this.baseArc)
-        .attr("class", "arc-base")
+        .attr("class", value => value.data[0] === "value" ? "arc-value" : "arc-default")
         .attr("fill", this.baseFill);
         
       const valueLayer = this.chartArea.select('.gauge-value-layer')
@@ -225,18 +229,22 @@ export default {
     margin: 0;
     
     .chart-area {
-      
-      .gauge-value-layer {
-        .arc-value {
-          cursor: pointer;
-        }
-      }
-      
       .gauge-text-layer {
         font-size: 24pt;
         text-anchor: middle;
       }
     }
+    
+    &.arc-clicks-enabled {
+      .arc-value {
+        cursor: pointer;
+      }
+    }
+    
+    &.chart-has-context {
+      margin-top: 12px;
+    }
   }
+  
 }
 </style>
