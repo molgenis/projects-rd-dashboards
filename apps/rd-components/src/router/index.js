@@ -2,15 +2,17 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import HomePage from '../views/home-view.vue'
 import DemoDashboard from "../views/demo-dashboard.vue"
-import VizBarChart from '../views/viz-bar-chart.vue'
+
+import BarChart from '../views/viz-bar-chart.vue'
+import ChartLegend from '../views/viz-chart-legend.vue'
 import ColumnChart from '../views/viz-column-chart.vue'
+import DataHighlights from '../views/viz-data-highlights.vue'
+import Datatable from '../views/viz-datatable.vue'
 import GaugeChart from "../views/viz-gauge-chart.vue"
+import GeoMercator from '../views/viz-geo-mercator.vue'
 import GroupedColumnChart from '../views/viz-grouped-column-chart.vue'
 import PieChart from '../views/viz-pie-chart.vue'
-import ChartLegend from '../views/viz-chart-legend.vue'
-import DataHighlights from '../views/viz-data-highlights.vue'
-import GeoMercator from '../views/viz-geo-mercator.vue'
-import Datatable from '../views/viz-datatable.vue'
+import ScatterPlot from "../views/viz-scatter-plot.vue"
 
 
 const initialState = window.__INITIAL_STATE__ || {}
@@ -33,7 +35,7 @@ const router = createRouter({
     {
       name: 'bar-chart',
       path: '/bar-chart',
-      component: VizBarChart,
+      component: BarChart,
       meta: {
         title: 'Bar Chart'
       }
@@ -102,6 +104,14 @@ const router = createRouter({
         title: 'Pie Chart'
       }
     },
+    {
+      name: 'scatter-plot',
+      path: '/scatter-plot',
+      component: ScatterPlot,
+      meta: {
+        title: 'Scatter Plot'
+      }
+    }
   ],
   scrollBehavior () {
     return {

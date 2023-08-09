@@ -21,26 +21,29 @@
         <LinkCard :imageSrc="ColumnChartImage">
           <router-link :to="{name: 'column-chart'}">Column Chart</router-link>
         </LinkCard>
-        <LinkCard :imageSrc="GaugeChartHeader">
-          <router-link :to="{name: 'gauge-chart'}">Gauge Chart</router-link>
-        </LinkCard>
-        <LinkCard :imageSrc="GroupedColumnChartImage">
-          <router-link :to="{name: 'grouped-column-chart'}">Grouped Column Chart</router-link>
-        </LinkCard>
         <LinkCard :imageSrc="HighlightsImage">
           <router-link :to="{name: 'data-highlights'}">Data Highlights</router-link>
         </LinkCard>
         <LinkCard :imageSrc="DatatableImage">
           <router-link :to="{name: 'datatable'}">Data Table</router-link>
         </LinkCard>
+        <LinkCard :imageSrc="GaugeChartHeader">
+          <router-link :to="{name: 'gauge-chart'}">Gauge Chart</router-link>
+        </LinkCard>
         <LinkCard :imageSrc="MapImage">
           <router-link :to="{name: 'geo-mercator'}">GeoMercator</router-link>
+        </LinkCard>
+        <LinkCard :imageSrc="GroupedColumnChartImage">
+          <router-link :to="{name: 'grouped-column-chart'}">Grouped Column Chart</router-link>
+        </LinkCard>
+        <LinkCard :imageSrc="LegendImage">
+          <router-link :to="{name: 'chart-legend'}">Legends</router-link>
         </LinkCard>
         <LinkCard :imageSrc="PieChartImage">
           <router-link :to="{name: 'pie-chart'}">Pie Chart</router-link>
         </LinkCard>
-        <LinkCard :imageSrc="LegendImage">
-          <router-link :to="{name: 'chart-legend'}">Legends</router-link>
+        <LinkCard :imageSrc="ScatterPlotImage">
+          <router-link :to="{name: 'scatter-plot'}">Scatter Plot</router-link>
         </LinkCard>
       </div>
     </PageSection>
@@ -60,13 +63,14 @@ import LinkCard from '@/components/LinkCard.vue'
 import headerImage from '@/assets/header-image.jpg'
 import BarChartImage from '@/assets/bar-chart-header.jpg'
 import ColumnChartImage from '@/assets/column-chart-header.jpg'
+import DatatableImage from '@/assets/table-header.jpg'
 import GaugeChartHeader from "@/assets/gauge-chart-header.jpg"
 import GroupedColumnChartImage from '@/assets/grouped-column-chart-header.jpg'
-import PieChartImage from '@/assets/pie-chart-header.jpg'
-import MapImage from '@/assets/map-header.jpg'
-import LegendImage from '@/assets/legend-header.jpg'
 import HighlightsImage from '@/assets/highlights-header.jpg'
-import DatatableImage from '@/assets/table-header.jpg'
+import LegendImage from '@/assets/legend-header.jpg'
+import MapImage from '@/assets/map-header.jpg'
+import PieChartImage from '@/assets/pie-chart-header.jpg'
+import ScatterPlotImage from "@/assets/scatter-plot-header.jpg"
 
 </script>
 
