@@ -9,7 +9,7 @@
     <PageSection :verticalPadding="2">
       <h2>Welcome to the <strong>rd-components</strong> library!</h2>
       <p>We have developed and designed many components for use in MOLGENIS applications. This allows us to create applications in a systematic way while allowing for project-specific customisations (i.e., branding). This app is built using the library itself to showcase the visualisation components. Have a look around!</p>
-      <router-link class="" :to="{name: 'demo'}">View the demo</router-link>
+      <router-link :to="{name: 'demo'}">View the demo</router-link>
     </PageSection>
     <PageSection class="bkg-light" :verticalPadding="2">
       <h2>Visualisation Components</h2>

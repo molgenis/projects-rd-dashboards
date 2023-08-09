@@ -8,6 +8,11 @@
       :verticalPadding="4"
       titlePositionX="center"
     />
+    <PageSection :verticalPadding="0">
+      <Breadcrumbs>
+        <li><router-link :to="{name: 'demo'}">Demo</router-link></li>
+      </Breadcrumbs>
+    </PageSection>
     <PageSection>
       <h2>About</h2>
       <p>The aim of this dashboard is to showcase the features of the <strong>molgenis-viz</strong> library. The Palmer Penguins dataset was used to populate the visualisations in this dashboard.</p>
@@ -26,13 +31,12 @@
         <div id="island-map" class="dashboard-box">
           <GeoMercator
             chartId="islandLocations"
-            title="Palmer Penguin Islands"
             :geojson="geojson"
             :chartData="islandSummary"
             rowId="island"
             latitude="lat"
             longitude="lng"
-            :mapCenter="{latitude: -65, longitude: -50 }"
+            :mapCenter="{latitude: -60, longitude: -55 }"
             :tooltipTemplate="(row) => {
               return `
               <p class='name'>${row.island}</p>
@@ -44,46 +48,42 @@
               land: '#709190',
               border: '#061428',
               water: '#061428'
-          }"
-          />
-        </div>
-        <div id="species-by-sex-and-island" class="dashboard-box">
-          <GroupedColumnChart
-            chartId="penguinsBySexAndIsland"
-            title="Penguins Observed by Sex and Island"
-            description="Click a bar on the chart to view more details about the penguins on a island in the following table"
-            :chartData="sexByIsland"
-            group="island"
-            xvar="sex"
-            yvar="count"
-            :chartHeight="200"
-            :yMax="100"
-            :yTickValues="[0,25,50,75,100]"
-            :enableClicks="true"
-            @column-clicked="updateClickedIsland"
+            }"
+            :zoomLimits="[0.5, 12]"
+            :chartScale="2"
+            :chartHeight="675"
+            :enableMarkerClicks="true"
+            @marker-clicked="updateClickedIsland"
           />
         </div>
         <div id="species-summary" class="dashboard-box">
+          <h2>Summary of Observed Penguins {{clickedIsland ? ' at ' + clickedIsland + ' island': 'across all islands'}}</h2>
           <DataTable
             tableId="summaryData"
-            :data="islandPenguinsBySpeciesAndSex"
-            caption="Summary of Observed Penguins by Island"
+            :data="islandPenguins"
             :columnOrder="[
               'species',
-              'sex',
-              'count',
               'avg. body mass (g)',
               'avg. flipper length (mm)',
+              'avg. bill length (mm)',
+              'avg. bill depth (mm)',
             ]"
           />
         </div>
-        <div class="dashboard-box">
-        </div>
-        <div class="dashboard-box">
-        </div>
-        <div class="dashboard-box">
-        </div>
-        <div class="dashboard-box">
+        <div id="species-by-sex-and-island" class="dashboard-box">
+          <h2>Sex of Observed Penguins {{clickedIsland ? ' at ' + clickedIsland + ' island': 'across all islands'}}</h2>
+          <div class="dashboard-box-flex">
+            <PieChart
+              :chartId="`sex-by-${row.species}`"
+              :title="`${row.species} (n=${row.count})`"
+              :chartData="row.data"
+              :chartHeight="250"
+              :chartScale="0.3"
+              :chartMargins="75"
+              :asDonutChart="true"
+              v-for="row in islandPenguinsBySex"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -98,15 +98,16 @@ import PageHeader from '@/components/PageHeader.vue'
 import PageSection from "@/components/PageSection.vue"
 import MessageBox from '@/components/MessageBox.vue'
 import DashboardHeader from "../assets/demo-dashboard-header.jpg"
+import Breadcrumbs from '@/app-components/breadcrumbs.vue'
 
 import DataHighlights from "@/components/VizDataValueHighlights.vue"
 import DataTable from "@/components/VizDataTable.vue"
 import GeoMercator from "@/components/VizGeoMercator.vue"
-import GroupedColumnChart from "@/components/VizGroupedColumnChart.vue"
+import PieChart from "@/components/VizPieChart.vue"
 
 import geojson from "$shared/data/world.geo.json"
 
-import { fetchData, sortData } from '$shared/js/utils.js'
+import { fetchData } from '$shared/js/utils.js'
 import { mean, format, rollup, rollups, ascending } from 'd3'
 const d3 = { mean, format, rollup, rollups, ascending }
 
@@ -119,25 +120,26 @@ const floatFormat = d3.format('.2f')
 
 let highlightsData = ref({});
 let islandSummary = ref([]);
-let sexByIsland = ref([]);
-let islandPenguinsBySpeciesAndSex = ref([]);
+let islandPenguins = ref([]);
+let islandPenguinsBySex = ref([]);
+
 let clickedIsland = ref(false);
 
 function updateClickedIsland(value) {
-  clickedIsland.value = value
+  clickedIsland.value = value.island
 } 
 
 
 // find the total number of penguins by species
 function summarizeTotalSpecies () {
   const speciesCounts = d3.rollup(data.value, row => row.length, row => row.species);
-  return Object.fromEntries(speciesCounts)
+  highlightsData.value = Object.fromEntries(speciesCounts)
 }
 
 
 // find the total number of species by island
 // append counts to island summary
-function summarizeSpeciesByIsland () {
+function penguinsByIsland () {
   const islands = [
     {island: 'Biscoe', lat: -65.7008892, lng: -66.2453479},
     {island: 'Dream', lat: -64.3794563, lng: -66.5161662},
@@ -152,55 +154,59 @@ function summarizeSpeciesByIsland () {
       }
     }
   }
-  return islands;
+  islandSummary.value = islands;
 }
 
-// summarise the number of penguins by sex and island
-function summarizeSexByIsland () {
-  const summary = d3.rollups(data.value, row => row.length, row => row.island, row => row.sex)
-    .map(row => {
-      return row[1].map(value => {
-        return new Object({
-          island: row[0],
-          sex: typeof value[0] === "undefined" ? "unknown" : value[0],
-          count: value[1]
-        })
-      })
-    })
-    .flat();
-  return summary
-}
-
-// summarise species by gender and island
-function summarizePenguinsBySex () {
-  let penguins = data.value;
+// summarise species and island
+function penguinSpeciesByIsland () {
+  let penguins = data.value
   if (clickedIsland.value) {
-    penguins = penguins.filter(row => row.island  === clickedIsland.value);
-  }
-  return d3.rollups(
+    penguins = penguins.filter(row => row.island === clickedIsland.value)
+  } 
+
+  islandPenguins.value = d3.rollups(
     penguins,
     row => ({
       count: row.length,
       avg_body_mass_g: d3.mean(row, r => r.body_mass_g),
       avg_flipper_length_mm: d3.mean(row, r => r.flipper_length_mm),
+      avg_bill_length_mm: d3.mean(row, r => r.bill_length_mm),
+      avg_bill_depth_mm: d3.mean(row, r => r.bill_depth_mm),
+      male: row.filter(d => d.sex === 'male').length,
+      female: row.filter(d => d.sex === 'female').length,
+      unknown: row.filter(d => typeof d.sex === 'undefined').length
     }),
-    row => row.sex,
     row => row.species
   )
   .map(row => {
-    return row[1].map(value => {
-      return ({
-        sex: typeof row[0] === "undefined" ? "unknown" : row[0],
-        species: value[0],
-        'avg. body mass (g)': parseFloat(floatFormat(value[1].avg_body_mass_g)),
-        'avg. flipper length (mm)': parseFloat(floatFormat(value[1].avg_flipper_length_mm)),
-      })
+    return new Object({
+      species: row[0],
+      count: row[1].count,
+      'avg. body mass (g)': parseFloat(floatFormat(row[1].avg_body_mass_g)),
+      'avg. flipper length (mm)': parseFloat(floatFormat(row[1].avg_flipper_length_mm)),
+      'avg. bill length (mm)': parseFloat(floatFormat(row[1].avg_bill_length_mm)),
+      'avg. bill depth (mm)': parseFloat(floatFormat(row[1].avg_bill_depth_mm)),
+      male: parseFloat(floatFormat((row[1].male / row[1].count) * 100)),
+      female: parseFloat(floatFormat((row[1].female / row[1].count) * 100)),
+      unknown: parseFloat(floatFormat((row[1].unknown / row[1].count) * 100))
     })
   })
   .flat();
 }
 
-watch([clickedIsland], summarizePenguinsBySex);
+// summarise penguins by sex and species at a selected island
+function penguinSpeciesBySex () {
+  islandPenguinsBySex.value = islandPenguins.value.map(row => {
+    return new Object({
+      species: row.species,
+      count: row.count,
+      data: {female: row.female, male: row.male, unknown: row.unknown} 
+    })
+  })
+}
+
+// watch([clickedIsland], penguinSpeciesByIsland)
+// watch([clickedIsland], penguinSpeciesBySex)
 
 onMounted(() => {
   Promise.resolve(
@@ -209,11 +215,10 @@ onMounted(() => {
     data.value = response.items
     
     // run summarisers
-    islandSummary.value = summarizeSpeciesByIsland();
-    highlightsData.value = summarizeTotalSpecies();
-    sexByIsland.value = summarizeSexByIsland();
-    
-    islandPenguinsBySpeciesAndSex = summarizePenguinsBySex();
+    summarizeTotalSpecies();
+    penguinsByIsland();
+    penguinSpeciesByIsland();
+    penguinSpeciesBySex();
     
     loading.value = false
   }).catch(error => {
@@ -240,20 +245,46 @@ onMounted(() => {
     gap: 1.25em;
     grid-template-areas: 
       'species-count species-count species-count species-count'
-      'island-map island-map island-map island-summary'
       'island-map island-map island-map species-summary'
-    ;
+      'island-map island-map island-map island-summary';
     
-    .dashboard-box {
+    .dashboard-box {      
       box-sizing: content-box;
       padding: 1em;
       background-color: $gray-000;
       border-radius: 12px;
       box-shadow: $box-shadow;
+      
+      .dashboard-box-flex {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        .d3-viz {
+          flex-grow: 1;
+        }
+      }
+      
+      h2 {
+        font-size: 15pt;
+      }
+      
+      h2, h3 {
+        margin: 0;
+        margin-top: 0.4em;
+      }
+      p {
+        margin: 0;
+        margin-top: 0.3em;
+        margin-bottom: 1em;
+        font-size: 13pt;
+        line-height: 1.4;
+      }
     }
     
     #island-map {
       grid-area: island-map;
+      min-width: 400px;
     }  
 
     #species-counts {
@@ -262,6 +293,19 @@ onMounted(() => {
     
     #species-summary {
       grid-area: species-summary;
+    }
+    
+    #species-by-sex-and-island {
+      
+      .d3-pie-chart {
+        max-width: 300px;
+        max-height: 300px;
+        
+        h3.chart-title {
+          text-align: center;
+          font-size: 13pt;
+        }
+      }
     }
   }
 }
