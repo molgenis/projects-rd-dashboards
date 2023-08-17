@@ -2,19 +2,18 @@
 # FILE: institutions.py
 # AUTHOR: David Ruvolo
 # CREATED: 2023-04-19
-# MODIFIED: 2023-04-19
+# MODIFIED: 2023-08-17
 # PURPOSE: create example dataset using ROR
 # STATUS: in.progress
 # PACKAGES: **see below**
 # COMMENTS: NA
 #///////////////////////////////////////////////////////////////////////////////
 
-from dotenv import load_dotenv
 from datatable import dt, f, as_type
 from os import path
 import numpy as np
 import requests
-load_dotenv()
+import csv
 
 def retrieveInstitutionsByCountry(countries: list=[]):
   """Retrieves a all institutions in ROR for one or more countries
@@ -53,8 +52,8 @@ def retrieveInstitutionsByCountry(countries: list=[]):
       data.append({
         'id': row['id'],
         'name': row['name'],
-        'lat': row['addresses'][0]['lat'],
-        'lng': row['addresses'][0]['lng'],
+        'latitude': row['addresses'][0]['lat'],
+        'longitude': row['addresses'][0]['lng'],
         'city': row['addresses'][0]['city'],
         'country': row['country']['country_name'],
         'organisationType': ','.join(row['types'])
@@ -68,7 +67,7 @@ if __name__ == '__main__':
   data = retrieveInstitutionsByCountry(countries = countries)
   
   # create dataset for table `organisations`
-  orgsDT = dt.Frame(data)[:, dt.first(f[:]), dt.by(f.id)]
+  orgsDT = dt.Frame(data)[:, dt.first(f[:]), dt.by(f.name)][:, :, dt.sort(f.country, f.name)]
   
   orgsDT['codesystem'] = 'ROR'
   
@@ -76,7 +75,7 @@ if __name__ == '__main__':
     path.basename(value) for value in orgsDT['id'].to_list()[0]
   ])
   
-  del orgsDT['id']
+  orgsDT.names = {'id': 'ontologyTermURI'}
   
   
   # create dataset for table `dataproviders`
@@ -89,5 +88,16 @@ if __name__ == '__main__':
     hasSubmittedData=as_type(f.hasSubmittedData, dt.Type.str32)
   )]
   
-  orgsDT.to_csv('dist/organisations.csv')
-  providersDT.to_csv('dist/dataproviders.csv')
+  orgsDT.to_pandas() \
+    .to_csv(
+      'dist/organisations.csv',
+      quoting=csv.QUOTE_NONNUMERIC,
+      encoding='utf-8'
+    )
+  
+  providersDT.to_pandas() \
+    .to_csv(
+      'dist/dataproviders.csv',
+      quoting=csv.QUOTE_NONNUMERIC,
+      encoding='utf-8'
+    )
