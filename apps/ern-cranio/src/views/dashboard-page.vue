@@ -35,8 +35,10 @@
             chartId="sexAtBirth"
             title="Sex at birth"
             :chartData="sexAtBirth"
-            :chartHeight="235"
-            :asDonutChart="true" 
+            :chartHeight="225"
+            :chartScale="0.78"
+            :asDonutChart="true"
+            :chartMargins="50"
           />
         </div>
       </div>
@@ -142,7 +144,9 @@ function getDashboardData() {
         stats,
         "component",
         "patients-sex-at-birth"
-      );
+      ).map(row => {
+        return {...row, value: Math.round(parseFloat(row.value) * 100)}
+      });
       sexAtBirth.value = asDataObject(patientsSex, "label", "value");
     })
     .then(() => {
@@ -158,8 +162,11 @@ onMounted(() => getDashboardData());
 </script>
 
 <style lang="scss">
-#publicDashboard {
+.page-dashboard {
   background-color: $gray-050;
+}
+
+#publicDashboard {
   display: grid;
   box-sizing: border-box;
   padding: 3em;
