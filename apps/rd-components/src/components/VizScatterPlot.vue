@@ -40,11 +40,12 @@
                 group !== '' 
                   ? `opacity: ${legendSelection.indexOf(row[group]) > -1 ? 0 : 1}`
                   : ''
-              "/>
-            <!-- <text class="point-label" :x="xAxis(row[xvar])" :y="yAxis(row[yvar])" dx="6px">
+              "
+            />
+            <text class="point-label" :x="xAxis(row[xvar])" :y="yAxis(row[yvar])" dx="6px" style="opacity: 0;">
               <tspan class="point-xvar" dy="-12px"> {{ xvar }}: {{ row[xvar] }}</tspan>
               <tspan class="point-yvar" dy="-6px">{{ yvar }}: {{ row[yvar] }}</tspan>
-            </text> -->
+            </text>
           </g>
         </g>
       </g>
@@ -218,6 +219,14 @@ export default {
       default: false
     },
     
+    // If `true`, hover events will be enabled for all points. When a point
+    // is hovered, the x and y values are displayed.
+    enableHover: {
+      type: Boolean,
+      // `false`
+      default: true
+    },
+    
     // If `true` (default), a legend will be rendered in the below the chart only
     // when a value is supplied to the `groups` property.
     // Use props `stackLegend`... to customise the legend. Additional styling
@@ -261,9 +270,9 @@ export default {
       // if (this.enableAnimation) {
       //   css.push('column-animation-enabled')
       // }
-      // if (this.enableClicks) {
-      //   css.push('column-clicks-enabled')
-      // }
+      if (this.enableClicks || this.enableHover) {
+        css.push('point-events-enabled')
+      }
       return css.join(' ')
     },
     svg () {
@@ -342,6 +351,9 @@ export default {
         return Object.fromEntries(data);
       }
     },
+    points () {
+      return this.chartArea.selectAll('circle.point')
+    }
   },
   methods: {
     setChartDimensions () {
@@ -358,9 +370,25 @@ export default {
     setLegendClicked (value) {
       this.legendSelection = value; 
     },
+    setPointEvents () {
+      if (this.enableHover) {
+        this.points
+          .on("mouseover", this.onMouseOver)
+          .on("mouseout", this.onMouseOut)
+      }
+    },
+    onMouseOver (event) {
+      const text = event.target.nextSibling
+      text.style.opacity = 1;
+    },
+    onMouseOut (event) {
+      const text = event.target.nextSibling
+      text.style.opacity = 0;
+    },
     renderChart () {
       this.setChartDimensions()
       this.renderAxes()
+      this.setPointEvents()
     }
   },
   mounted () {
@@ -407,6 +435,10 @@ export default {
     
     .chart-area {
       .point-group {
+        .point {
+          cursor: default;
+        }
+        
         .point-label {
           font-size: 11pt;
         }
@@ -430,6 +462,12 @@ export default {
   
     &.chart-has-context {
       margin-top: 12px;
+    }
+    
+    &.point-events-enabled {
+      circle {
+        cursor: pointer;
+      }
     }
   }
 }

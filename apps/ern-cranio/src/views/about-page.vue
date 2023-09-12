@@ -6,6 +6,7 @@
       subtitle="About the ERN CRANIO registry"
       height="medium"
     />
+    <Breadcrumbs />
     <PageSection
       id="section-intro-title"
       aria-labelledby="section-intro-title"
@@ -69,6 +70,7 @@
 
 <script setup>
 import { Page, PageHeader, PageSection, DataTable } from "rd-components";
+import Breadcrumbs from "@/components/Breadcrumbs.vue";
 
 const data = [
   {

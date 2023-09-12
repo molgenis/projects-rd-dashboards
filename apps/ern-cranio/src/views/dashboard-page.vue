@@ -5,7 +5,9 @@
       title="ERN CRANIO"
       subtitle="Dashboard"
       height="medium"
+      style="background-color: #fff;"
     />
+    <Breadcrumbs />
     <PageSection
       id="section-intro-title"
       aria-labelledby="section-intro-title"
@@ -16,7 +18,7 @@
         <p>Unable to retrieve data: {{ error }}</p>
       </MessageBox>
     </PageSection>
-    <div class="dashboard" v-else>
+    <div id="publicDashboard" v-else>
       <div class="dashboard-box viz-table">
         <div class="dashboard-viz">
           <DataTable
@@ -31,9 +33,10 @@
         <div class="dashboard-viz">
           <PieChart
             chartId="sexAtBirth"
-            :chartData="sexAtBirth"
-            :chartHeight="225"
             title="Sex at birth"
+            :chartData="sexAtBirth"
+            :chartHeight="235"
+            :asDonutChart="true" 
           />
         </div>
       </div>
@@ -98,6 +101,7 @@ import {
   asDataObject
 } from "$shared/js/utils.js";
 import geojson from "$shared/data/world.geo.json";
+import Breadcrumbs from "@/components/Breadcrumbs.vue";
 
 let loading = ref(true);
 let error = ref(false);
@@ -152,3 +156,76 @@ function getDashboardData() {
 
 onMounted(() => getDashboardData());
 </script>
+
+<style lang="scss">
+#publicDashboard {
+  background-color: $gray-050;
+  display: grid;
+  box-sizing: border-box;
+  padding: 3em;
+  margin: 0 auto;
+  grid-template-areas:
+    "Table"
+    "PieChart"
+    "Map";
+  gap: 2em;
+
+  .dashboard-box {
+    flex-grow: 1;
+    box-shadow: $box-shadow;
+    box-sizing: content-box;
+    border-radius: 6px;
+    background-color: $gray-000;
+
+    &.viz-map {
+      grid-area: Map; 
+      
+      h3 {
+        margin-top: 1em;
+        margin-left: 1em;
+      }
+    }
+
+    &.viz-table {
+      grid-area: Table;
+    }
+
+    &.viz-pie-chart {
+      grid-area: PieChart;
+    }
+    
+    &.viz-table, &.viz-pie-chart {
+      .dashboard-viz {
+        padding: 1em;
+      }
+    }
+  }
+  
+  @media (min-width: 1182px) {
+    grid-template-areas:
+      "Table PieChart"
+      "Map Map";
+  }
+  
+  @media (min-width: 1524px) {
+    max-width: 60vw;
+  }
+}
+
+#dataProvidersMap + .d3-viz-legend {
+  top: auto;
+  bottom: 0;
+  box-shadow: 4px -2px 4px 2px hsla(0, 0%, 0%, 0.2);
+}
+
+#workstreamSummary {
+  
+  @media (min-width: 892px) {
+    .column-header-percent,
+    .column-percent {
+      text-align: right;
+    }
+  }
+}
+
+</style>

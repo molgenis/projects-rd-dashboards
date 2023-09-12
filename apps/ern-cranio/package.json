@@ -1,7 +1,7 @@
 {
   "name": "ern-cranio",
   "description": "Application for ERN CRANIO",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "scripts": {
     "copy-html:dev": "copyfiles -f ../rd-shared/templates/dev/index.html ./",
     "copy-html:prod": "copyfiles -f ../rd-shared/templates/build/index.html ./",

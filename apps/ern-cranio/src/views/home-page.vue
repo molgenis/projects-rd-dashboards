@@ -29,9 +29,6 @@
       <p>In 2019, ERN CRANIO responded to a call under the third programme for the union's action in the field of health (2014-2020) and applied for financial support to develop a patient registry. The network has successfully obtained this support to develop this registry.</p>
       <p>ERN CRANIO is developing a registry focused on the outcome of treatment using standardised diagnosis specific outcome sets (starting with craniosynostosis and cleft lip/palate) - including patient reported outcome measures and outcomes on patients' quality of life.</p>
       <p>To support the goals of ERN CRANIO, to pool together disease-specific expertise, knowledge and resources from across Europe, a European-wide registry is being developed for patients with rare and complex craniofacial anomalies, and ENT disorders. This registry allows for secure collection of patient data from across Europe, which will improve the understanding and treatment of these conditions. It will also facilitate research and lead to better care for these patients.</p>
-    </PageSection>
-    <PageSection>
-      <h2 id="contact-section-title">Contact</h2>
       <p>In case of any questions regarding the ERN CRANIO registry, please email to: <a href="mailto:ern-cranio@erasmusmc.nl">ern-cranio@erasmusmc.nl</a>.</p>
     </PageSection>
   </Page>

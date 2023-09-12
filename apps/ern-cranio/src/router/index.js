@@ -19,7 +19,10 @@ const router = createRouter({
       name: 'about',
       component: AboutPage,
       meta: {
-        title: 'About'
+        title: 'About',
+        breadcrumbs: [
+          { name: 'about', label: 'About' }
+        ]
       }
     },
     {
@@ -27,7 +30,10 @@ const router = createRouter({
       name: 'dashboard',
       component: DashboardPage,
       meta: {
-        title: 'Dashboard'
+        title: 'Dashboard',
+        breadcrumbs: [
+          { name: 'dashboard', label: 'Dashboard' }
+        ]
       }
     },
   ],
