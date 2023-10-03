@@ -1,4 +1,4 @@
-certifi==2022.12.7
+certifi==2023.7.22
 charset-normalizer==3.1.0
 datatable @ git+https://github.com/h2oai/datatable@fd626b55b42d4fa33e1c77a910bb257a9ce54f66
 dotenv==0.0.5
