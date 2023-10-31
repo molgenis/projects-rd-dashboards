@@ -1,12 +1,12 @@
 <template>
   <address :class="setClassNames">
-    <span><strong>Radboud university medical center</strong></span>
+    <span><strong>University Medical Centre Groningen</strong></span>
     <span>GENTURIS registry</span>
-    <span>Department of Human Genetics</span>
-    <span>Geert Grooteplein Zuid 10</span>
-    <span>6525 GA Nijmegen</span>
+    <span>Department of Medical Genetics</span>
+    <span>Antonius Deusinglaan 1</span>
+    <span>9713 AV Groningen</span>
     <span>The Netherlands</span>
-    <a href="mailto:genturis-registry@radboudumc.nl" v-if="showEmail">genturis-registry@radboudumc.nl</a>
+    <a href="mailto:genturis-registry@umcg.nl" v-if="showEmail">genturis-registry@umcg.nl</a>
   </address>
 </template>
 
