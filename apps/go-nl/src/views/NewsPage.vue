@@ -17,9 +17,6 @@
         <li>Read the <a href="http://bbmri.nl/images/stories/factsheet_eng.pdf">Genome of the Netherlands factsheet (September 2010)</a></li>
         <li>Explore the <a href="http://www.bbmriwiki.nl/">wiki of the Genome of the Netherlands analysis team</a></li>
         <li>Read more on <a href="http://www.bbmri.nl/">BBMRI-NL</a></li>
-        <!-- <li><a href="http://www.nlgenome.nl/?page_id=114">Data access request form</a></li>
-        <li><a href="http://www.nlgenome.nl/wp-content/uploads/2015/02/14-09-2011_GoNLDATA_ACCESS_POLICY_CONDITIONS_FINAL_MTA_ONLY.pdf">Data access agreement</a></li>
-        <li><a href="http://www.genoomvannederland.nl/wp-content/uploads/2013/06/GoNL-Acknowledgements.docx">Acknowledgement rules</a></li> -->
       </ul>
     </PageSection>
     <PageSection id="news-articles" :verticalPadding="2" aria-labelledby="news-articles-title">
