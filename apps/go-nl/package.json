@@ -1,7 +1,7 @@
 {
   "name": "go-nl",
   "description": "vue application for the Genome of the Netherlands database",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "scripts": {
     "copy-html:dev": "copyfiles -f ../rd-shared/templates/dev/index.html ./",
     "copy-html:prod": "copyfiles -f ../rd-shared/templates/build/index.html ./",
