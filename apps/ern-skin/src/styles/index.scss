@@ -23,8 +23,7 @@ $font-family: Helvetica, sans-serif;
 
 .app-page {
   
-  .project-header {
-    filter: saturate(60%);
+  .project-header { 
     height: 20em;
 
     .background-image-filter {
@@ -32,7 +31,7 @@ $font-family: Helvetica, sans-serif;
     }
     
     &.main-header {
-      background-position: 0 0;
+      background-position: 0 25%;
     }
   }
   
