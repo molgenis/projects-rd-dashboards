@@ -1,11 +1,12 @@
 <template>
   <Page id="page-documents">
-    <PageHeader
-      class="project-header main-header"
-      title="ERN-Skin"
-      subtitle="Download Documents"
-      :imageSrc="headerImage"
-    />
+    <div class="custom-page-header">
+      <img :src="headerImage"/>
+      <div class="header-content">
+        <h1 class="header-title">ERN-Skin Registry</h1>
+        <h2 class="header-subtitle">Download documents</h2>
+      </div>
+    </div>
     <PageSection>
       <MessageBox class="page-warning" type="warning">
         <p>This page is under construction. Please check back later.</p>
@@ -15,14 +16,13 @@
 </template>
 
 <script>
-import { Page, PageHeader, PageSection, MessageBox } from 'rd-components'
+import { Page, PageSection, MessageBox } from 'rd-components'
 import headerImage from '@/assets/app-header-background.jpg'
 
 export default {
   name: 'download-documents',
   components: {
     Page,
-    PageHeader,
     PageSection,
     MessageBox
   },
