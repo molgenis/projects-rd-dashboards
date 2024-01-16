@@ -59,3 +59,38 @@ $font-family: Helvetica, sans-serif;
     }
   }
 }
+
+.custom-page-header {
+  position: relative;
+  
+  img {
+    width: 100%;
+  }
+  
+  .header-content {
+    padding: 1em 0;
+    text-align: center;
+    background-color: $brand-blue-alt;
+    color: $brand-blue;
+    z-index: 1;
+    
+    .header-title {
+      @include textTransform(bold);
+      font-size: 1.3rem;
+      margin: 0;
+      line-height: 1.4;
+    }
+    
+    .header-subtitle {
+      font-weight: 200;
+      font-size: 2.4rem;
+      margin: 0;
+      line-height: 1.4;
+    }
+    
+    @media (min-width: 1024px) {
+      position: relative;
+      margin-top: -5em;
+    }
+  }
+}

@@ -1,11 +1,12 @@
 <template>
-  <Page id="page-home">
-    <PageHeader
-      class="project-header main-header"
-      title="ERN-Skin Registry"
-      subtitle="Registry for Rare and Undiagnosed Skin Diseases"
-      :imageSrc="headerImage"
-    />
+  <Page id="page-home"> 
+    <div class="custom-page-header">
+      <img :src="headerImage"/>
+      <div class="header-content">
+        <h1 class="header-title">ERN-Skin Registry</h1>
+        <h2 class="header-subtitle">Registry for Rare and Undiagnosed Skin Diseases</h2>
+      </div>
+    </div>
     <PageSection id="section-welcome" aria-labelledby="section-welcome-title" :verticalPadding="2">
       <h2 id="section-welcome-title">Welcome to the ERN-Skin registry!</h2>
       <p>The general objective of this proposal is to build a central registry for all rare skin diseases, connected with the existing registries and including patients with undiagnosed cases.</p>
@@ -45,7 +46,7 @@
 </template>
 
 <script>
-import { Page, PageHeader, PageSection } from 'rd-components'
+import { Page, PageSection } from 'rd-components'
 import ProjectAddress from '@/components/ProjectAddress.vue'
 
 import headerImage from '@/assets/app-header-background.jpg'
@@ -56,7 +57,6 @@ import ernSkinErdri from '@/assets/ern-skin-erdri.png'
 export default {
   components: {
     Page,
-    PageHeader,
     PageSection,
     ProjectAddress
   },
