@@ -109,7 +109,6 @@ import {
   sortData
 } from "$shared/js/utils.js";
 
-import HeaderImage from "@/assets/app-header-background.png";
 import geojson from "$shared/data/world.geo.json";
 
 const range = (start, stop, step) =>
@@ -127,7 +126,6 @@ export default {
   },
   data() {
     return {
-      headerImage: HeaderImage,
       loading: true,
       loadingError: null,
       highlightsData: [],

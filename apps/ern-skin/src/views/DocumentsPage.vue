@@ -16,7 +16,7 @@
 
 <script>
 import { Page, PageHeader, PageSection, MessageBox } from 'rd-components'
-import HeaderImage from '@/assets/app-header-background.png'
+import headerImage from '@/assets/app-header-background.jpg'
 
 export default {
   name: 'download-documents',
@@ -28,7 +28,7 @@ export default {
   },
   data () {
     return {
-      headerImage: HeaderImage
+      headerImage: headerImage
     }
   }
 }
