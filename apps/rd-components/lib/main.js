@@ -24,12 +24,15 @@ import DataTable from "../src/components/VizDataTable.vue"
 import DataValueHighlights from "../src/components/VizDataValueHighlights.vue"
 import GeoMercator from "../src/components/VizGeoMercator.vue"
 import VizLegend from "../src/components/VizLegend.vue"
+import ChartLegend from "../src/components/ChartLegend.vue"
 import PieChart from '../src/components/VizPieChart.vue'
+import PieChart2 from '../src/components/VizPieChart2.vue'
 
 export {
   Accordion,
   ActionLink,
   ButtonSearch,
+  ChartLegend,
   InfoCard,
   InputLabel,
   InputSearch,
@@ -52,5 +55,6 @@ export {
   DataValueHighlights,
   GeoMercator,
   VizLegend,
-  PieChart
+  PieChart,
+  PieChart2
 }
