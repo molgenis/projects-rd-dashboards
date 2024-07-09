@@ -39,12 +39,17 @@
           />
       </div>
       <div id="viz-pie-chart" class="dashboard-viz" aria-labelledby="sex-at-birth-title">
-        <h2 id="sex-at-birth-title" class="chart-title centered">Sex at birth</h2>
-        <PieChart
+        <!-- <h2 id="sex-at-birth-title" class="chart-title centered">Sex at birth</h2> -->
+        <PieChart2
           chartId="sex-at-birth-chart"
+          title="Sex at birth"
           :chartData="sexAtBirth"
-          :chartHeight="150"
-          :chartMargins="5"
+          :chartScale="0.9"
+          :asDonutChart="true"
+          :enableLegendHovering="true"
+          :chartHeight="180"
+          :chartMargins="20"
+          legendPosition="bottom"
         />
       </div>
       <div id="viz-column-chart" class="dashboard-viz">
@@ -54,8 +59,8 @@
           :chartData="ageAtInclusion"
           xvar="label"
           yvar="value"
-          :yMax="50"
-          :yTickValues="[0, 10, 20, 30, 40, 50]"
+          :yMax="500"
+          :yTickValues="[0, 100, 200, 300, 400, 500]"
           xAxisLabel="Age Groups"
           yAxisLabel="Number of Patients"
           :chartHeight="190"
@@ -89,7 +94,7 @@ import {
   DataTable,
   DataValueHighlights,
   GeoMercator,
-  PieChart
+  PieChart2,
 } from 'rd-components'
 
 import geojson from '$shared/data/world.geo.json'
@@ -103,8 +108,8 @@ export default {
     ColumnChart,
     DataTable,
     DataValueHighlights,
-    GeoMercator,
-    PieChart
+    GeoMercator, 
+    PieChart2,
   },
   data () {
     return {
@@ -212,7 +217,7 @@ export default {
     border-radius: 6px;
     box-shadow: $box-shadow;
     
-    h2 {
+    h2, .chart-context h3.chart-title {
       font-size: 12pt;
       margin-bottom: 9px;
       text-align: center;
