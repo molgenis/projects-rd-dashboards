@@ -24,8 +24,10 @@
   font-family: $font-family;
   
   .page-header {
+    filter: brightness(1.35);
+    
     .background-image-filter {
-      opacity: 0.5;
+      opacity: 0.2;
     }
   }
   
