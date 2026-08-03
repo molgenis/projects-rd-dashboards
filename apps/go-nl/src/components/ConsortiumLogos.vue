@@ -84,17 +84,17 @@
 </template>
 
 <script>
-import logo_bgi from '@/assets/logo_bgi.png'
-import logo_bmri from '@/assets/logo_bmri.png'
-import logo_eumc from '@/assets/logo_eumc.png'
-import logo_lumc from '@/assets/logo_lumc.png'
-import logo_nbic from '@/assets/logo_nbic.png'
-import logo_umcg from '@/assets/logo_umcg.png'
-import logo_umcu from '@/assets/logo_umcu.png'
-import logo_vumc from '@/assets/logo_vumc.png'
+import logo_bgi from "@/assets/logo_bgi.png";
+import logo_bmri from "@/assets/logo_bmri.png";
+import logo_eumc from "@/assets/logo_eumc.png";
+import logo_lumc from "@/assets/logo_lumc.png";
+import logo_nbic from "@/assets/logo_nbic.png";
+import logo_umcg from "@/assets/logo_umcg.png";
+import logo_umcu from "@/assets/logo_umcu.png";
+import logo_vumc from "@/assets/logo_vumc.png";
 
 export default {
-  data () {
+  data() {
     return {
       logo_bgi: logo_bgi,
       logo_bmri: logo_bmri,
@@ -103,10 +103,10 @@ export default {
       logo_nbic: logo_nbic,
       logo_umcg: logo_umcg,
       logo_umcu: logo_umcu,
-      logo_vumc: logo_vumc
-    }
-  }
-}
+      logo_vumc: logo_vumc,
+    };
+  },
+};
 </script>
 
 <style lang="scss">
@@ -118,7 +118,7 @@ export default {
   flex-wrap: wrap;
   gap: 2em;
   list-style: none;
-  
+
   @media screen and (min-width: 972px) {
     max-width: 600px;
   }

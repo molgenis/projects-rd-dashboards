@@ -9,15 +9,35 @@
       height="large"
       :imageSrc="pageHeader"
     />
-    <PageSection id="browse-search" :verticalPadding="2" aria-labelledby="browse-search-title">
+    <PageSection
+      id="browse-search"
+      :verticalPadding="2"
+      aria-labelledby="browse-search-title"
+    >
       <h2 id="browse-search-title">Browse Data</h2>
-      <p>Using the form below, you may search for counts of alternative alleles and genotypes. If you would like to request access to the data, please view the <router-link :to="{name: 'request'}">Request Access</router-link> page for more information. Some data is also available for download. Please see the <router-link :to="{'name': 'download'}">Download page</router-link> for more information.</p>
+      <p>
+        Using the form below, you may search for counts of alternative alleles
+        and genotypes. If you would like to request access to the data, please
+        view the
+        <router-link :to="{ name: 'request' }">Request Access</router-link> page
+        for more information. Some data is also available for download. Please
+        see the
+        <router-link :to="{ name: 'download' }">Download page</router-link> for
+        more information.
+      </p>
       <PageForm id="search-form" title="Browse Data">
-      <span class="input-error-message" v-if="form.error">{{ form.error }}</span>
+        <span class="input-error-message" v-if="form.error">{{
+          form.error
+        }}</span>
         <div class="form-input">
           <InputLabel id="chromosome" label="Select a chromosome" />
-          <span class="input-error-message" v-if="chromosome.error">{{ chromosome.error }}</span>
-          <select id="chromosome" @change="(e) => updateChromosome(e.target.value)">
+          <span class="input-error-message" v-if="chromosome.error">{{
+            chromosome.error
+          }}</span>
+          <select
+            id="chromosome"
+            @change="(e) => updateChromosome(e.target.value)"
+          >
             <option>--- Select ---</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -49,7 +69,9 @@
             label="Start position"
             description="Enter a number; e.g.,117684"
           />
-          <span class="input-error-message" v-if="start.error">{{ start.error }}</span>
+          <span class="input-error-message" v-if="start.error">{{
+            start.error
+          }}</span>
           <input
             id="start"
             type="number"
@@ -63,7 +85,9 @@
             label="Stop position"
             description="Enter a number; e.g., 117684"
           />
-          <span class="input-error-message" v-if="stop.error">{{ stop.error }}</span>
+          <span class="input-error-message" v-if="stop.error">{{
+            stop.error
+          }}</span>
           <input
             id="stop"
             type="number"
@@ -79,9 +103,16 @@
 </template>
 
 <script>
-import { Page, PageHeader, PageSection, PageForm, InputLabel, ButtonSearch } from 'rd-components'
-import AppFooter from '@/components/AppFooter.vue'
-import pageHeader from '@/assets/gonl-pg-header-2.jpg'
+import {
+  Page,
+  PageHeader,
+  PageSection,
+  PageForm,
+  InputLabel,
+  ButtonSearch,
+} from "rd-components";
+import AppFooter from "@/components/AppFooter.vue";
+import pageHeader from "@/assets/gonl-pg-header-2.jpg";
 
 export default {
   components: {
@@ -91,84 +122,86 @@ export default {
     PageForm,
     InputLabel,
     ButtonSearch,
-    AppFooter
+    AppFooter,
   },
-  data () {
-    return {   
-      pageHeader: pageHeader,   
+  data() {
+    return {
+      pageHeader: pageHeader,
       chromosome: {
         value: null,
-        error: null
+        error: null,
       },
       start: {
         value: null,
-        error: null
+        error: null,
       },
       stop: {
         value: null,
-        error: null
+        error: null,
       },
       form: {
-        error: null
-      }
-    }
+        error: null,
+      },
+    };
   },
   methods: {
-    updateChromosome (value) {
-      this.chromosome.value = parseInt(value)
+    updateChromosome(value) {
+      this.chromosome.value = parseInt(value);
     },
-    updateStart (value) {
-      this.start.error = null
-      const start = parseInt(value)
+    updateStart(value) {
+      this.start.error = null;
+      const start = parseInt(value);
       if (start < 0) {
-        this.start.error = 'Start position must be greater than 0'
+        this.start.error = "Start position must be greater than 0";
       }
-      
-      if (this.stop.value && (start > this.stop.value)) {
-        this.start.error = 'Start position cannot be larger than stop position'
+
+      if (this.stop.value && start > this.stop.value) {
+        this.start.error = "Start position cannot be larger than stop position";
       }
 
       if (start > -1) {
-        this.start.value = start
+        this.start.value = start;
       }
     },
-    updateStop (value) {
-      this.stop.error = null
-      const stop = parseInt(value)
-      
-      if (this.start.value && (this.start.value > stop)) {
-        this.stop.error = 'Stop position cannot be less than start position'
+    updateStop(value) {
+      this.stop.error = null;
+      const stop = parseInt(value);
+
+      if (this.start.value && this.start.value > stop) {
+        this.stop.error = "Stop position cannot be less than start position";
       }
-      
+
       if (stop < 0) {
-        this.stop.error = 'Stop position must be greater than 0'
+        this.stop.error = "Stop position must be greater than 0";
       }
 
       if (stop > 250000000) {
-        this.stop.error = 'Stop position exceeds max chromosome position of ~249,000,000'
+        this.stop.error =
+          "Stop position exceeds max chromosome position of ~249,000,000";
       }
-      
-      this.stop.value = stop
+
+      this.stop.value = stop;
     },
-    search () {
-      this.form.error = null
-      if (this.chromosome.value === null || this.chromosome.value === 'NA') {
-        this.chromosome.error = 'Please select a chromosome'
+    search() {
+      this.form.error = null;
+      if (this.chromosome.value === null || this.chromosome.value === "NA") {
+        this.chromosome.error = "Please select a chromosome";
       } else if (this.start.error || this.stop.error) {
-        this.form.error = 'There is an issue with one or more fields. Please fix and try again.'
+        this.form.error =
+          "There is an issue with one or more fields. Please fix and try again.";
       } else if (this.start.value === null || this.stop.value === null) {
-        this.form.error = 'One or more fields are blank'
+        this.form.error = "One or more fields are blank";
       } else {
-        const baseUrl = '/menu/main/dataexplorer?'
-        const entityParam = `entity=gonl_chr${this.chromosome.value}`
-        const filterParam = `&filter=(POS=ge=${this.start.value};POS=le=${this.stop.value})`
-        const options = '&hideselect=true&mod=data'
-        const searchUrl = [baseUrl, entityParam, filterParam, options].join('')
-        window.open(searchUrl, '_blank')
+        const baseUrl = "/menu/main/dataexplorer?";
+        const entityParam = `entity=gonl_chr${this.chromosome.value}`;
+        const filterParam = `&filter=(POS=ge=${this.start.value};POS=le=${this.stop.value})`;
+        const options = "&hideselect=true&mod=data";
+        const searchUrl = [baseUrl, entityParam, filterParam, options].join("");
+        window.open(searchUrl, "_blank");
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -182,14 +215,15 @@ export default {
   background-color: $gray-000;
   box-shadow: none;
   border-radius: 0;
-  
+
   .form-input {
     margin: 12px 0;
-    
-    select, input {
+
+    select,
+    input {
       margin: 12px 0;
     }
-    
+
     input {
       display: block;
       width: calc(100% - 19px);
@@ -201,7 +235,6 @@ export default {
       border-radius: 4px;
       box-shadow: $box-shadow-inset;
     }
-    
   }
   .input-error-message {
     display: block;

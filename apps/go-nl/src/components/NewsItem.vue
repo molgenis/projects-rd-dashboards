@@ -3,7 +3,7 @@
     <h3 class="news-title">{{ title }}</h3>
     <div class="news-meta">
       <p class="news-date" v-show="date">{{ date }}</p>
-      <p class="news-author" v-show="author">by {{ author  }}</p>
+      <p class="news-author" v-show="author">by {{ author }}</p>
     </div>
     <slot></slot>
   </article>
@@ -11,20 +11,20 @@
 
 <script>
 export default {
-  name: 'news-item',
+  name: "news-item",
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     date: {
-      type: String
+      type: String,
     },
     author: {
-      type: String
-    }
-  }
-}
+      type: String,
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -36,20 +36,20 @@ export default {
   box-shadow: $box-shadow;
   border-radius: 6px;
   background-color: $gray-000;
-  
+
   .news-meta {
     text-align: center;
     margin-top: 6px;
     font-size: 13pt;
-    
-    .news-author, .news-date {
+
+    .news-author,
+    .news-date {
       display: inline;
     }
-    
+
     .news-author {
       margin-left: 6px;
     }
   }
-  
 }
 </style>

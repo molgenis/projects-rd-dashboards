@@ -14,39 +14,39 @@
 
 <script>
 export default {
-  name: 'PublicationRecord',
+  name: "PublicationRecord",
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     authors: {
       type: String,
-      required: true
+      required: true,
     },
     journalName: {
       type: String,
-      required: false
+      required: false,
     },
     publicationDate: {
       type: String,
-      required: false
+      required: false,
     },
     doiUrl: {
       type: String,
-      required: false
+      required: false,
     },
     doiLabel: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   computed: {
-    publicationYear () {
-      return this.publicationDate.split('-')[0]
-    }
-  }
-}
+    publicationYear() {
+      return this.publicationDate.split("-")[0];
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -65,7 +65,7 @@ export default {
     line-height: 1.4;
     margin-bottom: 8px;
   }
-  
+
   .record-authors {
     font-size: 13pt;
   }
@@ -85,11 +85,11 @@ export default {
 
     p.record-data {
       &::after {
-        content: '\2022';
+        content: "\2022";
         margin: 0 6px;
       }
     }
-    
+
     a.record-data {
       color: #0d65fc;
     }
