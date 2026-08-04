@@ -4,9 +4,11 @@
       <pdfIcon />
     </div>
     <div class="file-info">
-      <a :href="url">
+      <a :href="url" download>
         {{ name }}
-        (<span>{{ fileType.toUpperCase() }}</span><span v-if="size">, {{ size }}</span>)
+        (<span>{{ fileType.toUpperCase() }}</span
+        ><span v-if="size">, {{ size }}</span
+        >)
       </a>
       <slot></slot>
     </div>
@@ -14,34 +16,33 @@
 </template>
 
 <script>
-import pdfIcon from '@/components/icons/pdfIcon.vue'
-const fileTypes = ['txt', 'pdf', 'word']
+import pdfIcon from "@/components/icons/pdfIcon.vue";
+const fileTypes = ["txt", "pdf", "word"];
 
 export default {
   components: {
-    pdfIcon
+    pdfIcon,
   },
   props: {
     fileType: {
-      default: 'pdf',
+      default: "pdf",
       validator: (value) => {
-        return fileTypes.includes(value)
-      }
+        return fileTypes.includes(value);
+      },
     },
     url: {
       type: String,
-      required: true
+      required: true,
     },
     name: {
       type: String,
-      required: true
+      required: true,
     },
     size: {
-      type: String
-    }
-    
-  }
-}
+      type: String,
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -57,7 +58,7 @@ export default {
   max-width: 700px;
   box-shadow: $box-shadow;
   border: 1px solid $gray-200;
-  
+
   .file-info {
     p {
       margin: 0;

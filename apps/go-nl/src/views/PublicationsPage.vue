@@ -9,9 +9,23 @@
       height="large"
       :imageSrc="pageHeader"
     />
-    <PageSection id="section-intro" :verticalPadding="2" aria-labelledby="publications-title">
+    <PageSection
+      id="section-intro"
+      :verticalPadding="2"
+      aria-labelledby="publications-title"
+    >
       <h2 id="publications-title">Publications</h2>
-      <p>In the list below, you can view all of the publications that are affiliated with the GoNL consortium. Publications are sorted by most recent publication. If you would like to add your publication to this list, make sure you have given suitable acknowledgement. Please see the <a href="https://nlgenome.nl/api/files/aaaac5z7aijfr6qwh32jd7yaae?alt=media">GoNL Publication Acknowledgment Guide (PDF, 139KB)</a> for more information.</p>
+      <p>
+        In the list below, you can view all of the publications that are
+        affiliated with the GoNL consortium. Publications are sorted by most
+        recent publication. If you would like to add your publication to this
+        list, make sure you have given suitable acknowledgement. Please see the
+        <a
+          href="https://nlgenome.nl/api/files/aaaac5z7aijfr6qwh32jd7yaae?alt=media"
+          >GoNL Publication Acknowledgment Guide (PDF, 139KB)</a
+        >
+        for more information.
+      </p>
       <MessageBox type="error" v-if="error">
         <p>{{ error }}</p>
       </MessageBox>
@@ -33,11 +47,11 @@
 </template>
 
 <script>
-import { Page, PageHeader, PageSection, MessageBox } from 'rd-components'
-import AppFooter from '@/components/AppFooter.vue'
-import PublicationRecord from '@/components/PublicationCard.vue'
-import { fetchData } from '$shared/js/utils.js'
-import pageHeader from '@/assets/gonl-pg-header-2.jpg'
+import { Page, PageHeader, PageSection, MessageBox } from "rd-components";
+import AppFooter from "@/components/AppFooter.vue";
+import PublicationRecord from "@/components/PublicationCard.vue";
+import { fetchData } from "$shared/js/utils.js";
+import pageHeader from "@/assets/gonl-pg-header-2.jpg";
 
 export default {
   components: {
@@ -46,33 +60,35 @@ export default {
     PageSection,
     PublicationRecord,
     MessageBox,
-    AppFooter
+    AppFooter,
   },
-  data () {
+  data() {
     return {
       publications: [],
       pageHeader: pageHeader,
-      error: null
-    }
+      error: null,
+    };
   },
   methods: {
-    getPublications () {
-      this.error = null
+    getPublications() {
+      this.error = null;
       Promise.resolve(
-        fetchData('/api/v2/publications_records?sort=sortpubdate:desc')
-      ).then(response => {
-        console.log(response)
-        this.publications = response.items
-      }).catch(error => {
-        const e = JSON.parse(error.message)
-        console.log(e)
-        const msg = `Unable to retrieve publications. "${e.url}" ${e.message} (${e.status}).`
-        this.error = msg
-      })
-    }
+        fetchData("/api/v2/publications_records?sort=sortpubdate:desc")
+      )
+        .then((response) => {
+          console.log(response);
+          this.publications = response.items;
+        })
+        .catch((error) => {
+          const e = JSON.parse(error.message);
+          console.log(e);
+          const msg = `Unable to retrieve publications. "${e.url}" ${e.message} (${e.status}).`;
+          this.error = msg;
+        });
+    },
   },
-  mounted () {
-    this.getPublications()
-  }
-}
+  mounted() {
+    this.getPublications();
+  },
+};
 </script>

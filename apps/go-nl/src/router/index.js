@@ -1,92 +1,93 @@
-import { createRouter, createWebHistory } from 'vue-router'
-const initialState = window.__INITIAL_STATE__ || {}
+import { createRouter, createWebHistory } from "vue-router";
+const initialState = window.__INITIAL_STATE__ || {};
 
-import HomePage from '@/views/HomePage.vue'
-import AboutPage from '@/views/AboutPage.vue'
-import BrowsePage from '@/views/BrowsePage.vue'
-import DocumentsPage from '@/views/DocumentsPage.vue'
-import DownloadPage from '@/views/DownloadPage.vue'
-import NewsPage from '@/views/NewsPage.vue'
-import PublicationsPage from '@/views/PublicationsPage.vue'
-import RequestPage from '@/views/RequestPage.vue'
+import HomePage from "@/views/HomePage.vue";
+import AboutPage from "@/views/AboutPage.vue";
+import BrowsePage from "@/views/BrowsePage.vue";
+import DocumentsPage from "@/views/DocumentsPage.vue";
+import DownloadPage from "@/views/DownloadPage.vue";
+import NewsPage from "@/views/NewsPage.vue";
+import PublicationsPage from "@/views/PublicationsPage.vue";
+import RequestPage from "@/views/RequestPage.vue";
 
 const router = createRouter({
   history: createWebHistory(initialState.baseUrl),
   routes: [
     {
-      name: 'home',
-      path: '/',
+      name: "home",
+      path: "/",
       component: HomePage,
       meta: {
-        title: 'Home'
-      }
+        title: "Home",
+      },
     },
     {
-      path: '/about',
-      name: 'about',
+      path: "/about",
+      name: "about",
       component: AboutPage,
       meta: {
-        title: 'About'
-      }
+        title: "About",
+      },
     },
     {
-      path: '/browse-data',
-      name: 'browse',
+      path: "/browse-data",
+      name: "browse",
       component: BrowsePage,
       meta: {
-        title: 'Browse Data'
-      }
+        title: "Browse Data",
+      },
     },
     {
-      path: '/documents',
-      name: 'documents',
+      path: "/documents",
+      name: "documents",
       component: DocumentsPage,
       meta: {
-        title: 'Documents'
-      }
+        title: "Documents",
+      },
     },
     {
-      path: '/download-data',
-      name: 'download',
+      path: "/download-data",
+      name: "download",
       component: DownloadPage,
       meta: {
-        title: 'Download Data'
-      }
+        title: "Download Data",
+      },
     },
     {
-      path: '/news',
-      name: 'news',
+      path: "/news",
+      name: "news",
       component: NewsPage,
       meta: {
-        title: 'News'
-      }
+        title: "News",
+      },
     },
     {
-      path: '/publications',
-      name: 'publications',
+      path: "/publications",
+      name: "publications",
       component: PublicationsPage,
       meta: {
-        title: 'Publications'
-      }
+        title: "Publications",
+      },
     },
     {
-      path: '/request-access',
-      name: 'request',
+      path: "/request-access",
+      name: "request",
       component: RequestPage,
       meta: {
-        title: 'Request Access'
-      }  
-    }
+        title: "Request Access",
+      },
+    },
   ],
-  scrollBehavior () {
+  scrollBehavior() {
     return {
-      top: 0
-    }
-  }
-})
+      top: 0,
+    };
+  },
+});
 
 router.afterEach((to) => {
-  document.title = to.meta.title === 'Home' ? `GoNL` : `${to.meta.title} | GoNL`
-})
+  document.title =
+    to.meta.title === "Home" ? `GoNL` : `${to.meta.title} | GoNL`;
+});
 
-export default router
+export default router;
