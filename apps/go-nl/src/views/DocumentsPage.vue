@@ -24,9 +24,9 @@
       </p>
       <FileDownloadCard
         fileType="pdf"
-        url="https://raw.githubusercontent.com/molgenis/molgenis-go-nl/main/docs/GoNLDATA_ACCESS_REQUEST_APPLICATION_v1.1.pdf"
-        name="GoNL Data Access Request Application (v1.1)"
-        size="132KB"
+        url="/api/files/aaaadh6madcdj6qwhyxcxhyaai?alt=media"
+        name="GoNL Data Access Request Application (v1.2)"
+        size="138KB"
       >
         <p>
           To apply for access to the GoNL data, download and complete this form.
@@ -34,7 +34,7 @@
       </FileDownloadCard>
       <FileDownloadCard
         fileType="pdf"
-        url="/files/GoNLDATA_ACCESS_POLICY_CONDITIONS_FINAL-2016.pdf"
+        url="/api/files/aaaadh6l7lsbj6qwhyxcxhyaai?alt=media"
         name="GoNL Data Access Agreement"
         size="507KB"
       >
@@ -46,9 +46,9 @@
       </FileDownloadCard>
       <FileDownloadCard
         fileType="pdf"
-        url="/files/GoNL_Publication_Acknowledgements.pdf"
+        url="/api/files/aaaadh6l6rutj6qwhyxcxhyaae?alt=media"
         name="GoNL Publication Acknowledgements"
-        size="68KB"
+        size="99KB"
       >
         <p>
           At the time of publication, add the suitable acknowledgement to the

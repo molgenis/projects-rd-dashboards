@@ -4,7 +4,7 @@
       <pdfIcon />
     </div>
     <div class="file-info">
-      <a :href="url">
+      <a :href="url" download>
         {{ name }}
         (<span>{{ fileType.toUpperCase() }}</span
         ><span v-if="size">, {{ size }}</span
